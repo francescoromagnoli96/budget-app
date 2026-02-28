@@ -3614,7 +3614,6 @@ function renderHistorical() {
     document.getElementById('histSummaryCards').innerHTML = '';
     document.getElementById('breakdown').innerHTML = '';
     document.getElementById('barsChart').innerHTML = '';
-    // Hide parent section wrappers so empty titled boxes don't show
     document.getElementById('histSummaryCards').closest('.hist-section').style.display = 'none';
     document.getElementById('barsChart').closest('.hist-section').style.display = 'none';
     return;
@@ -3785,31 +3784,44 @@ function renderHistorical() {
 function clearHistory() {
   if (!confirm('Clear all historical data? This cannot be undone.')) return;
   historicalData = {}; manualEntries = []; recurringEntries = []; results = null; vendorLookup = {};
-  // Clear from lsGet/lsSet layer (routes to localStorage in offline, memCache when logged in)
   lsRemove('budget_historical');
   lsRemove('budget_manual');
   lsRemove('budget_recurring');
   lsRemove('budget_manual_totals');
   lsRemove('budget_last_analysis');
   lsRemove('budget_vendor_lookup');
-  // Also clear directly from localStorage as a safety net (in case lsRemove routed to memCache)
+  lsRemove('budget_api_key');
+  lsRemove('budget_income');
+  // Also clear directly from localStorage as a safety net
   localStorage.removeItem('budget_historical');
   localStorage.removeItem('budget_manual');
   localStorage.removeItem('budget_recurring');
   localStorage.removeItem('budget_manual_totals');
   localStorage.removeItem('budget_last_analysis');
   localStorage.removeItem('budget_vendor_lookup');
+  localStorage.removeItem('budget_api_key');
+  localStorage.removeItem('budget_income');
   // Clear IndexedDB too
   try { _idbOpen().then(db => { const tx = db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete = () => db.close(); }); } catch(e) {}
   // Flag so migration and IDB load don't repopulate stale data on next load
-  // Write directly to localStorage (not via lsSet) to ensure it persists regardless of mode
   localStorage.setItem('budget_history_cleared', '1');
   scheduleSyncToSupabase();
   // Hide results section entirely and clear dashboard content
   document.getElementById('resultsSection').classList.remove('visible');
-  // Remove restore banner if present
   const banner = document.getElementById('restoreBanner');
   if (banner) banner.remove();
+  // Reset API key and income UI
+  document.getElementById('apiKey').value = '';
+  document.getElementById('saveKeyBtn').textContent = 'Save';
+  document.getElementById('saveKeyBtn').classList.remove('saved');
+  document.getElementById('apiCollapsed').style.display = 'none';
+  document.getElementById('apiExpanded').style.display = 'block';
+  document.getElementById('monthlyIncome').value = '';
+  document.getElementById('saveIncomeBtn').textContent = 'Save';
+  document.getElementById('saveIncomeBtn').classList.remove('saved');
+  document.getElementById('incomeCollapsed').style.display = 'none';
+  document.getElementById('incomeExpanded').style.display = 'block';
+  updateAnalyzeBtn();
   renderHistorical();
 }
 
