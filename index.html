@@ -4054,6 +4054,13 @@ function refreshDashboard() {
   const prevMonth = displayMonths.length >= 2 ? displayMonths[displayMonths.length - 2] : null;
   const latestSpend = latestMonth ? dataCats.reduce((s, c) => s + (monthlySummary[latestMonth]?.[c] || 0), 0) : 0;
   const prevSpend = prevMonth ? dataCats.reduce((s, c) => s + (monthlySummary[prevMonth]?.[c] || 0), 0) : null;
+  console.log('[Dashboard Trend Debug]', {
+    latestMonth, prevMonth, latestSpend, prevSpend,
+    latestBreakdown: latestMonth ? dataCats.map(c => c + ':' + (monthlySummary[latestMonth]?.[c] || 0)).join(', ') : 'n/a',
+    prevBreakdown: prevMonth ? dataCats.map(c => c + ':' + (monthlySummary[prevMonth]?.[c] || 0)).join(', ') : 'n/a',
+    historicalJan: historicalData['2026-01'] ? JSON.stringify(historicalData['2026-01']) : 'not found',
+    manualJan: manualEntries.filter(e => e.month === '2026-01').map(e => e.desc + ':' + e.amount).join(', ') || 'none'
+  });
   const topCatThisMonth = dataCats.map(c => ({ c, v: monthlySummary[latestMonth]?.[c] || 0 })).sort((a, b) => b.v - a.v)[0];
 
   // MoM change
