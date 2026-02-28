@@ -2608,9 +2608,8 @@ async function initApp() {
     switchTab('goals');
     renderHistorical();
   } else if (!restored) {
-    // No data at all — still show results section so Goals tab is accessible, but focus on dashboard
-    document.getElementById('resultsSection').classList.add('visible');
-    renderHistorical();
+    // No data at all — keep results section hidden until user imports data
+    document.getElementById('resultsSection').classList.remove('visible');
   }
 
   // Log vendor count so user can verify in console
