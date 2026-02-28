@@ -1100,6 +1100,281 @@
   .pulse { animation: pulse 2s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
+  /* ── Goals tab ── */
+  .goals-section { margin-top: 40px; }
+  .goals-section:first-child { margin-top: 0; }
+
+  /* Savings Rate Banner */
+  .sr-banner {
+    padding: 24px 24px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .sr-main { flex: 1; }
+  .sr-rate {
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .sr-rate-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .sr-target-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
+  .sr-sparkline-wrap {
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .sr-sparkline-wrap canvas { width: 100%; height: 60px; }
+  .sr-sparkline-label { font-size: 10px; color: var(--muted); text-align: right; }
+  .sr-empty {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .sr-empty .big { font-size: 36px; margin-bottom: 12px; }
+
+  /* Goals Cards */
+  .goal-cards { display: flex; flex-direction: column; gap: 14px; }
+  .goal-card {
+    padding: 20px 22px;
+    transition: all 0.2s;
+  }
+  .goal-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .goal-card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .goal-icon {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .goal-card-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .goal-card:hover .goal-card-actions { opacity: 1; }
+  .goal-action-btn {
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .goal-action-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .goal-action-btn.del:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-light); }
+  .goal-progress-wrap {
+    height: 8px;
+    background: var(--bg2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .goal-progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .goal-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .goal-stats strong { color: var(--text); }
+  .goal-deadline-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .goal-completed {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  /* Contribution log */
+  .contrib-log {
+    margin-top: 12px;
+    border-top: 1px solid rgba(200,210,230,0.25);
+    padding-top: 10px;
+    display: none;
+  }
+  .contrib-log.open { display: block; }
+  .contrib-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: var(--text2);
+    border-bottom: 1px solid rgba(200,210,230,0.15);
+  }
+  .contrib-item:last-child { border-bottom: none; }
+  .contrib-amount { font-weight: 600; color: var(--text); margin-left: auto; font-variant-numeric: tabular-nums; }
+  .contrib-type { font-size: 10px; opacity: 0.6; }
+  .contrib-del {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 12px; padding: 0 4px; transition: color 0.15s;
+  }
+  .contrib-del:hover { color: var(--danger); }
+
+  /* Investment Tracker */
+  .invest-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .invest-stat {
+    padding: 18px 20px;
+  }
+  .invest-stat .card-label { font-size: 10px; }
+  .invest-stat .card-value { font-size: 22px; }
+  .invest-months-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 16px 20px;
+  }
+  .invest-month-chip {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    position: relative;
+  }
+  .invest-month-chip.hit { background: var(--success-light); color: var(--success); }
+  .invest-month-chip.miss { background: var(--danger-light); color: var(--danger); }
+  .invest-month-chip.partial { background: rgba(255,159,10,0.12); color: #ff9f0a; }
+  .invest-month-chip .chip-label {
+    position: absolute;
+    bottom: -14px;
+    font-size: 8px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Projection chart */
+  .projection-wrap {
+    padding: 20px;
+  }
+  .projection-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: flex-end;
+  }
+  .proj-input-group { display: flex; flex-direction: column; gap: 4px; }
+  .proj-input-group label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .proj-input-group input {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    width: 120px;
+    transition: border-color 0.2s;
+  }
+  .proj-input-group input:focus { border-color: var(--accent); }
+  .projection-result {
+    font-size: 14px; color: var(--text2); margin-top: 12px; line-height: 1.5;
+  }
+  .projection-result strong { color: var(--accent); font-size: 16px; }
+
+  /* Add goal button */
+  .add-goal-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--glass2);
+    border: 1.5px dashed var(--border2);
+    border-radius: 14px;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .add-goal-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glass); }
+
+  /* Settings row */
+  .goals-settings-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    margin-bottom: 16px;
+  }
+  .goals-settings-row label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .goals-settings-row input {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    width: 80px;
+    transition: border-color 0.2s;
+  }
+  .goals-settings-row input:focus { border-color: var(--accent); }
+
   /* ── Responsive ── */
   @media (max-width: 640px) {
     .app { padding: 24px 14px 60px; }
@@ -1183,6 +1458,17 @@
     .account-bar .account-email { font-size: 12px; }
     .auth-screen { padding: 40px 14px 40px; }
     .auth-card { padding: 28px 20px; }
+
+    /* Goals tab mobile */
+    .sr-banner { flex-direction: column; gap: 16px; padding: 20px 16px; }
+    .sr-sparkline-wrap { width: 100%; align-items: flex-start; }
+    .sr-rate { font-size: 36px; }
+    .invest-grid { grid-template-columns: 1fr; }
+    .goal-card-actions { opacity: 1; }
+    .projection-inputs { flex-direction: column; }
+    .proj-input-group input { width: 100%; }
+    .invest-months-grid { gap: 4px; }
+    .invest-month-chip { width: 30px; height: 30px; font-size: 10px; }
   }
 
   /* Tablet tweaks */
@@ -1482,6 +1768,114 @@ var _lastEmail = localStorage.getItem('budget_last_email');
 if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
 </script>
 
+<!-- Goal modal -->
+<div class="modal-overlay" id="goalModal" onclick="if(event.target===this) closeGoalModal()">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="goalModalTitle">New Goal</div>
+        <div class="modal-subtitle">Set a savings target and track your progress</div>
+      </div>
+      <button class="modal-close" onclick="closeGoalModal()">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Goal Name</label>
+      <input class="form-input" id="goalName" placeholder="e.g. Emergency Fund, Vacation, New Laptop">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Target Amount (kr)</label>
+        <input class="form-input" id="goalTarget" type="number" placeholder="e.g. 50000" min="1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Monthly Target (kr)</label>
+        <input class="form-input" id="goalMonthly" type="number" placeholder="optional" min="0">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Deadline (optional)</label>
+      <input class="form-input" id="goalDeadline" type="month">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Icon</label>
+        <div id="goalIconPicker" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Color</label>
+        <div id="goalColorPicker" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Auto-detect from categories</label>
+      <select class="form-select" id="goalLinkedCats" multiple style="min-height:70px">
+        <option value="Entertainment">Entertainment</option>
+        <option value="Groceries">Groceries</option>
+        <option value="Travel">Travel</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Bills">Bills</option>
+      </select>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">Hold Ctrl/Cmd to select multiple. Transactions in these categories will auto-count as contributions.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Auto-detect from vendors (comma-separated)</label>
+      <input class="form-input" id="goalLinkedVendors" placeholder="e.g. Trade Republic, Nordnet">
+    </div>
+
+    <input type="hidden" id="goalEditId" value="">
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeGoalModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveGoal()">Save Goal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Investment Setup modal -->
+<div class="modal-overlay" id="investModal" onclick="if(event.target===this) closeInvestModal()">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Investment Plan</div>
+        <div class="modal-subtitle">Configure your monthly investment target</div>
+      </div>
+      <button class="modal-close" onclick="closeInvestModal()">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Monthly Target (kr)</label>
+      <input class="form-input" id="investTarget" type="number" placeholder="e.g. 5000" min="1">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Expected Annual Return (%)</label>
+        <input class="form-input" id="investReturn" type="number" placeholder="e.g. 7" min="0" max="30" step="0.1" value="7">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Starting Portfolio (kr)</label>
+        <input class="form-input" id="investStarting" type="number" placeholder="0" min="0" value="0">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Auto-detect from vendors (comma-separated)</label>
+      <input class="form-input" id="investVendors" placeholder="e.g. Trade Republic, Nordnet, Avanza">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeInvestModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveInvestConfig()">Save</button>
+    </div>
+  </div>
+</div>
+
 <!-- Manual entry modal -->
 <div class="modal-overlay" id="manualModal" onclick="if(event.target===this) closeModal()">
   <div class="modal">
@@ -1638,6 +2032,7 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
     <div class="glass-card tab-nav">
       <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
       <button class="tab-btn" onclick="switchTab('historical')">Historical</button>
+      <button class="tab-btn" onclick="switchTab('goals')">Goals</button>
     </div>
 
     <!-- Dashboard tab -->
@@ -1703,6 +2098,29 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
       <div id="histContent"></div>
     </div>
 
+    <!-- Goals tab -->
+    <div class="tab-panel" id="tab-goals">
+
+      <!-- Savings Rate Banner -->
+      <div class="goals-section" style="margin-top:0">
+        <div class="section-title">Savings Rate</div>
+        <div class="glass-card" id="savingsRateBanner"></div>
+      </div>
+
+      <!-- Savings Goals -->
+      <div class="goals-section">
+        <div class="section-title">Savings Goals</div>
+        <div class="goal-cards" id="goalCards"></div>
+        <button class="add-goal-btn" style="margin-top:14px" onclick="openGoalModal()">＋ Add Goal</button>
+      </div>
+
+      <!-- Investment Tracker -->
+      <div class="goals-section">
+        <div class="section-title">Investment Tracker</div>
+        <div id="investTracker"></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1760,6 +2178,10 @@ function resetAppState() {
   currentUser = null;
   isOfflineMode = false;
   _memCache = {};
+  savingsGoals = [];
+  goalContributions = [];
+  investConfig = null;
+  savingsRateTarget = null;
 }
 
 // ── Supabase Data Sync ──────────────────────────────────────────────────────
@@ -1786,6 +2208,19 @@ async function loadFromSupabase() {
     if (data.last_analysis) {
       // Extract piggybacked API key
       if (data.last_analysis._apiKey) { _memCache['budget_api_key'] = data.last_analysis._apiKey; }
+      // Extract piggybacked goals data
+      if (data.last_analysis._goalsData) {
+        const gd = data.last_analysis._goalsData;
+        if (Array.isArray(gd.savingsGoals)) savingsGoals = gd.savingsGoals;
+        if (Array.isArray(gd.goalContributions)) goalContributions = gd.goalContributions;
+        if (gd.investConfig && typeof gd.investConfig === 'object') investConfig = gd.investConfig;
+        if (gd.savingsRateTarget !== undefined && gd.savingsRateTarget !== null) savingsRateTarget = gd.savingsRateTarget;
+        // Cache goals to lsSet for consistency
+        lsSet('budget_goals', JSON.stringify(savingsGoals));
+        lsSet('budget_goal_contribs', JSON.stringify(goalContributions));
+        if (investConfig) lsSet('budget_invest_config', JSON.stringify(investConfig));
+        if (savingsRateTarget !== null) lsSet('budget_sr_target', savingsRateTarget.toString());
+      }
       try { lsSet('budget_last_analysis', JSON.stringify(data.last_analysis)); } catch(e) {}
     }
     if (data.monthly_income) lsSet('budget_income', data.monthly_income.toString());
@@ -1809,9 +2244,17 @@ async function syncToSupabase() {
   const income = getSavedIncome();
   let lastAnalysis = null;
   try { lastAnalysis = JSON.parse(lsGet('budget_last_analysis')); } catch(e) {}
-  // Piggyback API key into last_analysis JSONB (avoids schema change)
+  // Piggyback API key + goals data into last_analysis JSONB (avoids schema change)
   const apiKey = _memCache['budget_api_key'] || null;
   if (apiKey) { if (!lastAnalysis) lastAnalysis = {}; lastAnalysis._apiKey = apiKey; }
+  // Goals data
+  if (!lastAnalysis) lastAnalysis = {};
+  lastAnalysis._goalsData = {
+    savingsGoals,
+    goalContributions,
+    investConfig,
+    savingsRateTarget,
+  };
   try {
     const { error } = await client.from('user_data').upsert({
       user_id: user.id, vendor_lookup: vendorLookup, historical_data: historicalData,
@@ -1939,6 +2382,10 @@ function saveAllStateToIDB() {
   _idbSave('historicalData', historicalData);
   _idbSave('manualEntries', manualEntries);
   _idbSave('recurringEntries', recurringEntries);
+  _idbSave('savingsGoals', savingsGoals);
+  _idbSave('goalContributions', goalContributions);
+  _idbSave('investConfig', investConfig);
+  _idbSave('savingsRateTarget', savingsRateTarget);
 }
 async function loadAllStateFromIDB() {
   if (!isOfflineMode && getSyncUser()) return; // logged in: data comes from Supabase
@@ -1948,11 +2395,15 @@ async function loadAllStateFromIDB() {
     return;
   }
   try {
-    const [vl, hd, me, re] = await Promise.all([
+    const [vl, hd, me, re, sg, gc, ic, srt] = await Promise.all([
       _idbLoad('vendorLookup'),
       _idbLoad('historicalData'),
       _idbLoad('manualEntries'),
       _idbLoad('recurringEntries'),
+      _idbLoad('savingsGoals'),
+      _idbLoad('goalContributions'),
+      _idbLoad('investConfig'),
+      _idbLoad('savingsRateTarget'),
     ]);
     if (vl && typeof vl === 'object') Object.assign(vendorLookup, vl);
     if (hd && typeof hd === 'object') {
@@ -1962,7 +2413,11 @@ async function loadAllStateFromIDB() {
     }
     if (me && Array.isArray(me) && me.length > 0 && manualEntries.length === 0) manualEntries = me;
     if (re && Array.isArray(re) && re.length > 0 && recurringEntries.length === 0) recurringEntries = re;
-    console.log('[IDB] State loaded — vendors:', Object.keys(vendorLookup).length, 'months:', Object.keys(historicalData).length);
+    if (sg && Array.isArray(sg) && sg.length > 0 && savingsGoals.length === 0) savingsGoals = sg;
+    if (gc && Array.isArray(gc) && gc.length > 0 && goalContributions.length === 0) goalContributions = gc;
+    if (ic && typeof ic === 'object' && !investConfig) investConfig = ic;
+    if (srt !== null && srt !== undefined && savingsRateTarget === null) savingsRateTarget = srt;
+    console.log('[IDB] State loaded — vendors:', Object.keys(vendorLookup).length, 'months:', Object.keys(historicalData).length, 'goals:', savingsGoals.length);
   } catch(e) {
     console.warn('[IDB] loadAllState failed:', e);
   }
@@ -2088,6 +2543,7 @@ async function initApp() {
   try { manualEntries = JSON.parse(lsGet('budget_manual') || '[]'); } catch(e) { manualEntries = []; }
   try { recurringEntries = JSON.parse(lsGet('budget_recurring') || '[]'); } catch(e) { recurringEntries = []; }
   loadVendorLookup();
+  loadGoalsState();
 
   // Also load from IndexedDB (async, more reliable in sandboxed contexts)
   await loadAllStateFromIDB();
@@ -2131,9 +2587,14 @@ async function initApp() {
     switchTab('historical');
     renderHistorical();
     renderManualEntriesTable();
+  } else if (!restored && (savingsGoals.length > 0 || investConfig)) {
+    // No transaction data but has goals — show goals tab
+    document.getElementById('resultsSection').classList.add('visible');
+    switchTab('goals');
+    renderHistorical();
   } else if (!restored) {
-    // No data at all — make sure results section is hidden
-    document.getElementById('resultsSection').classList.remove('visible');
+    // No data at all — still show results section so Goals tab is accessible, but focus on dashboard
+    document.getElementById('resultsSection').classList.add('visible');
     renderHistorical();
   }
 
@@ -3587,9 +4048,13 @@ function refreshHistoricalTab() {
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((btn,i) => btn.classList.toggle('active', (i===0&&tab==='dashboard')||(i===1&&tab==='historical')));
-  document.getElementById('tab-dashboard').classList.toggle('active', tab==='dashboard');
-  document.getElementById('tab-historical').classList.toggle('active', tab==='historical');
+  const tabs = ['dashboard', 'historical', 'goals'];
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.toggle('active', tabs[i] === tab));
+  tabs.forEach(t => {
+    const panel = document.getElementById('tab-' + t);
+    if (panel) panel.classList.toggle('active', t === tab);
+  });
+  if (tab === 'goals') renderGoalsTab();
 }
 
 // ── Historical tab ────────────────────────────────────────────────────────────
@@ -3784,6 +4249,8 @@ function renderHistorical() {
 function clearHistory() {
   if (!confirm('Clear all historical data? This cannot be undone.')) return;
   historicalData = {}; manualEntries = []; recurringEntries = []; results = null; vendorLookup = {};
+  savingsGoals = []; goalContributions = []; investConfig = null; savingsRateTarget = null;
+  // Clear from lsGet/lsSet layer (routes to localStorage in offline, memCache when logged in)
   lsRemove('budget_historical');
   lsRemove('budget_manual');
   lsRemove('budget_recurring');
@@ -3792,6 +4259,10 @@ function clearHistory() {
   lsRemove('budget_vendor_lookup');
   lsRemove('budget_api_key');
   lsRemove('budget_income');
+  lsRemove('budget_goals');
+  lsRemove('budget_goal_contribs');
+  lsRemove('budget_invest_config');
+  lsRemove('budget_sr_target');
   // Also clear directly from localStorage as a safety net
   localStorage.removeItem('budget_historical');
   localStorage.removeItem('budget_manual');
@@ -3801,6 +4272,10 @@ function clearHistory() {
   localStorage.removeItem('budget_vendor_lookup');
   localStorage.removeItem('budget_api_key');
   localStorage.removeItem('budget_income');
+  localStorage.removeItem('budget_goals');
+  localStorage.removeItem('budget_goal_contribs');
+  localStorage.removeItem('budget_invest_config');
+  localStorage.removeItem('budget_sr_target');
   // Clear IndexedDB too
   try { _idbOpen().then(db => { const tx = db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete = () => db.close(); }); } catch(e) {}
   // Flag so migration and IDB load don't repopulate stale data on next load
@@ -4157,6 +4632,760 @@ function editManualAmount(entryId, cat) {
   }
 
   showToast(`✓ Amount updated to ${nok(newAmt)}`);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// GOALS TAB — Savings Rate, Savings Goals, Investment Tracker
+// ══════════════════════════════════════════════════════════════════════════════
+
+const GOAL_ICONS = ['🎯','🏖️','🏠','🚗','💻','📱','🎓','💍','🛡️','🎁','✈️','🏋️'];
+const GOAL_COLORS = ['#4f7cff','#30d158','#ff6b9d','#bf5af2','#ff9f0a','#5ac8fa','#ff453a','#64d2ff'];
+
+let savingsGoals = [];
+let goalContributions = []; // { id, goalId, amount, date, type:'auto'|'manual', note }
+let investConfig = null;    // { monthlyTarget, returnRate, startingValue, linkedVendors }
+let savingsRateTarget = null;
+
+function loadGoalsState() {
+  try { savingsGoals = JSON.parse(lsGet('budget_goals') || '[]'); } catch(e) { savingsGoals = []; }
+  try { goalContributions = JSON.parse(lsGet('budget_goal_contribs') || '[]'); } catch(e) { goalContributions = []; }
+  try { investConfig = JSON.parse(lsGet('budget_invest_config') || 'null'); } catch(e) { investConfig = null; }
+  try { savingsRateTarget = parseFloat(lsGet('budget_sr_target')); if (isNaN(savingsRateTarget)) savingsRateTarget = null; } catch(e) { savingsRateTarget = null; }
+}
+
+function saveGoalsState() {
+  lsSet('budget_goals', JSON.stringify(savingsGoals));
+  lsSet('budget_goal_contribs', JSON.stringify(goalContributions));
+  if (investConfig) lsSet('budget_invest_config', JSON.stringify(investConfig));
+  else lsRemove('budget_invest_config');
+  if (savingsRateTarget !== null) lsSet('budget_sr_target', savingsRateTarget.toString());
+  // Also persist to IDB for sandboxed contexts (offline mode)
+  if (isOfflineMode || !getSyncUser()) {
+    _idbSave('savingsGoals', savingsGoals);
+    _idbSave('goalContributions', goalContributions);
+    _idbSave('investConfig', investConfig);
+    _idbSave('savingsRateTarget', savingsRateTarget);
+  }
+  scheduleSyncToSupabase();
+}
+
+// ── Savings Rate Calculation ─────────────────────────────────────────────────
+function getMonthlySavingsData() {
+  const displayData = {};
+  for (const [month, cats] of Object.entries(historicalData)) {
+    displayData[month] = { ...cats };
+  }
+  for (const e of manualEntries) {
+    if (!displayData[e.month]) displayData[e.month] = {};
+    displayData[e.month][e.category] = (displayData[e.month][e.category] || 0) + e.amount;
+  }
+  const income = getSavedIncome();
+  const months = Object.keys(displayData).sort();
+  const dataCats = CATEGORIES.filter(c => c !== 'Uncategorized');
+
+  return months.map(m => {
+    const spent = dataCats.reduce((s, c) => s + (displayData[m]?.[c] || 0), 0);
+    const saved = income ? income - spent : 0;
+    const rate = income ? ((income - spent) / income * 100) : 0;
+    return { month: m, spent, saved, rate, income };
+  });
+}
+
+// ── Render Goals Tab ─────────────────────────────────────────────────────────
+function renderGoalsTab() {
+  loadGoalsState();
+  renderSavingsRate();
+  renderGoalCards();
+  renderInvestTracker();
+}
+
+function renderSavingsRate() {
+  const el = document.getElementById('savingsRateBanner');
+  const income = getSavedIncome();
+  const data = getMonthlySavingsData();
+
+  if (!income || data.length === 0) {
+    el.innerHTML = `<div class="sr-empty">
+      <div class="big">📊</div>
+      <div>${!income ? 'Set your monthly income first' : 'Import transactions to see your savings rate'}</div>
+      <div style="margin-top:6px;font-size:12px;color:var(--muted)">${!income ? 'Use the Income field at the top of the app' : 'Upload and analyze bank CSVs from the Dashboard tab'}</div>
+    </div>`;
+    return;
+  }
+
+  const latest = data[data.length - 1];
+  const prev = data.length >= 2 ? data[data.length - 2] : null;
+  const delta = prev ? (latest.rate - prev.rate) : null;
+
+  // Color based on target
+  let rateColor = 'var(--accent)';
+  let targetHtml = '';
+  if (savingsRateTarget !== null) {
+    if (latest.rate >= savingsRateTarget) {
+      rateColor = 'var(--success)';
+      targetHtml = `<span class="sr-target-badge" style="background:var(--success-light);color:var(--success)">✓ Above ${savingsRateTarget}% target</span>`;
+    } else if (latest.rate >= savingsRateTarget - 5) {
+      rateColor = '#ff9f0a';
+      targetHtml = `<span class="sr-target-badge" style="background:rgba(255,159,10,0.12);color:#ff9f0a">Close to ${savingsRateTarget}% target</span>`;
+    } else {
+      rateColor = 'var(--danger)';
+      targetHtml = `<span class="sr-target-badge" style="background:var(--danger-light);color:var(--danger)">Below ${savingsRateTarget}% target</span>`;
+    }
+  }
+
+  const deltaHtml = delta !== null
+    ? `<span style="font-size:12px;font-weight:600;color:${delta >= 0 ? 'var(--success)' : 'var(--danger)'};margin-left:8px">${delta >= 0 ? '▲' : '▼'} ${Math.abs(delta).toFixed(1)}pp vs ${fmtMonth(prev.month)}</span>`
+    : '';
+
+  // Sparkline via canvas
+  const sparkId = 'srSparkline' + Date.now();
+
+  el.innerHTML = `
+    <div class="sr-banner">
+      <div class="sr-main">
+        <div class="sr-rate" style="color:${rateColor}">${latest.rate.toFixed(1)}%</div>
+        <div class="sr-rate-sub">Savings rate · ${fmtMonth(latest.month)} ${deltaHtml}</div>
+        ${targetHtml}
+        <div style="margin-top:8px;font-size:12px;color:var(--text2)">
+          Saving <strong style="color:var(--text)">${nok(latest.saved)}</strong> of ${nok(income)} income
+        </div>
+      </div>
+      <div class="sr-sparkline-wrap">
+        <canvas id="${sparkId}" height="60"></canvas>
+        <div class="sr-sparkline-label">Last ${Math.min(data.length, 12)} months</div>
+      </div>
+    </div>
+    <div class="goals-settings-row" style="border-top:1px solid rgba(200,210,230,0.25)">
+      <label>Target Rate</label>
+      <input type="number" min="0" max="100" step="1" value="${savingsRateTarget !== null ? savingsRateTarget : ''}"
+        placeholder="e.g. 30" onchange="updateSRTarget(this.value)" style="width:70px">
+      <span style="font-size:12px;color:var(--muted)">%</span>
+    </div>
+  `;
+
+  // Draw sparkline
+  requestAnimationFrame(() => {
+    const canvas = document.getElementById(sparkId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const pts = data.slice(-12);
+    const w = canvas.offsetWidth;
+    const h = 60;
+    canvas.width = w * 2; canvas.height = h * 2;
+    ctx.scale(2, 2);
+
+    const rates = pts.map(p => p.rate);
+    const minR = Math.min(...rates, 0);
+    const maxR = Math.max(...rates, 100);
+    const range = maxR - minR || 1;
+
+    // Target line
+    if (savingsRateTarget !== null) {
+      const ty = h - ((savingsRateTarget - minR) / range * (h - 10)) - 5;
+      ctx.strokeStyle = 'rgba(79,124,255,0.25)';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(0, ty); ctx.lineTo(w, ty); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Line
+    ctx.strokeStyle = rateColor;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    pts.forEach((p, i) => {
+      const x = pts.length === 1 ? w / 2 : (i / (pts.length - 1)) * (w - 10) + 5;
+      const y = h - ((p.rate - minR) / range * (h - 10)) - 5;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Dots
+    pts.forEach((p, i) => {
+      const x = pts.length === 1 ? w / 2 : (i / (pts.length - 1)) * (w - 10) + 5;
+      const y = h - ((p.rate - minR) / range * (h - 10)) - 5;
+      ctx.fillStyle = i === pts.length - 1 ? rateColor : 'rgba(79,124,255,0.4)';
+      ctx.beginPath(); ctx.arc(x, y, i === pts.length - 1 ? 3.5 : 2, 0, Math.PI * 2); ctx.fill();
+    });
+  });
+}
+
+function updateSRTarget(val) {
+  const num = parseFloat(val);
+  savingsRateTarget = (!isNaN(num) && num >= 0) ? num : null;
+  if (savingsRateTarget !== null) lsSet('budget_sr_target', savingsRateTarget.toString());
+  else lsRemove('budget_sr_target');
+  saveGoalsState();
+  renderSavingsRate();
+}
+
+// ── Savings Goals ────────────────────────────────────────────────────────────
+function renderGoalCards() {
+  const el = document.getElementById('goalCards');
+  if (savingsGoals.length === 0) {
+    el.innerHTML = `<div class="glass-card" style="text-align:center;padding:40px 24px;color:var(--muted);font-size:14px;line-height:1.6">
+      <div style="font-size:36px;margin-bottom:12px">🎯</div>
+      <div>No goals yet</div>
+      <div style="font-size:12px;margin-top:4px">Create your first savings goal to start tracking progress</div>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = savingsGoals.map(g => {
+    const contribs = goalContributions.filter(c => c.goalId === g.id);
+    const totalSaved = contribs.reduce((s, c) => s + c.amount, 0);
+    const pct = Math.min((totalSaved / g.targetAmount) * 100, 100);
+    const completed = totalSaved >= g.targetAmount;
+    const color = g.color || GOAL_COLORS[0];
+
+    // Monthly pace
+    const monthContribs = {};
+    contribs.forEach(c => {
+      const m = c.date.substring(0, 7);
+      monthContribs[m] = (monthContribs[m] || 0) + c.amount;
+    });
+    const paceMonths = Object.keys(monthContribs);
+    const avgMonthly = paceMonths.length > 0 ? Object.values(monthContribs).reduce((a, b) => a + b, 0) / paceMonths.length : 0;
+
+    // Estimated completion
+    const remaining = g.targetAmount - totalSaved;
+    let estHtml = '';
+    if (!completed && avgMonthly > 0) {
+      const monthsLeft = Math.ceil(remaining / avgMonthly);
+      const estDate = new Date();
+      estDate.setMonth(estDate.getMonth() + monthsLeft);
+      estHtml = `<span>Est. ${estDate.toLocaleString('en-GB', { month: 'short', year: 'numeric' })}</span>`;
+    }
+
+    // Deadline status
+    let deadlineHtml = '';
+    if (g.deadline && !completed) {
+      const now = new Date();
+      const dl = new Date(g.deadline + '-01');
+      const monthsToDeadline = (dl.getFullYear() - now.getFullYear()) * 12 + (dl.getMonth() - now.getMonth());
+      const neededPerMonth = monthsToDeadline > 0 ? remaining / monthsToDeadline : remaining;
+      if (monthsToDeadline <= 0) {
+        deadlineHtml = `<span class="goal-deadline-badge" style="background:var(--danger-light);color:var(--danger)">Past deadline</span>`;
+      } else if (avgMonthly >= neededPerMonth * 0.9) {
+        deadlineHtml = `<span class="goal-deadline-badge" style="background:var(--success-light);color:var(--success)">On track</span>`;
+      } else {
+        deadlineHtml = `<span class="goal-deadline-badge" style="background:rgba(255,159,10,0.12);color:#ff9f0a">Behind pace</span>`;
+      }
+    }
+
+    const contribListHtml = contribs.slice(-5).reverse().map(c =>
+      `<div class="contrib-item">
+        <span class="contrib-type">${c.type === 'auto' ? '🔄' : '✏️'}</span>
+        <span>${c.note || (c.type === 'auto' ? 'Auto-detected' : 'Manual')}</span>
+        <span style="font-size:11px;color:var(--muted)">${c.date}</span>
+        <span class="contrib-amount">${nok(c.amount)}</span>
+        <button class="contrib-del" onclick="event.stopPropagation();deleteContrib('${c.id}','${g.id}')">✕</button>
+      </div>`
+    ).join('');
+
+    return `<div class="glass-card goal-card">
+      <div class="goal-card-top">
+        <div class="goal-card-name">
+          <div class="goal-icon" style="background:${color}22;color:${color}">${g.icon || '🎯'}</div>
+          <div>
+            <div>${g.name}</div>
+            <div style="font-size:12px;color:var(--muted);font-weight:400">${avgMonthly > 0 ? '~' + nok(avgMonthly) + '/mo' : 'No contributions yet'} ${deadlineHtml}</div>
+          </div>
+        </div>
+        <div class="goal-card-actions">
+          <button class="goal-action-btn" onclick="event.stopPropagation();addContribPrompt('${g.id}')">+ Add</button>
+          <button class="goal-action-btn" onclick="event.stopPropagation();editGoal('${g.id}')">Edit</button>
+          <button class="goal-action-btn del" onclick="event.stopPropagation();deleteGoal('${g.id}')">✕</button>
+        </div>
+      </div>
+      ${completed
+        ? `<div class="goal-completed">🎉 Goal completed!</div>`
+        : `<div class="goal-progress-wrap">
+            <div class="goal-progress-fill" style="width:${pct.toFixed(1)}%;background:${color}"></div>
+          </div>`
+      }
+      <div class="goal-stats">
+        <span><strong>${nok(totalSaved)}</strong> of ${nok(g.targetAmount)}</span>
+        <span>${pct.toFixed(0)}% ${estHtml}</span>
+      </div>
+      ${contribs.length > 0 ? `
+        <div style="margin-top:10px">
+          <button class="goal-action-btn" style="opacity:1;width:100%;text-align:center" onclick="event.stopPropagation();toggleContribLog(this)">
+            Show ${contribs.length} contribution${contribs.length > 1 ? 's' : ''} ›
+          </button>
+          <div class="contrib-log">${contribListHtml}
+            ${contribs.length > 5 ? `<div style="text-align:center;padding:6px;font-size:11px;color:var(--muted)">Showing latest 5 of ${contribs.length}</div>` : ''}
+          </div>
+        </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function toggleContribLog(btn) {
+  const log = btn.nextElementSibling;
+  log.classList.toggle('open');
+  btn.textContent = log.classList.contains('open') ? 'Hide contributions ‹' : btn.textContent.replace('Hide', 'Show').replace('‹', '›');
+}
+
+function openGoalModal(editId) {
+  document.getElementById('goalModal').classList.add('open');
+  document.getElementById('goalEditId').value = editId || '';
+  document.getElementById('goalModalTitle').textContent = editId ? 'Edit Goal' : 'New Goal';
+
+  // Icon picker
+  document.getElementById('goalIconPicker').innerHTML = GOAL_ICONS.map(ic =>
+    `<div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;font-size:16px;background:rgba(200,210,230,0.2);transition:all 0.15s" class="icon-pick" onclick="pickGoalIcon(this,'${ic}')">${ic}</div>`
+  ).join('');
+
+  // Color picker
+  document.getElementById('goalColorPicker').innerHTML = GOAL_COLORS.map(c =>
+    `<div style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer;border:3px solid transparent;transition:all 0.15s" class="color-pick" onclick="pickGoalColor(this,'${c}')"></div>`
+  ).join('');
+
+  if (editId) {
+    const g = savingsGoals.find(x => x.id === editId);
+    if (g) {
+      document.getElementById('goalName').value = g.name;
+      document.getElementById('goalTarget').value = g.targetAmount;
+      document.getElementById('goalMonthly').value = g.monthlyTarget || '';
+      document.getElementById('goalDeadline').value = g.deadline || '';
+      document.getElementById('goalLinkedVendors').value = (g.linkedVendors || []).join(', ');
+      // Select linked categories
+      const sel = document.getElementById('goalLinkedCats');
+      Array.from(sel.options).forEach(o => o.selected = (g.linkedCategories || []).includes(o.value));
+      // Select icon/color
+      _selectedGoalIcon = g.icon || GOAL_ICONS[0];
+      _selectedGoalColor = g.color || GOAL_COLORS[0];
+    }
+  } else {
+    document.getElementById('goalName').value = '';
+    document.getElementById('goalTarget').value = '';
+    document.getElementById('goalMonthly').value = '';
+    document.getElementById('goalDeadline').value = '';
+    document.getElementById('goalLinkedVendors').value = '';
+    document.getElementById('goalLinkedCats').selectedIndex = -1;
+    _selectedGoalIcon = GOAL_ICONS[0];
+    _selectedGoalColor = GOAL_COLORS[0];
+  }
+
+  // Highlight defaults
+  document.querySelectorAll('#goalIconPicker .icon-pick').forEach(el => {
+    el.style.borderColor = el.textContent.trim() === _selectedGoalIcon ? 'var(--accent)' : 'transparent';
+  });
+  document.querySelectorAll('#goalColorPicker .color-pick').forEach(el => {
+    el.style.borderColor = el.style.background === _selectedGoalColor ? 'var(--text)' : 'transparent';
+  });
+}
+
+let _selectedGoalIcon = GOAL_ICONS[0];
+let _selectedGoalColor = GOAL_COLORS[0];
+
+function pickGoalIcon(el, icon) {
+  _selectedGoalIcon = icon;
+  document.querySelectorAll('#goalIconPicker .icon-pick').forEach(e => e.style.borderColor = 'transparent');
+  el.style.borderColor = 'var(--accent)';
+}
+function pickGoalColor(el, color) {
+  _selectedGoalColor = color;
+  document.querySelectorAll('#goalColorPicker .color-pick').forEach(e => e.style.borderColor = 'transparent');
+  el.style.borderColor = 'var(--text)';
+}
+
+function closeGoalModal() { document.getElementById('goalModal').classList.remove('open'); }
+
+function saveGoal() {
+  const name = document.getElementById('goalName').value.trim();
+  const target = parseFloat(document.getElementById('goalTarget').value);
+  if (!name) return alert('Please enter a goal name');
+  if (!target || target <= 0) return alert('Please enter a valid target amount');
+
+  const monthly = parseFloat(document.getElementById('goalMonthly').value) || 0;
+  const deadline = document.getElementById('goalDeadline').value || null;
+  const linkedCats = Array.from(document.getElementById('goalLinkedCats').selectedOptions).map(o => o.value);
+  const linkedVendors = document.getElementById('goalLinkedVendors').value.split(',').map(v => v.trim()).filter(v => v);
+
+  const editId = document.getElementById('goalEditId').value;
+
+  if (editId) {
+    const g = savingsGoals.find(x => x.id === editId);
+    if (g) {
+      Object.assign(g, { name, targetAmount: target, monthlyTarget: monthly, deadline, icon: _selectedGoalIcon, color: _selectedGoalColor, linkedCategories: linkedCats, linkedVendors });
+    }
+  } else {
+    savingsGoals.push({
+      id: 'g_' + Date.now(),
+      name, targetAmount: target, monthlyTarget: monthly, deadline,
+      icon: _selectedGoalIcon, color: _selectedGoalColor,
+      linkedCategories: linkedCats, linkedVendors,
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  saveGoalsState();
+  closeGoalModal();
+  renderGoalCards();
+  showToast(editId ? '✓ Goal updated' : '✓ Goal created');
+}
+
+function editGoal(id) { openGoalModal(id); }
+
+function deleteGoal(id) {
+  if (!confirm('Delete this goal and all its contributions?')) return;
+  savingsGoals = savingsGoals.filter(g => g.id !== id);
+  goalContributions = goalContributions.filter(c => c.goalId !== id);
+  saveGoalsState();
+  renderGoalCards();
+  showToast('Goal deleted');
+}
+
+function addContribPrompt(goalId) {
+  const amount = prompt('Enter contribution amount (kr):');
+  if (!amount) return;
+  const num = parseFloat(amount.replace(/[^0-9.,\-]/g, '').replace(',', '.'));
+  if (isNaN(num) || num <= 0) return alert('Invalid amount');
+
+  const now = new Date();
+  goalContributions.push({
+    id: 'c_' + Date.now(),
+    goalId,
+    amount: num,
+    date: now.toISOString().substring(0, 10),
+    type: 'manual',
+    note: 'Manual contribution'
+  });
+
+  saveGoalsState();
+  renderGoalCards();
+  showToast('✓ Contribution added: ' + nok(num));
+}
+
+function deleteContrib(contribId, goalId) {
+  goalContributions = goalContributions.filter(c => c.id !== contribId);
+  saveGoalsState();
+  renderGoalCards();
+}
+
+// ── Investment Tracker ───────────────────────────────────────────────────────
+function renderInvestTracker() {
+  const el = document.getElementById('investTracker');
+
+  if (!investConfig) {
+    el.innerHTML = `<div class="glass-card" style="text-align:center;padding:40px 24px;color:var(--muted);font-size:14px;line-height:1.6">
+      <div style="font-size:36px;margin-bottom:12px">📈</div>
+      <div>No investment plan configured</div>
+      <div style="font-size:12px;margin-top:4px">Set up your monthly investment target to track contributions and projections</div>
+      <button class="btn-primary" style="margin-top:16px;padding:10px 24px;font-size:13px" onclick="openInvestModal()">Set Up Investment Plan</button>
+    </div>`;
+    return;
+  }
+
+  // Gather monthly investment contributions from transactions
+  const investContribs = getInvestContribs();
+  const months = Object.keys(investContribs).sort();
+  const target = investConfig.monthlyTarget;
+
+  // Stats
+  const totalInvested = months.reduce((s, m) => s + investContribs[m], 0);
+  const hitMonths = months.filter(m => investContribs[m] >= target * 0.9).length;
+  const streak = calcStreak(months, investContribs, target);
+
+  // Month chips
+  const chipHtml = months.slice(-12).map(m => {
+    const v = investContribs[m];
+    const cls = v >= target * 0.9 ? 'hit' : v > 0 ? 'partial' : 'miss';
+    const icon = v >= target * 0.9 ? '✓' : v > 0 ? '~' : '✕';
+    return `<div class="invest-month-chip ${cls}" title="${fmtMonth(m)}: ${nok(v)}">
+      ${icon}
+      <span class="chip-label">${m.substring(5)}</span>
+    </div>`;
+  }).join('');
+
+  // Projection
+  const r = (investConfig.returnRate || 7) / 100 / 12; // monthly rate
+  const pmt = investConfig.monthlyTarget;
+  const pv = investConfig.startingValue || 0;
+  const projections = [5, 10, 15, 20].map(years => {
+    const n = years * 12;
+    const fv = pv * Math.pow(1 + r, n) + pmt * ((Math.pow(1 + r, n) - 1) / r);
+    return { years, value: fv };
+  });
+
+  const projId = 'projCanvas' + Date.now();
+
+  el.innerHTML = `
+    <div class="invest-grid">
+      <div class="glass-card invest-stat"><div class="card-label">Monthly Target</div><div class="card-value">${nok(target)}</div></div>
+      <div class="glass-card invest-stat"><div class="card-label">Total Invested</div><div class="card-value accent">${nok(totalInvested)}</div></div>
+      <div class="glass-card invest-stat"><div class="card-label">Hit Rate</div><div class="card-value">${months.length > 0 ? Math.round(hitMonths / months.length * 100) : 0}%</div><div class="card-sub">${hitMonths} of ${months.length} months</div></div>
+      <div class="glass-card invest-stat"><div class="card-label">Streak</div><div class="card-value">${streak > 0 ? '🔥 ' + streak : '—'}</div><div class="card-sub">${streak > 0 ? 'months in a row' : 'Start investing!'}</div></div>
+    </div>
+
+    ${months.length > 0 ? `
+    <div class="glass-card" style="margin-bottom:16px">
+      <div style="padding:12px 18px 4px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Monthly Consistency</div>
+      <div class="invest-months-grid">${chipHtml}</div>
+    </div>` : ''}
+
+    <div class="glass-card projection-wrap">
+      <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Growth Projection</div>
+      <div class="projection-inputs">
+        <div class="proj-input-group">
+          <label>Monthly (kr)</label>
+          <input type="number" value="${pmt}" onchange="updateProjection()" id="projPmt" min="0">
+        </div>
+        <div class="proj-input-group">
+          <label>Return (%/yr)</label>
+          <input type="number" value="${investConfig.returnRate || 7}" onchange="updateProjection()" id="projRate" min="0" max="30" step="0.1">
+        </div>
+        <div class="proj-input-group">
+          <label>Starting (kr)</label>
+          <input type="number" value="${pv}" onchange="updateProjection()" id="projStart" min="0">
+        </div>
+        <div class="proj-input-group">
+          <label>Years</label>
+          <input type="number" value="20" onchange="updateProjection()" id="projYears" min="1" max="50">
+        </div>
+      </div>
+      <canvas id="${projId}" height="180" style="width:100%"></canvas>
+      <div class="projection-result" id="projResult">
+        At ${nok(pmt)}/month with ${investConfig.returnRate || 7}% return, your portfolio will be worth
+        <strong>${nok(projections[3].value)}</strong> in 20 years.
+      </div>
+    </div>
+
+    <button class="goal-action-btn" style="opacity:1;margin-top:10px" onclick="openInvestModal()">⚙ Edit Investment Plan</button>
+    <button class="goal-action-btn" style="opacity:1;margin-top:10px;margin-left:8px" onclick="addInvestContrib()">+ Log Contribution</button>
+  `;
+
+  // Draw projection chart
+  requestAnimationFrame(() => drawProjectionChart(projId));
+}
+
+function getInvestContribs() {
+  if (!investConfig) return {};
+  const vendors = (investConfig.linkedVendors || []).map(v => v.toLowerCase());
+  const contribs = {};
+
+  // Scan all transactions for matching vendors
+  if (results && results.txns) {
+    for (const t of results.txns) {
+      if (vendors.some(v => t.vendor.toLowerCase().includes(v))) {
+        contribs[t.month] = (contribs[t.month] || 0) + Math.abs(t.amount);
+      }
+    }
+  }
+
+  // Also check historicalData manually doesn't help here — we need vendor-level data.
+  // Manual contributions from goalContributions tagged to 'investment' are also valid
+  goalContributions.filter(c => c.goalId === '__invest__').forEach(c => {
+    const m = c.date.substring(0, 7);
+    contribs[m] = (contribs[m] || 0) + c.amount;
+  });
+
+  return contribs;
+}
+
+function calcStreak(months, contribs, target) {
+  let streak = 0;
+  for (let i = months.length - 1; i >= 0; i--) {
+    if (contribs[months[i]] >= target * 0.9) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function drawProjectionChart(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.offsetWidth;
+  const h = 180;
+  canvas.width = w * 2; canvas.height = h * 2;
+  ctx.scale(2, 2);
+
+  const pmt = parseFloat(document.getElementById('projPmt')?.value) || 0;
+  const rate = (parseFloat(document.getElementById('projRate')?.value) || 7) / 100 / 12;
+  const pv = parseFloat(document.getElementById('projStart')?.value) || 0;
+  const years = parseInt(document.getElementById('projYears')?.value) || 20;
+
+  const points = [];
+  const contribPoints = [];
+  for (let y = 0; y <= years; y++) {
+    const n = y * 12;
+    const fv = pv * Math.pow(1 + rate, n) + pmt * (rate > 0 ? ((Math.pow(1 + rate, n) - 1) / rate) : n);
+    const contrib = pv + pmt * n;
+    points.push(fv);
+    contribPoints.push(contrib);
+  }
+
+  const maxVal = Math.max(...points, 1);
+  const padL = 10, padR = 10, padT = 10, padB = 25;
+  const cw = w - padL - padR;
+  const ch = h - padT - padB;
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(200,210,230,0.3)';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (ch / 4) * i;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+  }
+
+  // Contribution area (gray)
+  ctx.fillStyle = 'rgba(138,146,176,0.1)';
+  ctx.beginPath();
+  ctx.moveTo(padL, padT + ch);
+  contribPoints.forEach((v, i) => {
+    const x = padL + (i / years) * cw;
+    const y = padT + ch - (v / maxVal) * ch;
+    ctx.lineTo(x, y);
+  });
+  ctx.lineTo(padL + cw, padT + ch);
+  ctx.closePath(); ctx.fill();
+
+  // Growth area (blue)
+  ctx.fillStyle = 'rgba(79,124,255,0.12)';
+  ctx.beginPath();
+  ctx.moveTo(padL, padT + ch);
+  points.forEach((v, i) => {
+    const x = padL + (i / years) * cw;
+    const y = padT + ch - (v / maxVal) * ch;
+    ctx.lineTo(x, y);
+  });
+  ctx.lineTo(padL + cw, padT + ch);
+  ctx.closePath(); ctx.fill();
+
+  // Growth line
+  ctx.strokeStyle = 'var(--accent)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  points.forEach((v, i) => {
+    const x = padL + (i / years) * cw;
+    const y = padT + ch - (v / maxVal) * ch;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Contribution line (dashed)
+  ctx.strokeStyle = 'rgba(138,146,176,0.5)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  contribPoints.forEach((v, i) => {
+    const x = padL + (i / years) * cw;
+    const y = padT + ch - (v / maxVal) * ch;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Year labels
+  ctx.fillStyle = 'var(--muted)';
+  ctx.font = '10px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  const step = years <= 10 ? 1 : years <= 20 ? 5 : 10;
+  for (let y = 0; y <= years; y += step) {
+    const x = padL + (y / years) * cw;
+    ctx.fillText(y + 'y', x, h - 6);
+  }
+
+  // Milestones
+  const milestones = [10000, 50000, 100000, 250000, 500000, 1000000];
+  ctx.font = '9px Inter, sans-serif';
+  ctx.textAlign = 'right';
+  milestones.forEach(m => {
+    if (m < maxVal * 0.1 || m > maxVal) return;
+    const y = padT + ch - (m / maxVal) * ch;
+    ctx.fillStyle = 'rgba(138,146,176,0.4)';
+    ctx.fillText(m >= 1000000 ? (m / 1000000) + 'M' : (m / 1000) + 'k', w - padR - 2, y - 3);
+  });
+}
+
+function updateProjection() {
+  const pmt = parseFloat(document.getElementById('projPmt')?.value) || 0;
+  const rate = (parseFloat(document.getElementById('projRate')?.value) || 7);
+  const pv = parseFloat(document.getElementById('projStart')?.value) || 0;
+  const years = parseInt(document.getElementById('projYears')?.value) || 20;
+
+  const r = rate / 100 / 12;
+  const n = years * 12;
+  const fv = pv * Math.pow(1 + r, n) + pmt * (r > 0 ? ((Math.pow(1 + r, n) - 1) / r) : n);
+
+  document.getElementById('projResult').innerHTML =
+    `At ${nok(pmt)}/month with ${rate}% return, your portfolio will be worth <strong>${nok(fv)}</strong> in ${years} years.`;
+
+  // Redraw chart
+  const canvas = document.querySelector('.projection-wrap canvas');
+  if (canvas) drawProjectionChart(canvas.id);
+}
+
+function openInvestModal() {
+  document.getElementById('investModal').classList.add('open');
+  if (investConfig) {
+    document.getElementById('investTarget').value = investConfig.monthlyTarget;
+    document.getElementById('investReturn').value = investConfig.returnRate || 7;
+    document.getElementById('investStarting').value = investConfig.startingValue || 0;
+    document.getElementById('investVendors').value = (investConfig.linkedVendors || []).join(', ');
+  }
+}
+
+function closeInvestModal() { document.getElementById('investModal').classList.remove('open'); }
+
+function saveInvestConfig() {
+  const target = parseFloat(document.getElementById('investTarget').value);
+  if (!target || target <= 0) return alert('Please enter a valid monthly target');
+
+  investConfig = {
+    monthlyTarget: target,
+    returnRate: parseFloat(document.getElementById('investReturn').value) || 7,
+    startingValue: parseFloat(document.getElementById('investStarting').value) || 0,
+    linkedVendors: document.getElementById('investVendors').value.split(',').map(v => v.trim()).filter(v => v)
+  };
+
+  lsSet('budget_invest_config', JSON.stringify(investConfig));
+  saveGoalsState();
+  closeInvestModal();
+  renderInvestTracker();
+  showToast('✓ Investment plan saved');
+}
+
+// Add manual investment contribution
+function addInvestContrib() {
+  const amount = prompt('Enter investment contribution amount (kr):');
+  if (!amount) return;
+  const num = parseFloat(amount.replace(/[^0-9.,\-]/g, '').replace(',', '.'));
+  if (isNaN(num) || num <= 0) return alert('Invalid amount');
+
+  const now = new Date();
+  goalContributions.push({
+    id: 'c_' + Date.now(),
+    goalId: '__invest__',
+    amount: num,
+    date: now.toISOString().substring(0, 10),
+    type: 'manual',
+    note: 'Manual investment'
+  });
+
+  saveGoalsState();
+  renderInvestTracker();
+  showToast('✓ Investment logged: ' + nok(num));
+}
+
+// ── Toast helper (reuse existing showToast if available) ─────────────────────
+function showToast(msg) {
+  // Check if _showToast exists from auth script
+  if (typeof _showToast === 'function') { _showToast(msg); return; }
+  // Fallback: simple toast
+  let toast = document.getElementById('_toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = '_toast';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:white;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:1000;opacity:0;transition:opacity 0.3s;pointer-events:none;font-family:Inter,sans-serif';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  setTimeout(() => { toast.style.opacity = '0'; }, 2500);
 }
 
 // ── Excel export ──────────────────────────────────────────────────────────────
