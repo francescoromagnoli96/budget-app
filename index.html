@@ -2169,6 +2169,8 @@ function getSyncUser() {
 }
 
 // Called by auth script on logout — clears in-memory app state
+// Also clears real localStorage and IndexedDB to prevent data leaking between
+// authenticated (cloud) and offline (local-only) modes.
 function resetAppState() {
   historicalData = {};
   manualEntries = [];
@@ -2182,6 +2184,19 @@ function resetAppState() {
   goalContributions = [];
   investConfig = null;
   savingsRateTarget = null;
+  loadedFiles = {};
+  // Clear ALL app data from real localStorage to prevent cross-mode leakage
+  var appKeys = [
+    'budget_historical', 'budget_manual', 'budget_recurring',
+    'budget_manual_totals', 'budget_last_analysis', 'budget_vendor_lookup',
+    'budget_api_key', 'budget_income', 'budget_goals', 'budget_goal_contribs',
+    'budget_invest_config', 'budget_sr_target', 'budget_history_cleared'
+  ];
+  for (var i = 0; i < appKeys.length; i++) {
+    try { localStorage.removeItem(appKeys[i]); } catch(e) {}
+  }
+  // Clear IndexedDB to prevent stale data loading in the next mode
+  try { _idbOpen().then(function(db) { var tx = db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete = function() { db.close(); }; }).catch(function(){}); } catch(e) {}
 }
 
 // ── Supabase Data Sync ──────────────────────────────────────────────────────
