@@ -1406,8 +1406,14 @@
 
     /* Summary cards */
     .summary-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .card { padding: 14px; min-width: 0; overflow: hidden; }
-    .card-value { font-size: 20px; overflow: hidden; text-overflow: ellipsis; }
+    .summary-cards > .card {
+      padding: 14px;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      overflow: hidden;
+      width: auto;
+    }
+    .card-value { font-size: 20px; white-space: normal !important; word-break: break-word; overflow-wrap: break-word; }
     .card-label { font-size: 9px; }
 
     /* Breakdown table */
@@ -4082,7 +4088,7 @@ function refreshDashboard() {
   }
 
   document.getElementById('summaryCards').innerHTML = `
-    <div class="glass-card card"><div class="card-label">Spent · ${fmtMonth(latestMonth)}</div><div class="card-value accent">${nok(latestSpend)}${momBadge}</div><div class="card-sub">${latestMonth ? fmtMonth(latestMonth) : ''}</div></div>
+    <div class="glass-card card"><div class="card-label">Spent · ${fmtMonth(latestMonth)}</div><div class="card-value accent">${nok(latestSpend)}</div>${momBadge ? '<div style="margin-top:4px">'+momBadge+'</div>' : ''}<div class="card-sub">${latestMonth ? fmtMonth(latestMonth) : ''}</div></div>
     <div class="glass-card card"><div class="card-label">Top Category</div><div class="card-value" style="font-size:20px;color:${CAT_COLORS[topCatThisMonth.c]}">${topCatThisMonth.c}</div><div class="card-sub">${nok(topCatThisMonth.v)} this month</div></div>
     <div class="glass-card card"><div class="card-label">Transactions</div><div class="card-value">${txns.filter(t => t.month === latestMonth).length + manualEntries.filter(e => e.month === latestMonth).length}</div><div class="card-sub">${fmtMonth(latestMonth)}</div></div>
   `;
