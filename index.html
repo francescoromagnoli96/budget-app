@@ -4013,7 +4013,10 @@ function applyCategory(vendor) {
   const row = document.getElementById('unc-row-'+CSS.escape(vendor));
   if (row) { row.style.opacity = '0.4'; row.style.transition = 'opacity 0.4s'; }
   saveVendorLookup();
-  results = computeSummary(results.txns); refreshDashboard();
+  results = computeSummary(results.txns);
+  syncHistoricalFromResults();
+  saveLastAnalysis();
+  refreshDashboard();
 }
 function applyToAll() {
   const cat = document.getElementById('applyAllSelect').value;
@@ -4027,7 +4030,7 @@ function applyToAll() {
     const btn = row.querySelector('.apply-cat-btn');
     if (btn) { btn.textContent = 'Saved ✓'; btn.classList.add('applied'); }
   });
-  setTimeout(() => { results = computeSummary(results.txns); refreshDashboard(); saveVendorLookup(); }, 500);
+  setTimeout(() => { results = computeSummary(results.txns); syncHistoricalFromResults(); saveLastAnalysis(); refreshDashboard(); saveVendorLookup(); }, 500);
 }
 
 function refreshDashboard() {
@@ -4035,11 +4038,13 @@ function refreshDashboard() {
   const { months, txns, uncategorized } = results;
   // Build combined summary = historical data + CSV from current analysis + manual entries
   const monthlySummary = {};
-  // Start with historical data as the base
+  // Start with historical data as the base (for months not in current analysis)
   for (const [m, cats] of Object.entries(historicalData)) {
     monthlySummary[m] = { ...cats };
   }
-  // Overlay current analysis (overwrites historical for months in the current analysis)
+  // Overlay current analysis for ALL its months — results.monthlySummary is the
+  // live source of truth for any month the user has loaded, and must take priority
+  // over historicalData which may be stale or doubled after a merge
   for (const [m, cats] of Object.entries(results.monthlySummary)) {
     monthlySummary[m] = { ...cats };
   }
@@ -4153,10 +4158,17 @@ function refreshDashboard() {
 }
 
 function refreshHistoricalTab() {
-  // Build display data from historicalData (all months) + manual entries
+  // Build display data from historicalData (all months) + current analysis overlay + manual entries
   const displayData = {};
   for (const [month, cats] of Object.entries(historicalData)) {
     displayData[month] = { ...cats };
+  }
+  // Overlay current analysis for its months — results.monthlySummary is the live
+  // source of truth and must take priority over historicalData (which may be stale/doubled)
+  if (results && results.monthlySummary) {
+    for (const [m, cats] of Object.entries(results.monthlySummary)) {
+      displayData[m] = { ...cats };
+    }
   }
   for (const e of manualEntries) {
     if (!displayData[e.month]) displayData[e.month] = {};
@@ -4251,10 +4263,16 @@ function renderHistorical() {
   // Update overview cards, largest categories, and breakdown (uses historicalData)
   refreshHistoricalTab();
 
-  // Build display data = CSV totals + manual entries combined
+  // Build display data = CSV totals + current analysis overlay + manual entries combined
   const displayData = {};
   for (const [month, cats] of Object.entries(historicalData)) {
     displayData[month] = { ...cats };
+  }
+  // Overlay current analysis for its months — same fix as refreshDashboard/refreshHistoricalTab
+  if (results && results.monthlySummary) {
+    for (const [m, cats] of Object.entries(results.monthlySummary)) {
+      displayData[m] = { ...cats };
+    }
   }
   for (const e of manualEntries) {
     if (!displayData[e.month]) displayData[e.month] = {};
@@ -4783,6 +4801,20 @@ function showReassignSelect(btn, txnIdx, currentCat) {
   };
 }
 
+// Sync historicalData from results.monthlySummary for months in the current analysis
+// Called after reassign/delete/edit so that both Dashboard and Historical stay in sync
+function syncHistoricalFromResults() {
+  if (!results || !results.monthlySummary) return;
+  for (const [month, cats] of Object.entries(results.monthlySummary)) {
+    historicalData[month] = {};
+    for (const cat of CATEGORIES) historicalData[month][cat] = Math.round(cats[cat] || 0);
+  }
+  lsSet('budget_historical', JSON.stringify(historicalData));
+  saveAllStateToIDB();
+  scheduleSyncToSupabase();
+  renderHistorical();
+}
+
 function reassignTxn(txnIdx, newCat, oldCat) {
   if (txnIdx < 0 || txnIdx >= results.txns.length) return;
   const t = results.txns[txnIdx];
@@ -4790,6 +4822,7 @@ function reassignTxn(txnIdx, newCat, oldCat) {
   vendorLookup[t.vendor.toUpperCase()] = newCat;
   saveVendorLookup();
   results = computeSummary(results.txns);
+  syncHistoricalFromResults();
   saveLastAnalysis();
   refreshDashboard();
   // Close old drilldown, open new one
@@ -4820,6 +4853,7 @@ function deleteTxn(txnIdx, cat) {
 
   // Recompute and save
   results = computeSummary(results.txns);
+  syncHistoricalFromResults();
   saveLastAnalysis();
 
   // Refresh dashboard and re-render the open drill-down
@@ -4846,6 +4880,7 @@ function editTxnAmount(txnIdx, cat) {
 
   // Recompute and save
   results = computeSummary(results.txns);
+  syncHistoricalFromResults();
   saveLastAnalysis();
 
   refreshDashboard();
@@ -4871,6 +4906,7 @@ function editManualAmount(entryId, cat) {
   scheduleSyncToSupabase();
 
   refreshDashboard();
+  renderHistorical();
   renderManualEntriesTable();
   const panel = document.getElementById('drill-' + cat) || document.getElementById('hist-drill-' + cat);
   if (panel && panel.classList.contains('open')) {
