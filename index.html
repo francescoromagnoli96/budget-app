@@ -1406,8 +1406,8 @@
 
     /* Summary cards */
     .summary-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .card { padding: 14px; }
-    .card-value { font-size: 20px; }
+    .card { padding: 14px; min-width: 0; overflow: hidden; }
+    .card-value { font-size: 20px; overflow: hidden; text-overflow: ellipsis; }
     .card-label { font-size: 9px; }
 
     /* Breakdown table */
