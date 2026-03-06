@@ -4084,11 +4084,11 @@ function refreshDashboard() {
     const pct = ((latestSpend - prevSpend) / prevSpend * 100);
     const cls = pct > 5 ? 'trend-up' : pct < -5 ? 'trend-down' : 'trend-flat';
     const arrow = pct > 5 ? '▲' : pct < -5 ? '▼' : '→';
-    momBadge = `<span class="trend-badge ${cls}" style="font-size:10px">${arrow} ${Math.abs(pct).toFixed(0)}% vs ${fmtMonth(prevMonth)}</span>`;
+    momBadge = `<span class="trend-badge ${cls}" style="display:inline-block;font-size:11px;padding:4px 10px">${arrow} ${Math.abs(pct).toFixed(0)}% vs ${fmtMonth(prevMonth)}</span>`;
   }
 
   document.getElementById('summaryCards').innerHTML = `
-    <div class="glass-card card"><div class="card-label">Spent · ${fmtMonth(latestMonth)}</div><div class="card-value accent">${nok(latestSpend)}</div>${momBadge ? '<div style="margin-top:4px;margin-left:-8px">'+momBadge+'</div>' : ''}<div class="card-sub">${latestMonth ? fmtMonth(latestMonth) : ''}</div></div>
+    <div class="glass-card card"><div class="card-label">Spent · ${fmtMonth(latestMonth)}</div><div class="card-value accent">${nok(latestSpend)}</div>${momBadge ? '<div style="margin-top:6px">'+momBadge+'</div>' : ''}<div class="card-sub">${latestMonth ? fmtMonth(latestMonth) : ''}</div></div>
     <div class="glass-card card"><div class="card-label">Top Category</div><div class="card-value" style="font-size:20px;color:${CAT_COLORS[topCatThisMonth.c]}">${topCatThisMonth.c}</div><div class="card-sub">${nok(topCatThisMonth.v)} this month</div></div>
     <div class="glass-card card"><div class="card-label">Transactions</div><div class="card-value">${txns.filter(t => t.month === latestMonth).length + manualEntries.filter(e => e.month === latestMonth).length}</div><div class="card-sub">${fmtMonth(latestMonth)}</div></div>
   `;
