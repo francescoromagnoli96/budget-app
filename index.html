@@ -4084,7 +4084,7 @@ function refreshDashboard() {
     const pct = ((latestSpend - prevSpend) / prevSpend * 100);
     const cls = pct > 5 ? 'trend-up' : pct < -5 ? 'trend-down' : 'trend-flat';
     const arrow = pct > 5 ? '▲' : pct < -5 ? '▼' : '→';
-    momBadge = `<span class="trend-badge ${cls}" style="font-size:10px;margin-left:6px">${arrow} ${Math.abs(pct).toFixed(0)}% vs ${fmtMonth(prevMonth)}</span>`;
+    momBadge = `<span class="trend-badge ${cls}" style="font-size:10px">${arrow} ${Math.abs(pct).toFixed(0)}% vs ${fmtMonth(prevMonth)}</span>`;
   }
 
   document.getElementById('summaryCards').innerHTML = `
