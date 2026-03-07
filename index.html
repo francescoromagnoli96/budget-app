@@ -36,6 +36,7 @@
     --shop: #bf5af2;
     --bill: #ff9f0a;
     --unc:  #8a92b0;
+    --reimb: #34c759;
 
     --blur: blur(20px) saturate(180%);
   }
@@ -1485,6 +1486,349 @@
     .app { padding: 36px 20px 60px; }
     .summary-cards { grid-template-columns: 1fr 1fr 1fr; }
   }
+
+  /* ── Triage Screen ── */
+  .triage-section {
+    display: none;
+    animation: fadeUp 0.35s ease;
+  }
+  .triage-section.visible { display: block; }
+
+  .triage-header {
+    text-align: center;
+    padding: 28px 20px 20px;
+  }
+  .triage-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .triage-header p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .triage-group {
+    margin-bottom: 14px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .triage-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .triage-group-header:hover { background: rgba(200,210,230,0.1); }
+  .triage-group-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .triage-group-icon.excluded { background: var(--danger-light); }
+  .triage-group-icon.expense { background: var(--success-light); }
+  .triage-group-icon.invest { background: rgba(79,124,255,0.12); }
+  .triage-group-icon.vipps-out { background: rgba(255,159,10,0.12); }
+  .triage-group-icon.vipps-in { background: rgba(48,209,88,0.12); }
+  .triage-group-icon.transfer { background: rgba(138,146,176,0.15); }
+
+  .triage-group-info { flex: 1; min-width: 0; }
+  .triage-group-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .triage-group-count {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    background: rgba(138,146,176,0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .triage-group-subtitle {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  .triage-group-amount {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .triage-group-amount.negative { color: var(--success); }
+  .triage-group-chevron {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.25s;
+    margin-left: 4px;
+  }
+  .triage-group.expanded .triage-group-chevron { transform: rotate(90deg); }
+
+  .triage-group-body {
+    display: none;
+    border-top: 1px solid rgba(200,210,230,0.2);
+  }
+  .triage-group.expanded .triage-group-body { display: block; }
+
+  .triage-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 18px;
+    border-bottom: 1px solid rgba(200,210,230,0.12);
+    transition: background 0.12s;
+  }
+  .triage-item:last-child { border-bottom: none; }
+  .triage-item:hover { background: rgba(200,210,230,0.06); }
+  .triage-item.excluded-item { opacity: 0.5; }
+
+  .triage-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 2px solid rgba(138,146,176,0.3);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    font-size: 12px;
+    color: white;
+  }
+  .triage-check.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .triage-item-info { flex: 1; min-width: 0; }
+  .triage-item-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .triage-item-date {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    min-width: 50px;
+  }
+  .triage-item-arrow {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .triage-item-name {
+    font-weight: 500;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .triage-item-note {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+    padding-left: 72px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .triage-item-amount {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .triage-item-amount.reimburse { color: var(--success); }
+
+  .triage-cat-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    padding: 4px 8px;
+    border: 1px solid rgba(200,210,230,0.4);
+    border-radius: 8px;
+    background: white;
+    color: var(--text2);
+    cursor: pointer;
+    flex-shrink: 0;
+    max-width: 120px;
+  }
+
+  .triage-summary {
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 18px;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+  .triage-summary-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .triage-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--text2);
+  }
+  .triage-summary-row.total {
+    border-top: 1px solid rgba(200,210,230,0.3);
+    margin-top: 8px;
+    padding-top: 12px;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 15px;
+  }
+  .triage-summary-row.invest-row {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(200,210,230,0.15);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .triage-summary-val { font-weight: 600; }
+  .triage-summary-val.negative { color: var(--success); }
+
+  .triage-month-confirm {
+    margin-top: 16px;
+    margin-bottom: 14px;
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: var(--accent-light);
+    border: 1px solid rgba(79,124,255,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .triage-month-confirm select {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border: 1px solid rgba(79,124,255,0.3);
+    border-radius: 8px;
+    background: white;
+    color: var(--accent);
+  }
+
+  .triage-confirm-btn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 16px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(79,124,255,0.3);
+  }
+  .triage-confirm-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,124,255,0.4); }
+  .triage-confirm-btn:active { transform: translateY(0); }
+
+  .triage-cancel-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 24px;
+    background: none;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .triage-cancel-btn:hover { background: rgba(200,210,230,0.1); }
+
+  @media (max-width: 640px) {
+    .triage-item { gap: 8px; padding: 10px 14px; }
+    .triage-item-main { gap: 6px; }
+    .triage-item-note { padding-left: 66px; }
+    .triage-cat-select { max-width: 100px; }
+    .triage-group-header { padding: 12px 14px; }
+  }
+
+  /* Month delete dropdown */
+  .month-del-menu {
+    position: fixed;
+    background: var(--glass);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 6px;
+    z-index: 9999;
+    min-width: 200px;
+    animation: fadeIn 0.15s ease;
+  }
+  .month-del-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .month-del-menu button:hover {
+    background: rgba(200,210,230,0.15);
+  }
+  .month-del-menu button.danger { color: var(--danger); }
+  .month-del-menu button.danger:hover { background: var(--danger-light); }
+  .month-del-menu .menu-divider {
+    height: 1px;
+    background: var(--border2);
+    margin: 4px 8px;
+  }
 </style>
 </head>
 <body>
@@ -2035,6 +2379,19 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
   </div>
 
   <!-- Results -->
+  <!-- Triage screen for debit imports -->
+  <div class="triage-section" id="triageSection">
+    <div class="triage-header">
+      <h2>Debit Account Import</h2>
+      <p>Review and confirm which transactions to include in your spending analysis.</p>
+    </div>
+    <div id="triageMonthConfirm"></div>
+    <div id="triageGroups"></div>
+    <div id="triageSummary"></div>
+    <button class="triage-confirm-btn" onclick="confirmTriage()">Confirm &amp; Add to Analysis</button>
+    <button class="triage-cancel-btn" onclick="cancelTriage()">Cancel</button>
+  </div>
+
   <div class="results-section" id="resultsSection">
 
     <!-- Tab nav -->
@@ -2249,6 +2606,11 @@ async function loadFromSupabase() {
       if (data.last_analysis._historicalVendors && typeof data.last_analysis._historicalVendors === 'object') {
         historicalVendors = data.last_analysis._historicalVendors;
       }
+      // Extract piggybacked debit triage totals
+      if (data.last_analysis._debitTriageTotals && typeof data.last_analysis._debitTriageTotals === 'object') {
+        debitTriageTotals = data.last_analysis._debitTriageTotals;
+        lsSet('budget_debit_triage_totals', JSON.stringify(debitTriageTotals));
+      }
       try { lsSet('budget_last_analysis', JSON.stringify(data.last_analysis)); } catch(e) {}
     }
     if (data.monthly_income) lsSet('budget_income', data.monthly_income.toString());
@@ -2286,6 +2648,8 @@ async function syncToSupabase() {
   };
   // Historical vendors data
   lastAnalysis._historicalVendors = historicalVendors;
+  // Debit triage totals (tracks which months have debit card data)
+  lastAnalysis._debitTriageTotals = debitTriageTotals;
   try {
     const { error } = await client.from('user_data').upsert({
       user_id: user.id, vendor_lookup: vendorLookup, historical_data: historicalData,
@@ -2306,14 +2670,16 @@ function scheduleSyncToSupabase() {
 }
 
 // ── State ──────────────────────────────────────────────────────────────────
-const CATEGORIES = ["Entertainment","Groceries","Travel","Shopping","Bills","Uncategorized"];
+const CATEGORIES = ["Entertainment","Groceries","Travel","Shopping","Bills","Uncategorized","Reimbursements"];
 const CAT_COLORS = {
   Entertainment: "var(--ent)", Groceries: "var(--groc)", Travel: "var(--trav)",
   Shopping: "var(--shop)", Bills: "var(--bill)", Uncategorized: "var(--unc)",
+  Reimbursements: "var(--reimb)",
 };
 const CAT_HEX = {
   Entertainment: "FF6B9D", Groceries: "30D158", Travel: "4F7CFF",
   Shopping: "BF5AF2", Bills: "FF9F0A", Uncategorized: "8A92B0",
+  Reimbursements: "34C759",
 };
 
 let loadedFiles = {};
@@ -2419,6 +2785,7 @@ function saveAllStateToIDB() {
   _idbSave('goalContributions', goalContributions);
   _idbSave('investConfig', investConfig);
   _idbSave('savingsRateTarget', savingsRateTarget);
+  _idbSave('debitTriageTotals', debitTriageTotals);
 }
 async function loadAllStateFromIDB() {
   if (!isOfflineMode && getSyncUser()) return; // logged in: data comes from Supabase
@@ -2428,7 +2795,7 @@ async function loadAllStateFromIDB() {
     return;
   }
   try {
-    const [vl, hd, me, re, sg, gc, ic, srt, hv] = await Promise.all([
+    const [vl, hd, me, re, sg, gc, ic, srt, hv, dtt] = await Promise.all([
       _idbLoad('vendorLookup'),
       _idbLoad('historicalData'),
       _idbLoad('manualEntries'),
@@ -2438,6 +2805,7 @@ async function loadAllStateFromIDB() {
       _idbLoad('investConfig'),
       _idbLoad('savingsRateTarget'),
       _idbLoad('historicalVendors'),
+      _idbLoad('debitTriageTotals'),
     ]);
     if (vl && typeof vl === 'object') Object.assign(vendorLookup, vl);
     if (hd && typeof hd === 'object') {
@@ -2452,6 +2820,7 @@ async function loadAllStateFromIDB() {
     if (ic && typeof ic === 'object' && !investConfig) investConfig = ic;
     if (srt !== null && srt !== undefined && savingsRateTarget === null) savingsRateTarget = srt;
     if (hv && typeof hv === 'object' && Object.keys(historicalVendors).length === 0) historicalVendors = hv;
+    if (dtt && typeof dtt === 'object' && Object.keys(debitTriageTotals).length === 0) debitTriageTotals = dtt;
     console.log('[IDB] State loaded — vendors:', Object.keys(vendorLookup).length, 'months:', Object.keys(historicalData).length, 'goals:', savingsGoals.length);
   } catch(e) {
     console.warn('[IDB] loadAllState failed:', e);
@@ -2477,11 +2846,21 @@ function loadFile(file) {
   reader.onload = e => {
     try {
       let txns;
+      let isDebitFile = false;
+
       if (isExcel) {
-        // Try known XLSX format, then universal fallback
-        txns = parseXLSX(e.target.result);
-        if (txns.length === 0) {
-          txns = parseUniversalXLSX(e.target.result);
+        // Check if this is a DNB debit file by examining headers
+        isDebitFile = detectDNBDebitFile(e.target.result);
+
+        if (isDebitFile) {
+          // Use dedicated DNB parser for correct column mapping
+          txns = parseDNBDebitXLSX(e.target.result);
+        } else {
+          // Try known XLSX format, then universal fallback
+          txns = parseXLSX(e.target.result);
+          if (txns.length === 0) {
+            txns = parseUniversalXLSX(e.target.result);
+          }
         }
       } else {
         // Try known CSV format, then universal fallback
@@ -2492,8 +2871,11 @@ function loadFile(file) {
       }
       if (txns.length === 0) {
         alert('Could not detect transactions in ' + file.name + '. The file should contain columns with dates, descriptions, and amounts.');
+        return;
       }
-      loadedFiles[file.name] = { filename: file.name, transactions: txns };
+
+      // Store file with debit flag — triage happens when user clicks Analyze
+      loadedFiles[file.name] = { filename: file.name, transactions: txns, isDebit: isDebitFile };
       renderDropZone();
       updateAnalyzeBtn();
     } catch(err) {
@@ -2507,6 +2889,88 @@ function loadFile(file) {
     reader.readAsText(file, 'UTF-8');
   }
 }
+
+function detectDNBDebitFile(arrayBuffer) {
+  // Detect DNB debit XLSX by checking for split amount column headers
+  try {
+    const wb = XLSX.read(arrayBuffer, { type: 'array' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+    if (rows.length < 2) return false;
+    for (let i = 0; i < Math.min(5, rows.length); i++) {
+      const row = rows[i];
+      if (!row) continue;
+      const headers = row.map(h => String(h || '').toLowerCase().trim());
+      const hasUtFra = headers.some(h => h.includes('ut fra konto'));
+      const hasInnPå = headers.some(h => h.includes('inn på konto'));
+      if (hasUtFra && hasInnPå) return true;
+    }
+  } catch(e) { /* ignore */ }
+  return false;
+}
+
+function parseDNBDebitXLSX(arrayBuffer) {
+  // Dedicated parser for DNB debit card XLSX files
+  // Columns: A=Dato, B=Forklaring, C=Rentedato, D=Ut fra konto, E=Inn på konto
+  const wb = XLSX.read(arrayBuffer, { type: 'array', cellDates: true });
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+  // Find header row
+  let headerIdx = -1;
+  let dateCol = -1, descCol = -1, utCol = -1, innCol = -1;
+  for (let i = 0; i < Math.min(10, rows.length); i++) {
+    const row = rows[i];
+    if (!row) continue;
+    const cells = row.map(c => String(c || '').toLowerCase().trim());
+    const dIdx = cells.findIndex(c => c === 'dato');
+    const fIdx = cells.findIndex(c => c === 'forklaring');
+    const uIdx = cells.findIndex(c => c.includes('ut fra konto'));
+    const iIdx = cells.findIndex(c => c.includes('inn på konto'));
+    if (dIdx >= 0 && fIdx >= 0 && uIdx >= 0 && iIdx >= 0) {
+      headerIdx = i;
+      dateCol = dIdx; descCol = fIdx; utCol = uIdx; innCol = iIdx;
+      break;
+    }
+  }
+  if (headerIdx < 0) return [];
+
+  const txns = [];
+  for (let i = headerIdx + 1; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row || !row[dateCol]) continue;
+
+    const dateVal = row[dateCol];
+    let date;
+    if (dateVal instanceof Date) {
+      date = dateVal;
+    } else {
+      date = parseDate(String(dateVal));
+    }
+    if (!date) continue;
+
+    const desc = String(row[descCol] || '').trim();
+    if (!desc) continue;
+
+    const utVal = row[utCol]; // money out
+    const innVal = row[innCol]; // money in
+    const utNum = (utVal !== null && utVal !== undefined && String(utVal).trim() !== '') ? Number(utVal) : null;
+    const innNum = (innVal !== null && innVal !== undefined && String(innVal).trim() !== '') ? Number(innVal) : null;
+
+    if (utNum === null && innNum === null) continue;
+
+    const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+    if (utNum !== null && utNum > 0) {
+      // Money out = expense
+      txns.push({ date, month, vendor: desc, amount: utNum, category: null, isRefund: false });
+    } else if (innNum !== null && innNum > 0) {
+      // Money in = refund/reimbursement
+      txns.push({ date, month, vendor: desc, amount: innNum, category: null, isRefund: true });
+    }
+  }
+  return txns;
+}
 function removeFile(filename) {
   delete loadedFiles[filename];
   renderDropZone();
@@ -2518,12 +2982,13 @@ function renderDropZone() {
   const files = Object.values(loadedFiles);
   if (files.length > 0) {
     zone.classList.add('has-files');
-    filesDiv.innerHTML = files.map(f =>
-      `<div class="file-chip">
-        <span>📄 ${f.filename} <span style="color:var(--muted)">(${f.transactions.length} txns)</span></span>
+    filesDiv.innerHTML = files.map(f => {
+      const typeLabel = f.isDebit ? '<span style="color:var(--accent);font-size:10px;font-weight:600;background:var(--accent-light);padding:1px 6px;border-radius:6px;margin-left:4px">DEBIT</span>' : '';
+      return `<div class="file-chip">
+        <span>📄 ${f.filename}${typeLabel} <span style="color:var(--muted)">(${f.transactions.length} txns)</span></span>
         <button onclick="event.stopPropagation(); removeFile('${f.filename.replace(/'/g,"\\'")}')">✕</button>
-      </div>`
-    ).join('');
+      </div>`;
+    }).join('');
   } else {
     zone.classList.remove('has-files');
     filesDiv.innerHTML = '';
@@ -2532,7 +2997,9 @@ function renderDropZone() {
 function updateAnalyzeBtn() {
   const hasFiles = Object.keys(loadedFiles).length > 0;
   const hasKey = document.getElementById('apiKey').value.trim().length > 10;
-  document.getElementById('analyzeBtn').disabled = !(hasFiles && hasKey);
+  // Debit-only imports don't need an API key (triage is local classification)
+  const allDebit = hasFiles && Object.values(loadedFiles).every(s => s.isDebit);
+  document.getElementById('analyzeBtn').disabled = !(hasFiles && (hasKey || allDebit));
 }
 document.getElementById('apiKey').addEventListener('input', updateAnalyzeBtn);
 
@@ -2578,6 +3045,7 @@ async function initApp() {
   try { historicalVendors = JSON.parse(lsGet('budget_historical_vendors') || '{}'); } catch(e) { historicalVendors = {}; }
   try { manualEntries = JSON.parse(lsGet('budget_manual') || '[]'); } catch(e) { manualEntries = []; }
   try { recurringEntries = JSON.parse(lsGet('budget_recurring') || '[]'); } catch(e) { recurringEntries = []; }
+  try { debitTriageTotals = JSON.parse(lsGet('budget_debit_triage_totals') || '{}'); } catch(e) { debitTriageTotals = {}; }
   loadVendorLookup();
   loadGoalsState();
 
@@ -3467,6 +3935,641 @@ function parseUniversalXLSX(arrayBuffer) {
   return [];
 }
 
+// ── Debit Triage ─────────────────────────────────────────────────────────────
+let triageData = null; // holds classified debit transactions during triage
+let debitTriageTotals = {}; // { 'YYYY-MM': { cat: amount } } — persists triage additions across computeSummary calls
+
+const TRIAGE_CREDIT_CARD_GIRO_KEYWORDS = ['morrow bank', 'norgesgruppen', 'trumf'];
+
+function parseDNBDescription(desc) {
+  // Extract clean vendor/person name and note from DNB description
+  const raw = desc.trim();
+  const lower = raw.toLowerCase();
+
+  // Vipps via Visa: "Visa  100031  Vipps:vipps:sebastian Joa"
+  const vippsVisaMatch = raw.match(/Visa\s+\d+\s+Vipps:vipps:(.+)/i);
+  if (vippsVisaMatch) {
+    const name = vippsVisaMatch[1].trim().replace(/\s+/g, ' ');
+    return { name: _titleCase(name), note: '' };
+  }
+
+  // Vipps via Visa purchase: "Visa  100021  Vipps:tise"
+  const vippsPurchaseMatch = raw.match(/Visa\s+\d+\s+Vipps:(\S+)/i);
+  if (vippsPurchaseMatch) {
+    return { name: _titleCase(vippsPurchaseMatch[1]), note: '' };
+  }
+
+  // Visa purchase: "Visa  100021  Dinter:morgenlevering.no" or "Visa  100022  Nok 850,00 Revolut::5415:"
+  const visaMatch = raw.match(/Visa\s+\d+\s+(.+)/i);
+  if (visaMatch) {
+    let vendor = visaMatch[1].trim();
+    // "Nok 850,00 Revolut::5415:" → "Revolut"
+    const nokMatch = vendor.match(/Nok\s+[\d,.]+\s+(.+)/i);
+    if (nokMatch) {
+      vendor = nokMatch[1];
+      // For Nok-prefixed entries, extract just the first word (vendor name) before :: or : or digits
+      vendor = vendor.replace(/[:]+\d*[:]*\s*$/, '').replace(/\s+\d+.*$/, '').trim();
+    } else {
+      // "Dinter:morgenlevering.no" → "Morgenlevering.no"
+      const colonMatch = vendor.match(/^\w+:(.+)/);
+      if (colonMatch) vendor = colonMatch[1];
+      // Clean trailing colons, numbers, spaces
+      vendor = vendor.replace(/[:]+$/, '').replace(/\s*\d+\s*$/, '').trim();
+    }
+    return { name: _titleCase(vendor) || vendor, note: '' };
+  }
+
+  // Overføring with Vipps (person transfer): extract name and note
+  // "Overføring Innland  850 Ida Linnea Løkke Betaling Tpp: Vipps Mobilepay AS"
+  // "Overføring  4468894558 Erica Liv Peterson Cabin Trip Tpp: Vipps Mobilepay AS"
+  if (lower.includes('vipps') && (lower.startsWith('overføring') || lower.startsWith('overf'))) {
+    let cleaned = raw
+      .replace(/Tpp:\s*Vipps\s*Mobilepay\s*AS/i, '')
+      .replace(/Tpp:\s*Vipps/i, '')
+      .replace(/^Overføring\s+Innland\s*/i, '')
+      .replace(/^Overføring\s*/i, '')
+      .replace(/^\d+\s*/, '')  // remove reference number
+      .trim();
+    // Try to separate name from note: names are typically capitalized words, note follows
+    const parts = cleaned.split(/\s+/);
+    let nameParts = [];
+    let noteParts = [];
+    let nameEnded = false;
+    for (let i = 0; i < parts.length; i++) {
+      const w = parts[i];
+      if (!nameEnded && /^[A-ZÆØÅ]/.test(w) && nameParts.length < 5) {
+        nameParts.push(w);
+      } else {
+        nameEnded = true;
+        noteParts.push(w);
+      }
+    }
+    // If we got no note but have long "name", try splitting differently
+    const name = nameParts.join(' ').trim() || cleaned;
+    const note = noteParts.join(' ').trim()
+      .replace(/Mobil\s*Betaling/i, '').replace(/Betaling/i, '').trim();
+    return { name, note };
+  }
+
+  // Overføring Innland without Vipps: "Overføring Innland  1605 Ida Linnéa Løkke Wds"
+  if (lower.startsWith('overføring innland') || lower.startsWith('overføring')) {
+    let cleaned = raw
+      .replace(/^Overføring\s+Innland\s*/i, '')
+      .replace(/^Overføring\s*/i, '')
+      .replace(/^\d+\s*/, '')
+      .trim();
+    const parts = cleaned.split(/\s+/);
+    let nameParts = [];
+    let noteParts = [];
+    let nameEnded = false;
+    for (let i = 0; i < parts.length; i++) {
+      const w = parts[i];
+      if (!nameEnded && /^[A-ZÆØÅ]/.test(w) && nameParts.length < 5) {
+        nameParts.push(w);
+      } else {
+        nameEnded = true;
+        noteParts.push(w);
+      }
+    }
+    const name = nameParts.join(' ').trim() || cleaned;
+    const note = noteParts.join(' ').trim()
+      .replace(/Mobil\s*Betaling/i, '').replace(/Betaling/i, '').trim();
+    return { name, note };
+  }
+
+  // Giro: "Giro  841 If Skadeforsikring Nuf Efaktura"
+  if (lower.startsWith('giro')) {
+    let cleaned = raw.replace(/^Giro\s*/i, '').replace(/^\d+\s*/, '').replace(/\s*Efaktura\s*/i, '').replace(/\s*Mobil\s*Betaling\s*/i, '').trim();
+    return { name: cleaned, note: '' };
+  }
+
+  // Autogiro: "Autogiro  Klp Aksjeverden Indeks"
+  if (lower.startsWith('autogiro')) {
+    let cleaned = raw.replace(/^Autogiro\s*/i, '').trim();
+    return { name: cleaned, note: 'Investment' };
+  }
+
+  // Lønn: "Lønn  237976296 Equatex Norway AS"
+  if (lower.startsWith('lønn')) {
+    let cleaned = raw.replace(/^Lønn\s*/i, '').replace(/^\d+\s*/, '').trim();
+    return { name: cleaned, note: 'Salary' };
+  }
+
+  // Kontoregulering: "Kontoregulering  28559216314 Francesco Romagnoli Reningssparing..."
+  if (lower.includes('kontoregulering')) {
+    return { name: 'Internal Transfer', note: raw.substring(0, 60) };
+  }
+
+  // Morsom Sparing
+  if (lower.includes('morsom sparing')) {
+    return { name: 'Morsom Sparing', note: 'Auto-savings' };
+  }
+
+  return { name: raw.substring(0, 50), note: '' };
+}
+
+function _titleCase(s) {
+  if (!s) return s;
+  return s.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+}
+
+function classifyDebitTransactions(rawTxns) {
+  // Takes raw parsed transactions (from the universal parser with split columns)
+  // Returns classified groups for the triage UI
+  const groups = {
+    excluded: [],    // Group 1: auto-excluded
+    expenses: [],    // Group 2: real expenses
+    investments: [], // Group 3: investments
+    vippsOut: [],    // Group 4: Vipps sent
+    moneyIn: [],     // Group 5: all money received (Vipps, refunds, transfers)
+    transferOut: [], // Group 6: other transfers out
+  };
+
+  for (const t of rawTxns) {
+    const desc = (t.vendor || '').trim();
+    const lower = desc.toLowerCase();
+    const isOut = t.amount > 0 && !t.isRefund; // positive amount = expense in our system
+    const isIn = t.isRefund || t.amount < 0;    // refund/negative = money in
+    const amount = Math.abs(t.amount);
+    const parsed = parseDNBDescription(desc);
+
+    const item = {
+      date: t.date,
+      month: t.month,
+      rawDesc: desc,
+      name: parsed.name,
+      note: parsed.note,
+      amount,
+      isOut,
+      checked: false, // default unchecked
+      category: 'Uncategorized',
+      original: t
+    };
+
+    // Salary
+    if (lower.startsWith('lønn')) {
+      item.excludeReason = 'Salary';
+      groups.excluded.push(item);
+      continue;
+    }
+
+    // Kontoregulering (internal)
+    if (lower.includes('kontoregulering')) {
+      item.excludeReason = 'Internal transfer';
+      groups.excluded.push(item);
+      continue;
+    }
+
+    // Morsom Sparing (auto-savings)
+    if (lower.includes('morsom sparing')) {
+      item.excludeReason = 'Auto-savings';
+      groups.excluded.push(item);
+      continue;
+    }
+
+    // Rent payments (entered manually, auto-exclude to avoid double-counting)
+    // Detect by: description contains "rent" or payment to known landlord
+    if (lower.includes('rent ') || lower.includes('henrik moestue bang')) {
+      item.excludeReason = 'Rent (entered manually)';
+      groups.excluded.push(item);
+      continue;
+    }
+
+    // Giro — check if it's a credit card bill payment
+    if (lower.startsWith('giro')) {
+      const isCreditCardBill = TRIAGE_CREDIT_CARD_GIRO_KEYWORDS.some(kw => lower.includes(kw));
+      if (isCreditCardBill) {
+        item.excludeReason = 'Credit card bill (already tracked)';
+        groups.excluded.push(item);
+        continue;
+      }
+      // Real bill — auto-include as expense
+      item.checked = true;
+      // Try to auto-categorize
+      const builtIn = builtInCategorize(parsed.name);
+      if (builtIn) item.category = builtIn;
+      else item.category = 'Bills';
+      groups.expenses.push(item);
+      continue;
+    }
+
+    // Autogiro — investments (separate group)
+    if (lower.startsWith('autogiro')) {
+      item.checked = false; // NOT included in spending by default
+      item.category = 'Investment';
+      groups.investments.push(item);
+      continue;
+    }
+
+    // Vipps detection
+    const isVipps = lower.includes('vipps') || lower.includes('tpp: vipps');
+
+    if (isVipps) {
+      if (isOut) {
+        item.checked = true;
+        // Try built-in categorize on the clean name
+        const builtIn = builtInCategorize(parsed.name);
+        if (builtIn) item.category = builtIn;
+        groups.vippsOut.push(item);
+      } else {
+        item.checked = true; // reimbursements checked by default
+        groups.moneyIn.push(item);
+      }
+      continue;
+    }
+
+    // Visa purchases (non-Vipps)
+    if (lower.startsWith('visa')) {
+      if (isOut) {
+        item.checked = true;
+        const builtIn = builtInCategorize(parsed.name);
+        if (builtIn) item.category = builtIn;
+        groups.expenses.push(item);
+      } else {
+        item.checked = true; // Visa refund = reimbursement
+        groups.moneyIn.push(item);
+      }
+      continue;
+    }
+
+    // Other transfers
+    if (lower.startsWith('overføring')) {
+      if (isOut) {
+        item.checked = false; // user decides
+        groups.transferOut.push(item);
+      } else {
+        item.checked = true; // default to reimbursement
+        groups.moneyIn.push(item);
+      }
+      continue;
+    }
+
+    // Fallback: unknown transaction type
+    if (isOut) {
+      item.checked = true;
+      groups.expenses.push(item);
+    } else {
+      item.checked = false;
+      groups.moneyIn.push(item);
+    }
+  }
+
+  return groups;
+}
+
+function detectTriageMonth(groups) {
+  // Infer month from all transaction dates
+  const monthCounts = {};
+  const allItems = [
+    ...groups.excluded, ...groups.expenses, ...groups.investments,
+    ...groups.vippsOut, ...groups.moneyIn, ...groups.transferOut
+  ];
+  for (const item of allItems) {
+    if (item.month) {
+      monthCounts[item.month] = (monthCounts[item.month] || 0) + 1;
+    }
+  }
+  const sorted = Object.entries(monthCounts).sort((a, b) => b[1] - a[1]);
+  return sorted.length > 0 ? sorted[0][0] : null;
+}
+
+function renderTriageScreen(groups) {
+  triageData = groups;
+  const section = document.getElementById('triageSection');
+  section.classList.add('visible');
+  document.getElementById('resultsSection').classList.remove('visible');
+
+  // Month confirmation
+  const detectedMonth = detectTriageMonth(groups);
+  const monthConfirmDiv = document.getElementById('triageMonthConfirm');
+  if (detectedMonth) {
+    // Build month options (detected month ± 2 months)
+    const [y, m] = detectedMonth.split('-').map(Number);
+    const options = [];
+    for (let offset = -2; offset <= 2; offset++) {
+      let nm = m + offset, ny = y;
+      if (nm < 1) { nm += 12; ny--; }
+      if (nm > 12) { nm -= 12; ny++; }
+      const val = `${ny}-${String(nm).padStart(2,'0')}`;
+      options.push(`<option value="${val}" ${val === detectedMonth ? 'selected' : ''}>${fmtMonth(val)}</option>`);
+    }
+    monthConfirmDiv.innerHTML = `
+      <div class="triage-month-confirm">
+        <span>📅 These transactions are from</span>
+        <select id="triageMonthSelect" onchange="updateTriageSummary()">${options.join('')}</select>
+      </div>`;
+  } else {
+    monthConfirmDiv.innerHTML = '';
+  }
+
+  // Render groups
+  const groupsDiv = document.getElementById('triageGroups');
+  groupsDiv.innerHTML = '';
+
+  const groupDefs = [
+    { key: 'excluded', icon: '🔴', iconClass: 'excluded', title: 'Auto-Excluded', subtitle: 'Salary, internal transfers, credit card bills', expanded: false, showCheck: false },
+    { key: 'expenses', icon: '🟢', iconClass: 'expense', title: 'Expenses', subtitle: 'Visa purchases and direct bills', expanded: true, showCheck: true, showCategory: true },
+    { key: 'investments', icon: '📈', iconClass: 'invest', title: 'Investments', subtitle: 'Tracked in Goals tab, not counted as spending', expanded: true, showCheck: true },
+    { key: 'vippsOut', icon: '🟡', iconClass: 'vipps-out', title: 'Vipps Sent', subtitle: 'Expenses paid to people', expanded: true, showCheck: true, showCategory: true },
+    { key: 'moneyIn', icon: '🔵', iconClass: 'vipps-in', title: 'Money Received', subtitle: 'Reimbursements — reduce your spending total', expanded: true, showCheck: true, isReimburse: true },
+    { key: 'transferOut', icon: '⚪', iconClass: 'transfer', title: 'Other Transfers Out', subtitle: 'Review — include as expenses?', expanded: true, showCheck: true, showCategory: true },
+  ];
+
+  for (const gDef of groupDefs) {
+    const items = groups[gDef.key];
+    if (!items || items.length === 0) continue;
+
+    const totalAmt = items.reduce((s, it) => s + it.amount, 0);
+    const groupId = `triage-group-${gDef.key}`;
+
+    let itemsHtml = '';
+    items.forEach((item, idx) => {
+      const dateStr = item.date ? new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
+      const arrow = item.isOut ? '→' : '←';
+      const checkHtml = gDef.showCheck
+        ? `<div class="triage-check ${item.checked ? 'checked' : ''}" onclick="toggleTriageItem('${gDef.key}', ${idx})" data-group="${gDef.key}" data-idx="${idx}">${item.checked ? '✓' : ''}</div>`
+        : '';
+      const amtClass = gDef.isReimburse ? ' reimburse' : '';
+      const amtPrefix = gDef.isReimburse ? '-' : '';
+
+      let catHtml = '';
+      if (gDef.showCategory) {
+        const cats = ['Uncategorized', 'Entertainment', 'Groceries', 'Travel', 'Shopping', 'Bills'];
+        catHtml = `<select class="triage-cat-select" onchange="setTriageCategory('${gDef.key}', ${idx}, this.value)" data-group="${gDef.key}" data-idx="${idx}">
+          ${cats.map(c => `<option value="${c}" ${item.category === c ? 'selected' : ''}>${c}</option>`).join('')}
+        </select>`;
+      }
+
+      const excludeNote = gDef.key === 'excluded' ? `<span style="font-size:11px;color:var(--muted);margin-left:6px">${item.excludeReason || ''}</span>` : '';
+
+      itemsHtml += `
+        <div class="triage-item ${!gDef.showCheck ? 'excluded-item' : ''}">
+          ${checkHtml}
+          <div class="triage-item-info">
+            <div class="triage-item-main">
+              <span class="triage-item-date">${dateStr}</span>
+              <span class="triage-item-arrow">${arrow}</span>
+              <span class="triage-item-name">${item.name}${excludeNote}</span>
+            </div>
+            ${item.note ? `<div class="triage-item-note">${item.note}</div>` : ''}
+          </div>
+          <div class="triage-item-amount${amtClass}">${amtPrefix}${nok(item.amount)}</div>
+          ${catHtml}
+        </div>`;
+    });
+
+    const amtDisplay = gDef.isReimburse ? `-${nok(totalAmt)}` : nok(totalAmt);
+    const amtClass = gDef.isReimburse ? ' negative' : '';
+
+    groupsDiv.innerHTML += `
+      <div class="triage-group ${gDef.expanded ? 'expanded' : ''}" id="${groupId}">
+        <div class="triage-group-header" onclick="toggleTriageGroup('${groupId}')">
+          <div class="triage-group-icon ${gDef.iconClass}">${gDef.icon}</div>
+          <div class="triage-group-info">
+            <div class="triage-group-title">
+              ${gDef.title}
+              <span class="triage-group-count">${items.length}</span>
+            </div>
+            <div class="triage-group-subtitle">${gDef.subtitle}</div>
+          </div>
+          <div class="triage-group-amount${amtClass}">${amtDisplay}</div>
+          <div class="triage-group-chevron">›</div>
+        </div>
+        <div class="triage-group-body">${itemsHtml}</div>
+      </div>`;
+  }
+
+  updateTriageSummary();
+}
+
+function toggleTriageGroup(groupId) {
+  document.getElementById(groupId).classList.toggle('expanded');
+}
+
+function toggleTriageItem(groupKey, idx) {
+  const item = triageData[groupKey][idx];
+  item.checked = !item.checked;
+  // Update checkbox UI
+  const checks = document.querySelectorAll(`.triage-check[data-group="${groupKey}"][data-idx="${idx}"]`);
+  checks.forEach(el => {
+    el.classList.toggle('checked', item.checked);
+    el.textContent = item.checked ? '✓' : '';
+  });
+  updateTriageSummary();
+}
+
+function setTriageCategory(groupKey, idx, value) {
+  triageData[groupKey][idx].category = value;
+}
+
+function updateTriageSummary() {
+  if (!triageData) return;
+  const summaryDiv = document.getElementById('triageSummary');
+
+  const expenseTotal = triageData.expenses.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
+  const vippsOutTotal = triageData.vippsOut.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
+  const transferOutTotal = triageData.transferOut.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
+  const moneyInTotal = triageData.moneyIn.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
+  const investTotal = triageData.investments.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
+
+  const netTotal = expenseTotal + vippsOutTotal + transferOutTotal - moneyInTotal;
+
+  summaryDiv.innerHTML = `
+    <div class="triage-summary">
+      <div class="triage-summary-title">Summary</div>
+      <div class="triage-summary-row"><span>Expenses</span><span class="triage-summary-val">${nok(expenseTotal)}</span></div>
+      <div class="triage-summary-row"><span>Vipps sent</span><span class="triage-summary-val">${nok(vippsOutTotal)}</span></div>
+      ${transferOutTotal > 0 ? `<div class="triage-summary-row"><span>Other transfers</span><span class="triage-summary-val">${nok(transferOutTotal)}</span></div>` : ''}
+      <div class="triage-summary-row"><span>Reimbursements</span><span class="triage-summary-val negative">-${nok(moneyInTotal)}</span></div>
+      <div class="triage-summary-row total"><span>Net debit total</span><span class="triage-summary-val">${nok(netTotal)}</span></div>
+      ${triageData.investments.length > 0 ? `<div class="triage-summary-row invest-row"><span>📈 Investments${investTotal > 0 ? ' (→ Goals tracker)' : ' (unchecked)'}</span><span class="triage-summary-val">${nok(investTotal)}</span></div>` : ''}
+    </div>`;
+}
+
+function confirmTriage() {
+  if (!triageData) return;
+
+  const monthSelect = document.getElementById('triageMonthSelect');
+  const targetMonth = monthSelect ? monthSelect.value : detectTriageMonth(triageData);
+  if (!targetMonth) { alert('Could not determine the month for these transactions.'); return; }
+
+  // Collect confirmed expense transactions
+  const confirmedExpenses = [];
+  const addChecked = (items) => {
+    for (const item of items) {
+      if (!item.checked) continue;
+      confirmedExpenses.push({
+        date: item.date,
+        month: targetMonth,
+        vendor: item.rawDesc,
+        vendorName: item.name,
+        amount: item.amount,
+        category: item.category || 'Uncategorized',
+        isRefund: false,
+        source: 'debit-dnb'
+      });
+    }
+  };
+  addChecked(triageData.expenses);
+  addChecked(triageData.vippsOut);
+  addChecked(triageData.transferOut);
+
+  // Investments are NOT added to confirmedExpenses — they're not spending.
+  // They go to budget_debit_investments (below) for the Goals tab only.
+
+  // ── Inject debit transactions into results.txns ──
+  // This ensures they appear in category drilldowns and are naturally included
+  // when computeSummary rebuilds monthlySummary, fixing the spending total.
+
+  // Calculate reimbursement total (must be before we reference it below)
+  const reimbursementTotal =
+    triageData.moneyIn.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
+
+  if (results && results.txns) {
+    for (const t of confirmedExpenses) {
+      results.txns.push({
+        date: t.date ? new Date(t.date) : null,
+        month: t.month,
+        vendor: t.vendorName || t.vendor,
+        amount: t.amount,
+        category: t.category,
+        isRefund: false,
+        source: 'debit-dnb'
+      });
+    }
+    // Add reimbursement as a synthetic refund transaction
+    if (reimbursementTotal > 0) {
+      results.txns.push({
+        date: null,
+        month: targetMonth,
+        vendor: 'Debit Reimbursements',
+        amount: -reimbursementTotal,
+        category: 'Reimbursements',
+        isRefund: true,
+        source: 'debit-dnb'
+      });
+    }
+  }
+
+  // Add confirmed debit transactions to historicalData
+  const catTotals = {};
+  for (const t of confirmedExpenses) {
+    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  }
+
+  // Store reimbursements as a negative value in their own category
+  if (reimbursementTotal > 0) {
+    catTotals['Reimbursements'] = (catTotals['Reimbursements'] || 0) - reimbursementTotal;
+  }
+
+  // Merge into historical
+  if (!historicalData[targetMonth]) {
+    historicalData[targetMonth] = {};
+    for (const cat of CATEGORIES) historicalData[targetMonth][cat] = 0;
+  }
+  for (const [cat, amt] of Object.entries(catTotals)) {
+    if (!historicalData[targetMonth][cat]) historicalData[targetMonth][cat] = 0;
+    historicalData[targetMonth][cat] += Math.round(amt);
+  }
+
+  // Merge vendor data
+  for (const t of confirmedExpenses) {
+    const cleanName = t.vendorName || getCleanVendorGroupName(t.vendor);
+    const key = cleanName.toUpperCase();
+    if (!historicalVendors[key]) historicalVendors[key] = { name: cleanName, cat: t.category, total: 0, count: 0, months: {} };
+    if (!historicalVendors[key].months) historicalVendors[key].months = {};
+    if (!historicalVendors[key].months[targetMonth]) historicalVendors[key].months[targetMonth] = { total: 0, count: 0 };
+    historicalVendors[key].total += t.amount;
+    historicalVendors[key].count++;
+    historicalVendors[key].months[targetMonth].total += t.amount;
+    historicalVendors[key].months[targetMonth].count++;
+    historicalVendors[key].cat = t.category;
+  }
+
+  // Store investment data for future Goals tab integration
+  const investmentItems = triageData.investments.map(i => ({
+    date: i.date,
+    month: targetMonth,
+    name: i.name,
+    amount: i.amount,
+    checked: i.checked
+  }));
+  // Save to localStorage for now (Goals tab can read this later)
+  const savedInvestments = JSON.parse(lsGet('budget_debit_investments') || '[]');
+  savedInvestments.push(...investmentItems);
+  lsSet('budget_debit_investments', JSON.stringify(savedInvestments));
+
+  // Save reimbursement data
+  const savedReimbursements = JSON.parse(lsGet('budget_debit_reimbursements') || '{}');
+  if (!savedReimbursements[targetMonth]) savedReimbursements[targetMonth] = 0;
+  savedReimbursements[targetMonth] += reimbursementTotal;
+  lsSet('budget_debit_reimbursements', JSON.stringify(savedReimbursements));
+
+  // ── Merge triage data into results.monthlySummary (if it exists) ──
+  // The display functions (refreshHistoricalTab, renderHistorical, refreshDashboard)
+  // overlay results.monthlySummary on top of historicalData for months that overlap.
+  // If we only write to historicalData, the display overlay hides the triage additions.
+  // So we must also add the triage totals into results.monthlySummary for consistency.
+  //
+  // We also store debitTriageTotals separately so they survive computeSummary() calls
+  // (which rebuild monthlySummary from txns only, wiping any triage additions).
+  if (!debitTriageTotals[targetMonth]) debitTriageTotals[targetMonth] = {};
+  for (const [cat, amt] of Object.entries(catTotals)) {
+    debitTriageTotals[targetMonth][cat] = (debitTriageTotals[targetMonth][cat] || 0) + Math.round(amt);
+  }
+  lsSet('budget_debit_triage_totals', JSON.stringify(debitTriageTotals));
+
+  if (results && results.txns) {
+    // Re-compute results to pick up the new debitTriageTotals
+    results = computeSummary(results.txns);
+  }
+
+  // Save everything — persist historicalData and vendors directly
+  // (saveLastAnalysis requires results which may be null for debit-only imports)
+  saveVendorLookup();
+  lsSet('budget_historical', JSON.stringify(historicalData));
+  lsSet('budget_historical_vendors', JSON.stringify(historicalVendors));
+  saveAllStateToIDB();
+  scheduleSyncToSupabase();
+  // Also save last_analysis if results exist (credit card data was previously analyzed)
+  if (results) {
+    saveLastAnalysis();
+  }
+
+  // Show confirmation
+  const expCount = confirmedExpenses.length;
+  showToast(`✓ ${expCount} debit transaction${expCount !== 1 ? 's' : ''} added to ${fmtMonth(targetMonth)}`);
+
+  // Close triage and show results
+  document.getElementById('triageSection').classList.remove('visible');
+  triageData = null;
+
+  // Re-render all tabs
+  renderHistorical();
+  if (results) {
+    renderResults(results);
+    refreshDashboard();
+  }
+  document.getElementById('resultsSection').classList.add('visible');
+  switchTab('historical');
+
+  // Clear uploaded files
+  loadedFiles = {};
+  renderDropZone();
+  updateAnalyzeBtn();
+}
+
+function cancelTriage() {
+  document.getElementById('triageSection').classList.remove('visible');
+  document.getElementById('progressSection').classList.remove('visible');
+  document.getElementById('resultsSection').classList.add('visible');
+  document.getElementById('analyzeBtn').disabled = false;
+  triageData = null;
+  loadedFiles = {};
+  renderDropZone();
+  updateAnalyzeBtn();
+}
+
 // ── Analysis ──────────────────────────────────────────────────────────────────
 function log(msg, type='info') {
   const div = document.getElementById('progressLog');
@@ -3480,10 +4583,33 @@ function setProgress(pct, label) {
 }
 
 async function analyze() {
-  const apiKey = document.getElementById('apiKey').value.trim();
-  if (!apiKey) return alert('Please enter your Anthropic API key.');
   const loadedSlots = Object.values(loadedFiles);
   if (!loadedSlots.length) return;
+
+  // Check if any loaded files are debit files — branch to triage
+  const debitSlots = loadedSlots.filter(s => s.isDebit);
+  const creditSlots = loadedSlots.filter(s => !s.isDebit);
+
+  if (debitSlots.length > 0) {
+    // Combine all debit transactions and open triage screen
+    const allDebitTxns = debitSlots.flatMap(s => s.transactions);
+    const groups = classifyDebitTransactions(allDebitTxns);
+    renderTriageScreen(groups);
+
+    // If there are also credit card files, keep them for later analysis
+    // (user can click Analyze again after triage to process credit files)
+    if (creditSlots.length > 0) {
+      loadedFiles = {};
+      for (const s of creditSlots) loadedFiles[s.filename] = s;
+      renderDropZone();
+      updateAnalyzeBtn();
+    }
+    return;
+  }
+
+  // Credit card analysis requires API key
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) return alert('Please enter your Anthropic API key.');
 
   document.getElementById('progressSection').classList.add('visible');
   document.getElementById('resultsSection').classList.remove('visible');
@@ -3963,6 +5089,21 @@ function computeSummary(txns) {
     // Refunds have negative amounts — they reduce the category total
     monthly[t.month][t.category] += t.amount;
   }
+  // Merge stored debit triage totals so they survive rebuild.
+  // BUT skip months where debit txns are already in the txns array (to avoid double-counting).
+  const monthsWithDebitTxns = new Set(txns.filter(t => t.source === 'debit-dnb').map(t => t.month));
+  for (const [month, cats] of Object.entries(debitTriageTotals)) {
+    if (monthsWithDebitTxns.has(month)) continue; // already counted from txns
+    if (!monthly[month]) {
+      monthly[month] = {};
+      for (const cat of CATEGORIES) monthly[month][cat] = historicalData[month]?.[cat] || 0;
+    } else {
+      for (const [cat, amt] of Object.entries(cats)) {
+        if (!monthly[month][cat]) monthly[month][cat] = 0;
+        monthly[month][cat] += amt;
+      }
+    }
+  }
   const months = Object.keys(monthly).sort();
   const uncategorized = txns.filter(t => t.category === 'Uncategorized' && !t.isRefund);
   return { monthlySummary: monthly, months, txns, uncategorized };
@@ -4230,8 +5371,8 @@ function refreshHistoricalTab() {
     }
     rows += `<div class="breakdown-row" style="${gridStyle}" onclick="toggleDrilldown('${cat}', this, 'hist-')" id="hist-brow-${cat}">
       <div class="cat-name"><span class="cat-dot" style="background:${CAT_COLORS[cat]}"></span>${cat}</div>
-      ${vals.map(v => `<div class="month-val">${v > 0 ? nok(v) : '—'}</div>`).join('')}
-      <div class="total-val">${nok(total)}</div>
+      ${vals.map(v => `<div class="month-val"${v < 0 ? ' style="color:var(--reimb)"' : ''}>${v !== 0 ? nok(v) : '—'}</div>`).join('')}
+      <div class="total-val"${total < 0 ? ' style="color:var(--reimb)"' : ''}>${nok(total)}</div>
       ${trend || '<div></div>'}
     </div>`;
     histDrillPanels += `<div class="drilldown-panel" id="hist-drill-${cat}"></div>`;
@@ -4246,10 +5387,13 @@ function refreshHistoricalTab() {
   document.getElementById('histDrilldownContainer').innerHTML = histDrillPanels;
 
   // All-time bar chart
-  const catTotals = dataCats.map(c => ({ c, v: allMonths.reduce((s, m) => s + (displayData[m]?.[c] || 0), 0) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
-  const maxVal = Math.max(...catTotals.map(x => x.v), 1);
-  document.getElementById('barsChart').innerHTML = catTotals.map(({ c, v }) => `
-    <div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${(v / maxVal * 100).toFixed(1)}%;background:${CAT_COLORS[c]}"><span>${nok(v)}</span></div></div></div>`).join('');
+  const catTotals = dataCats.map(c => ({ c, v: allMonths.reduce((s, m) => s + (displayData[m]?.[c] || 0), 0) })).filter(x => x.v !== 0).sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+  const maxVal = Math.max(...catTotals.map(x => Math.abs(x.v)), 1);
+  document.getElementById('barsChart').innerHTML = catTotals.map(({ c, v }) => {
+    const isNeg = v < 0;
+    const label = isNeg ? `−${nok(Math.abs(v))}` : nok(v);
+    return `<div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${(Math.abs(v) / maxVal * 100).toFixed(1)}%;background:${CAT_COLORS[c]}${isNeg ? ';opacity:0.7' : ''}"><span>${label}</span></div></div></div>`;
+  }).join('');
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
@@ -4337,7 +5481,7 @@ function renderHistorical() {
           <span style="font-size:11px;color:var(--muted)">
             ${months.map(m => {
               const v = displayData[m]?.[cat] || 0;
-              return `<span style="margin-right:12px">${fmtMonth(m)}: <strong style="color:var(--text2)">${v>0?nok(v):'—'}</strong></span>`;
+              return `<span style="margin-right:12px">${fmtMonth(m)}: <strong style="color:${v<0?'var(--reimb)':'var(--text2)'}">${v!==0?nok(v):'—'}</strong></span>`;
             }).join('')}
           </span>
         </div>
@@ -4383,7 +5527,7 @@ function renderHistorical() {
       <div class="bar-label" style="font-size:12px">${fmtMonth(m)}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${(total/maxT*100).toFixed(1)}%;background:var(--accent)"><span>${nok(total)}</span></div></div>
       ${trend}
-      ${historicalData[m] ? `<button onclick="deleteHistoricalMonth('${m}')" title="Remove ${fmtMonth(m)} import" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:4px 6px;border-radius:6px;transition:all 0.2s;flex-shrink:0;line-height:1" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : ''}
+      ${historicalData[m] ? `<button onclick="showMonthDeleteMenu('${m}', event)" title="Remove ${fmtMonth(m)} data" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:4px 6px;border-radius:6px;transition:all 0.2s;flex-shrink:0;line-height:1" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : ''}
     </div>`;
   }).join('');
   const avgBar = `<div class="bar-row">
@@ -4402,8 +5546,8 @@ function renderHistorical() {
   const tableRows = months.map((m,i)=>{
     const vals = dataCats.map(c=>displayData[m][c]||0);
     const total = vals.reduce((a,b)=>a+b,0);
-    const delBtn = historicalData[m] ? `<button onclick="deleteHistoricalMonth('${m}')" title="Remove ${fmtMonth(m)} import" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 4px;transition:all 0.2s" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : '';
-    return `<tr><td>${fmtMonth(m)}</td>${vals.map(v=>`<td>${v>0?nok(v):'—'}</td>`).join('')}<td class="total-col">${nok(total)}</td><td>${delBtn}</td></tr>`;
+    const delBtn = historicalData[m] ? `<button onclick="showMonthDeleteMenu('${m}', event)" title="Remove ${fmtMonth(m)} data" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 4px;transition:all 0.2s" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : '';
+    return `<tr><td>${fmtMonth(m)}</td>${vals.map(v=>`<td${v<0?' style="color:var(--reimb)"':''}>${v!==0?nok(v):'—'}</td>`).join('')}<td class="total-col">${nok(total)}</td><td>${delBtn}</td></tr>`;
   }).join('');
   const avgVals = dataCats.map(c=>Math.round(months.reduce((s,m)=>s+(displayData[m][c]||0),0)/months.length));
   const avgRow = `<tr class="total-row"><td>AVG / MONTH</td>${avgVals.map(v=>`<td>${nok(v)}</td>`).join('')}<td>${nok(avgVals.reduce((a,b)=>a+b,0))}</td></tr>`;
@@ -4454,11 +5598,124 @@ function renderHistorical() {
   container.innerHTML = topVendors + totalChart + table + clearBtn;
 }
 
+// ── Month delete menu (single ✕ button with context-aware options) ─────────
+function showMonthDeleteMenu(month, event) {
+  event.stopPropagation();
+  // Close any existing menu
+  closeMonthDeleteMenu();
+
+  const hasDebitTriage = !!debitTriageTotals[month]
+    || (historicalData[month]?.['Reimbursements'] && historicalData[month]['Reimbursements'] < 0)
+    || (results && results.txns && results.txns.some(t => t.source === 'debit-dnb' && t.month === month));
+
+  // If no debit data, go straight to full delete confirmation
+  if (!hasDebitTriage) {
+    deleteHistoricalMonth(month);
+    return;
+  }
+
+  // Build dropdown menu
+  const menu = document.createElement('div');
+  menu.className = 'month-del-menu';
+  menu.id = 'monthDelMenu';
+
+  menu.innerHTML = `
+    <button onclick="closeMonthDeleteMenu(); deleteCreditCardMonth('${month}')">Remove credit card data</button>
+    <button onclick="closeMonthDeleteMenu(); deleteDebitTriageMonth('${month}')">Remove debit card data</button>
+    <div class="menu-divider"></div>
+    <button class="danger" onclick="closeMonthDeleteMenu(); deleteHistoricalMonth('${month}')">Remove all data for ${fmtMonth(month)}</button>
+  `;
+
+  document.body.appendChild(menu);
+
+  // Position near the button
+  const rect = event.currentTarget.getBoundingClientRect();
+  const menuW = 220;
+  let left = rect.right - menuW;
+  let top = rect.bottom + 4;
+  // Keep within viewport
+  if (left < 8) left = 8;
+  if (top + 160 > window.innerHeight) top = rect.top - 160;
+  menu.style.left = left + 'px';
+  menu.style.top = top + 'px';
+
+  // Close on outside click
+  setTimeout(() => {
+    document.addEventListener('click', _closeMenuOnClick);
+  }, 10);
+}
+
+function _closeMenuOnClick(e) {
+  const menu = document.getElementById('monthDelMenu');
+  if (menu && !menu.contains(e.target)) closeMonthDeleteMenu();
+}
+
+function closeMonthDeleteMenu() {
+  const menu = document.getElementById('monthDelMenu');
+  if (menu) menu.remove();
+  document.removeEventListener('click', _closeMenuOnClick);
+}
+
+function deleteCreditCardMonth(month) {
+  if (!confirm(`Remove credit card data for ${fmtMonth(month)}? Debit card data will be kept.`)) return;
+
+  // Remove credit card transactions from results.txns (non-debit source)
+  if (results && results.txns) {
+    const debitTxns = results.txns.filter(t => t.source === 'debit-dnb' && t.month === month);
+    results.txns = results.txns.filter(t => t.month !== month || t.source === 'debit-dnb');
+    results = computeSummary(results.txns);
+    saveLastAnalysis();
+  }
+
+  // Rebuild historicalData for this month from debit triage totals only
+  if (debitTriageTotals[month]) {
+    historicalData[month] = {};
+    for (const cat of CATEGORIES) historicalData[month][cat] = 0;
+    for (const [cat, amt] of Object.entries(debitTriageTotals[month])) {
+      historicalData[month][cat] = amt;
+    }
+  } else {
+    // Fallback: no debitTriageTotals, but we know debit data exists via Reimbursements
+    // Keep only Reimbursements, zero out everything else
+    // This is an approximation — the debit category amounts aren't tracked separately
+    const reimbAmt = historicalData[month]?.['Reimbursements'] || 0;
+    historicalData[month] = {};
+    for (const cat of CATEGORIES) historicalData[month][cat] = 0;
+    if (reimbAmt < 0) historicalData[month]['Reimbursements'] = reimbAmt;
+  }
+
+  lsSet('budget_historical', JSON.stringify(historicalData));
+
+  // Remove credit card vendor data for this month
+  // (We can't perfectly distinguish, but recalculating is safe)
+  for (const key of Object.keys(historicalVendors)) {
+    const v = historicalVendors[key];
+    if (v.months && v.months[month]) {
+      v.total -= v.months[month].total;
+      v.count -= v.months[month].count;
+      delete v.months[month];
+      if (v.count <= 0) delete historicalVendors[key];
+    }
+  }
+  lsSet('budget_historical_vendors', JSON.stringify(historicalVendors));
+
+  saveAllStateToIDB();
+  scheduleSyncToSupabase();
+  refreshDashboard();
+  renderHistorical();
+  showToast(`✓ Credit card data for ${fmtMonth(month)} removed`);
+}
+
 function deleteHistoricalMonth(month) {
   if (!confirm(`Remove all imported data for ${fmtMonth(month)}? Manual entries for this month will be kept.`)) return;
   // Remove from historicalData
   delete historicalData[month];
   lsSet('budget_historical', JSON.stringify(historicalData));
+  // Remove debit triage totals for this month
+  if (debitTriageTotals[month]) {
+    delete debitTriageTotals[month];
+    lsSet('budget_debit_triage_totals', JSON.stringify(debitTriageTotals));
+  }
   // Remove vendor data for this month
   for (const key of Object.keys(historicalVendors)) {
     const v = historicalVendors[key];
@@ -4483,10 +5740,77 @@ function deleteHistoricalMonth(month) {
   showToast(`✓ ${fmtMonth(month)} import removed`);
 }
 
+function deleteDebitTriageMonth(month) {
+  if (!confirm(`Remove debit card triage data for ${fmtMonth(month)}? Credit card data for this month will be kept.`)) return;
+
+  // 1. Subtract debit triage amounts from historicalData
+  if (debitTriageTotals[month]) {
+    for (const [cat, amt] of Object.entries(debitTriageTotals[month])) {
+      if (historicalData[month] && historicalData[month][cat]) {
+        historicalData[month][cat] -= amt;
+        if (Math.abs(historicalData[month][cat]) < 0.5) historicalData[month][cat] = 0;
+      }
+    }
+  } else if (historicalData[month]) {
+    // Fallback: debitTriageTotals wasn't persisted, but we know debit data exists.
+    // Remove Reimbursements (only created by debit triage) and rebuild from txns.
+    delete historicalData[month]['Reimbursements'];
+    // If we have results.txns, we can figure out exactly which amounts are from debit
+    if (results && results.txns) {
+      const debitTxns = results.txns.filter(t => t.source === 'debit-dnb' && t.month === month);
+      for (const t of debitTxns) {
+        if (historicalData[month][t.category]) {
+          historicalData[month][t.category] -= t.amount;
+          if (Math.abs(historicalData[month][t.category]) < 0.5) historicalData[month][t.category] = 0;
+        }
+      }
+    }
+  }
+
+  // Clean up: if all values are 0 and no credit card data remains, remove month
+  if (historicalData[month]) {
+    const hasData = Object.values(historicalData[month]).some(v => Math.abs(v) > 0.5);
+    if (!hasData) delete historicalData[month];
+  }
+  lsSet('budget_historical', JSON.stringify(historicalData));
+
+  // 2. Remove debit triage totals
+  delete debitTriageTotals[month];
+  lsSet('budget_debit_triage_totals', JSON.stringify(debitTriageTotals));
+
+  // 3. Remove debit transactions from current analysis if loaded
+  if (results && results.txns) {
+    results.txns = results.txns.filter(t => !(t.source === 'debit-dnb' && t.month === month));
+    results = computeSummary(results.txns);
+    saveLastAnalysis();
+    refreshDashboard();
+  }
+
+  // 4. Remove debit investments for this month
+  try {
+    let debitInvest = JSON.parse(lsGet('budget_debit_investments') || '[]');
+    debitInvest = debitInvest.filter(i => i.month !== month);
+    lsSet('budget_debit_investments', JSON.stringify(debitInvest));
+  } catch(e) {}
+
+  // 5. Remove debit reimbursements for this month
+  try {
+    const savedReimb = JSON.parse(lsGet('budget_debit_reimbursements') || '{}');
+    delete savedReimb[month];
+    lsSet('budget_debit_reimbursements', JSON.stringify(savedReimb));
+  } catch(e) {}
+
+  saveAllStateToIDB();
+  scheduleSyncToSupabase();
+  renderHistorical();
+  showToast(`✓ Debit triage data for ${fmtMonth(month)} removed`);
+}
+
 function clearHistory() {
   if (!confirm('Clear all historical data? This cannot be undone.')) return;
   historicalData = {}; historicalVendors = {}; manualEntries = []; recurringEntries = []; results = null; vendorLookup = {};
   savingsGoals = []; goalContributions = []; investConfig = null; savingsRateTarget = null;
+  debitTriageTotals = {};
   // Clear from lsGet/lsSet layer (routes to localStorage in offline, memCache when logged in)
   lsRemove('budget_historical');
   lsRemove('budget_historical_vendors');
@@ -4501,6 +5825,9 @@ function clearHistory() {
   lsRemove('budget_goal_contribs');
   lsRemove('budget_invest_config');
   lsRemove('budget_sr_target');
+  lsRemove('budget_debit_triage_totals');
+  lsRemove('budget_debit_investments');
+  lsRemove('budget_debit_reimbursements');
   // Also clear directly from localStorage as a safety net
   localStorage.removeItem('budget_historical');
   localStorage.removeItem('budget_historical_vendors');
@@ -4515,6 +5842,9 @@ function clearHistory() {
   localStorage.removeItem('budget_goal_contribs');
   localStorage.removeItem('budget_invest_config');
   localStorage.removeItem('budget_sr_target');
+  localStorage.removeItem('budget_debit_triage_totals');
+  localStorage.removeItem('budget_debit_investments');
+  localStorage.removeItem('budget_debit_reimbursements');
   // Clear IndexedDB too
   try { _idbOpen().then(db => { const tx = db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete = () => db.close(); }); } catch(e) {}
   // Flag so migration and IDB load don't repopulate stale data on next load
@@ -4554,6 +5884,7 @@ function saveLastAnalysis() {
       amount: t.amount,
       category: t.category,
       isRefund: t.isRefund || false,
+      source: t.source || 'credit',
     })),
     vendorLookup,
     savedAt: Date.now(),
@@ -4962,8 +6293,16 @@ function saveGoalsState() {
 // ── Savings Rate Calculation ─────────────────────────────────────────────────
 function getMonthlySavingsData() {
   const displayData = {};
+  // Start with historical data as base
   for (const [month, cats] of Object.entries(historicalData)) {
     displayData[month] = { ...cats };
+  }
+  // Overlay current analysis (same logic as refreshDashboard — results.monthlySummary
+  // is the live source of truth for months in the current analysis)
+  if (results && results.monthlySummary) {
+    for (const [m, cats] of Object.entries(results.monthlySummary)) {
+      displayData[m] = { ...cats };
+    }
   }
   for (const e of manualEntries) {
     if (!displayData[e.month]) displayData[e.month] = {};
@@ -4973,11 +6312,19 @@ function getMonthlySavingsData() {
   const months = Object.keys(displayData).sort();
   const dataCats = CATEGORIES.filter(c => c !== 'Uncategorized');
 
+  // Get monthly investment contributions for deducting from savings
+  const investContribs = getInvestContribs();
+
   return months.map(m => {
     const spent = dataCats.reduce((s, c) => s + (displayData[m]?.[c] || 0), 0);
+    const invested = investContribs[m] || 0;
+    // Savings = income - all spending.  Investment vendor transactions (e.g. Trade Republic)
+    // are already categorized as regular expenses and included in `spent`, so we do NOT
+    // subtract `invested` again — that would double-deduct.
+    // The investment tracker shows invested amounts separately in the Goals tab.
     const saved = income ? income - spent : 0;
     const rate = income ? ((income - spent) / income * 100) : 0;
-    return { month: m, spent, saved, rate, income };
+    return { month: m, spent, saved, rate, income, invested };
   });
 }
 
@@ -5037,7 +6384,7 @@ function renderSavingsRate() {
         <div class="sr-rate-sub">Savings rate · ${fmtMonth(latest.month)} ${deltaHtml}</div>
         ${targetHtml}
         <div style="margin-top:8px;font-size:12px;color:var(--text2)">
-          Saving <strong style="color:var(--text)">${nok(latest.saved)}</strong> of ${nok(income)} income
+          Saving <strong style="color:var(--text)">${nok(latest.saved)}</strong> of ${nok(income)} income${latest.invested ? ` <span style="font-size:11px;color:var(--muted)">(incl. ${nok(latest.invested)} invested)</span>` : ''}
         </div>
       </div>
       <div class="sr-sparkline-wrap">
@@ -5456,7 +6803,26 @@ function getInvestContribs() {
   const vendors = (investConfig.linkedVendors || []).map(v => v.toLowerCase());
   const contribs = {};
 
-  // Scan all transactions for matching vendors
+  // 1. Scan historicalVendors (persisted across sessions — credit card & debit triage)
+  //    This is the primary source for all past months' investment vendor data.
+  const currentAnalysisMonths = new Set();
+  if (results && results.txns) {
+    for (const t of results.txns) currentAnalysisMonths.add(t.month);
+  }
+
+  for (const [vendorKey, vData] of Object.entries(historicalVendors)) {
+    const vName = (vData.name || vendorKey).toLowerCase();
+    if (!vendors.some(v => vName.includes(v) || vendorKey.toLowerCase().includes(v))) continue;
+    if (vData.months) {
+      for (const [month, mData] of Object.entries(vData.months)) {
+        // Skip months covered by current results.txns to avoid double-counting
+        if (currentAnalysisMonths.has(month)) continue;
+        contribs[month] = (contribs[month] || 0) + Math.abs(mData.total);
+      }
+    }
+  }
+
+  // 2. Scan current analysis transactions (live session data)
   if (results && results.txns) {
     for (const t of results.txns) {
       if (vendors.some(v => t.vendor.toLowerCase().includes(v))) {
@@ -5465,8 +6831,17 @@ function getInvestContribs() {
     }
   }
 
-  // Also check historicalData manually doesn't help here — we need vendor-level data.
-  // Manual contributions from goalContributions tagged to 'investment' are also valid
+  // 3. Include investments confirmed via debit triage
+  try {
+    const debitInvest = JSON.parse(lsGet('budget_debit_investments') || '[]');
+    for (const inv of debitInvest) {
+      if (inv.checked && inv.month && inv.amount) {
+        contribs[inv.month] = (contribs[inv.month] || 0) + inv.amount;
+      }
+    }
+  } catch(e) { /* ignore parse errors */ }
+
+  // 4. Manual contributions from goalContributions tagged to 'investment'
   goalContributions.filter(c => c.goalId === '__invest__').forEach(c => {
     const m = c.date.substring(0, 7);
     contribs[m] = (contribs[m] || 0) + c.amount;
