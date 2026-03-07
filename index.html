@@ -2611,6 +2611,13 @@ async function loadFromSupabase() {
         debitTriageTotals = data.last_analysis._debitTriageTotals;
         lsSet('budget_debit_triage_totals', JSON.stringify(debitTriageTotals));
       }
+      // Extract piggybacked debit investments & reimbursements
+      if (Array.isArray(data.last_analysis._debitInvestments)) {
+        lsSet('budget_debit_investments', JSON.stringify(data.last_analysis._debitInvestments));
+      }
+      if (data.last_analysis._debitReimbursements && typeof data.last_analysis._debitReimbursements === 'object') {
+        lsSet('budget_debit_reimbursements', JSON.stringify(data.last_analysis._debitReimbursements));
+      }
       try { lsSet('budget_last_analysis', JSON.stringify(data.last_analysis)); } catch(e) {}
     }
     if (data.monthly_income) lsSet('budget_income', data.monthly_income.toString());
@@ -2650,6 +2657,9 @@ async function syncToSupabase() {
   lastAnalysis._historicalVendors = historicalVendors;
   // Debit triage totals (tracks which months have debit card data)
   lastAnalysis._debitTriageTotals = debitTriageTotals;
+  // Debit investments & reimbursements (must survive across devices)
+  try { lastAnalysis._debitInvestments = JSON.parse(lsGet('budget_debit_investments') || '[]'); } catch(e) { lastAnalysis._debitInvestments = []; }
+  try { lastAnalysis._debitReimbursements = JSON.parse(lsGet('budget_debit_reimbursements') || '{}'); } catch(e) { lastAnalysis._debitReimbursements = {}; }
   try {
     const { error } = await client.from('user_data').upsert({
       user_id: user.id, vendor_lookup: vendorLookup, historical_data: historicalData,
