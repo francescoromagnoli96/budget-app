@@ -2551,12 +2551,16 @@ function resetAppState() {
   investConfig = null;
   savingsRateTarget = null;
   loadedFiles = {};
+  historicalVendors = {};
+  debitTriageTotals = {};
   // Clear ALL app data from real localStorage to prevent cross-mode leakage
   var appKeys = [
     'budget_historical', 'budget_historical_vendors', 'budget_manual', 'budget_recurring',
     'budget_manual_totals', 'budget_last_analysis', 'budget_vendor_lookup',
     'budget_api_key', 'budget_income', 'budget_goals', 'budget_goal_contribs',
-    'budget_invest_config', 'budget_sr_target', 'budget_history_cleared'
+    'budget_invest_config', 'budget_sr_target', 'budget_history_cleared',
+    'budget_debit_triage_totals', 'budget_debit_investments', 'budget_debit_reimbursements',
+    'budget_vendor_data_version'
   ];
   for (var i = 0; i < appKeys.length; i++) {
     try { localStorage.removeItem(appKeys[i]); } catch(e) {}
@@ -2606,6 +2610,10 @@ async function loadFromSupabase() {
       if (data.last_analysis._historicalVendors && typeof data.last_analysis._historicalVendors === 'object') {
         historicalVendors = data.last_analysis._historicalVendors;
       }
+      // Restore vendor data version so migration doesn't re-trigger
+      if (data.last_analysis._vendorDataVersion) {
+        lsSet('budget_vendor_data_version', data.last_analysis._vendorDataVersion);
+      }
       // Extract piggybacked debit triage totals
       if (data.last_analysis._debitTriageTotals && typeof data.last_analysis._debitTriageTotals === 'object') {
         debitTriageTotals = data.last_analysis._debitTriageTotals;
@@ -2629,7 +2637,7 @@ async function loadFromSupabase() {
       lsSet('budget_recurring', JSON.stringify(recurringEntries));
       lsSet('budget_vendor_lookup', JSON.stringify(vendorLookup));
     } catch(e) {}
-    console.log('[Supabase] Loaded — vendors:', Object.keys(vendorLookup).length, 'months:', Object.keys(historicalData).length);
+    console.log('[Supabase] Loaded — vendors:', Object.keys(vendorLookup).length, 'months:', Object.keys(historicalData).length, 'goals:', savingsGoals.length, 'investConfig:', !!investConfig, 'contribs:', goalContributions.length);
     setSyncBadge('synced');
   } catch(e) { console.warn('[Supabase] Load failed:', e); setSyncBadge('error', '✕ Load error'); }
 }
@@ -2655,6 +2663,8 @@ async function syncToSupabase() {
   };
   // Historical vendors data
   lastAnalysis._historicalVendors = historicalVendors;
+  // Vendor data version (so migration doesn't re-trigger on other devices)
+  lastAnalysis._vendorDataVersion = lsGet('budget_vendor_data_version') || '2';
   // Debit triage totals (tracks which months have debit card data)
   lastAnalysis._debitTriageTotals = debitTriageTotals;
   // Debit investments & reimbursements (must survive across devices)
@@ -2667,7 +2677,7 @@ async function syncToSupabase() {
       last_analysis: lastAnalysis, monthly_income: income,
     }, { onConflict: 'user_id' });
     if (error) throw error;
-    console.log('[Supabase] Synced');
+    console.log('[Supabase] Synced — goals:', savingsGoals.length, 'investConfig:', !!investConfig, 'contribs:', goalContributions.length);
     setSyncBadge('synced');
   } catch(e) { console.warn('[Supabase] Sync failed:', e); setSyncBadge('error'); }
 }
@@ -4757,6 +4767,7 @@ function confirmMerge() {
     const mergedMonths = new Set(Object.keys(pendingHistoricalUpdate));
     for (const t of results.txns) {
       if (t.isRefund) continue;
+      if (t.source === 'debit-dnb') continue; // already counted by confirmTriage
       if (!mergedMonths.has(t.month)) continue;
       const cleanName = getCleanVendorGroupName(t.vendor);
       const key = cleanName.toUpperCase();
@@ -4822,25 +4833,48 @@ function mergeIntoHistorical(monthlySummary) {
   }
   // Merge vendor-level data from current analysis into historicalVendors
   if (results && results.txns) {
-    // First, remove old vendor data for the months being overwritten
-    // (to handle re-imports correctly, we rebuild from scratch for affected months)
+    // Identify which vendors have debit-dnb contributions in the months being
+    // overwritten.  We must preserve those because the re-add loop below only
+    // processes the current (credit) import — debit vendors are added by confirmTriage.
+    const savedDebitVendor = {}; // key → { month → { total, count } }
+    for (const t of results.txns) {
+      if (t.source !== 'debit-dnb' || !mergedMonths.has(t.month)) continue;
+      const cleanName = getCleanVendorGroupName(t.vendor);
+      const key = cleanName.toUpperCase();
+      if (!savedDebitVendor[key]) savedDebitVendor[key] = {};
+      if (!savedDebitVendor[key][t.month]) savedDebitVendor[key][t.month] = { total: 0, count: 0 };
+      savedDebitVendor[key][t.month].total += t.amount;
+      savedDebitVendor[key][t.month].count++;
+    }
+
+    // First, remove old CREDIT vendor data for the months being overwritten
+    // (to handle re-imports correctly, we rebuild credit from scratch for affected months)
     for (const key of Object.keys(historicalVendors)) {
       const v = historicalVendors[key];
       if (v.months) {
-        // Remove contributions from months being overwritten
         for (const m of mergedMonths) {
           if (v.months[m]) {
-            v.total -= v.months[m].total;
-            v.count -= v.months[m].count;
-            delete v.months[m];
+            // Subtract only the non-debit portion: total minus any saved debit contribution
+            const debitPart = savedDebitVendor[key]?.[m] || { total: 0, count: 0 };
+            const creditTotal = v.months[m].total - debitPart.total;
+            const creditCount = v.months[m].count - debitPart.count;
+            v.total -= creditTotal;
+            v.count -= creditCount;
+            // Keep the month entry only if debit data remains
+            if (debitPart.count > 0) {
+              v.months[m] = { total: debitPart.total, count: debitPart.count };
+            } else {
+              delete v.months[m];
+            }
           }
         }
         if (v.count <= 0) delete historicalVendors[key];
       }
     }
-    // Now add vendor data from current txns
+    // Now add credit vendor data from current txns
     for (const t of results.txns) {
       if (t.isRefund) continue;
+      if (t.source === 'debit-dnb') continue; // already counted by confirmTriage
       if (!mergedMonths.has(t.month)) continue;
       // Use clean name for consistent grouping across vendor variants
       const cleanName = getCleanVendorGroupName(t.vendor);
@@ -5068,9 +5102,18 @@ function builtInCategorize(vendor) {
 }
 
 // Get a clean display name for grouping vendors.
-// Priority: vendorLookup clean name > matched RULES key > raw vendor name
+// Priority: Vipps-specific handling > vendorLookup clean name > matched RULES key > raw vendor name
 function getCleanVendorGroupName(rawVendor) {
   const key = rawVendor.toUpperCase();
+  // 0. Vipps transactions: keep recipients separate instead of collapsing to "Vipps"
+  //    e.g. "VIPPS *SEBASTIAN JO" → "Vipps Sebastian Jo", not just "Vipps"
+  if (key.startsWith('VIPPS')) {
+    const match = rawVendor.match(/VIPPS\s*\*?\s*(.+)/i);
+    if (match && match[1].trim().length > 0) {
+      const recipient = match[1].trim();
+      return 'Vipps ' + recipient.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+    }
+  }
   // 1. Check vendorLookup for a clean name (set by Claude API)
   const lookupName = getVendorName(key);
   if (lookupName) return lookupName;
@@ -5299,8 +5342,23 @@ function refreshDashboard() {
       </div>`;
   }).join('');
 
-  const totalThisMonth = catVals.reduce((s, x) => s + x.v, 0);
-  document.getElementById('dashCategoryBreakdown').innerHTML = catRows +
+  const grossThisMonth = catVals.reduce((s, x) => s + x.v, 0);
+  // Show Reimbursements row if there's a negative reimbursement value for this month
+  const reimbVal = Math.round(monthlySummary[latestMonth]?.['Reimbursements'] || 0);
+  let reimbRow = '';
+  if (reimbVal < 0) {
+    const reimbColor = CAT_COLORS['Reimbursements'] || '#34C759';
+    reimbRow = `
+      <div class="breakdown-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box;width:100%;overflow:hidden">
+        <div class="cat-name" style="white-space:nowrap;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis"><span class="cat-dot" style="background:${reimbColor}"></span>Reimbursements</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <div style="white-space:nowrap;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;color:${reimbColor}">${nok(reimbVal)}</div>
+          <div style="min-width:48px"></div>
+        </div>
+      </div>`;
+  }
+  const totalThisMonth = grossThisMonth + reimbVal; // net total (reimbVal is negative)
+  document.getElementById('dashCategoryBreakdown').innerHTML = catRows + reimbRow +
     `<div style="display:flex;justify-content:space-between;padding:12px 20px;font-size:11px;color:var(--muted);background:rgba(255,255,255,0.3)">
       <span>Total · ${fmtMonth(latestMonth)}</span>
       <span style="font-weight:700;color:var(--text)">${nok(totalThisMonth)}</span>
@@ -5744,6 +5802,17 @@ function deleteHistoricalMonth(month) {
     saveLastAnalysis();
     refreshDashboard();
   }
+  // Remove debit investments & reimbursements for this month
+  try {
+    let debitInvest = JSON.parse(lsGet('budget_debit_investments') || '[]');
+    debitInvest = debitInvest.filter(i => i.month !== month);
+    lsSet('budget_debit_investments', JSON.stringify(debitInvest));
+  } catch(e) {}
+  try {
+    const savedReimb = JSON.parse(lsGet('budget_debit_reimbursements') || '{}');
+    delete savedReimb[month];
+    lsSet('budget_debit_reimbursements', JSON.stringify(savedReimb));
+  } catch(e) {}
   saveAllStateToIDB();
   scheduleSyncToSupabase();
   renderHistorical();
@@ -5838,6 +5907,7 @@ function clearHistory() {
   lsRemove('budget_debit_triage_totals');
   lsRemove('budget_debit_investments');
   lsRemove('budget_debit_reimbursements');
+  lsRemove('budget_vendor_data_version');
   // Also clear directly from localStorage as a safety net
   localStorage.removeItem('budget_historical');
   localStorage.removeItem('budget_historical_vendors');
@@ -5855,6 +5925,7 @@ function clearHistory() {
   localStorage.removeItem('budget_debit_triage_totals');
   localStorage.removeItem('budget_debit_investments');
   localStorage.removeItem('budget_debit_reimbursements');
+  localStorage.removeItem('budget_vendor_data_version');
   // Clear IndexedDB too
   try { _idbOpen().then(db => { const tx = db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete = () => db.close(); }); } catch(e) {}
   // Flag so migration and IDB load don't repopulate stale data on next load
@@ -5930,24 +6001,12 @@ function restoreLastAnalysis() {
 
     results = computeSummary(txns);
 
-    // Migration: seed historicalVendors from restored txns if empty
-    if (Object.keys(historicalVendors).length === 0 && txns.length > 0) {
-      for (const t of txns) {
-        if (t.isRefund) continue;
-        const cleanName = getCleanVendorGroupName(t.vendor);
-        const key = cleanName.toUpperCase();
-        if (!historicalVendors[key]) historicalVendors[key] = { name: cleanName, cat: t.category, total: 0, count: 0, months: {} };
-        if (!historicalVendors[key].months) historicalVendors[key].months = {};
-        if (!historicalVendors[key].months[t.month]) historicalVendors[key].months[t.month] = { total: 0, count: 0 };
-        historicalVendors[key].total += t.amount;
-        historicalVendors[key].count++;
-        historicalVendors[key].months[t.month].total += t.amount;
-        historicalVendors[key].months[t.month].count++;
-        historicalVendors[key].cat = t.category;
-      }
-      lsSet('budget_historical_vendors', JSON.stringify(historicalVendors));
-      saveAllStateToIDB();
-    }
+    // historicalVendors is the authoritative all-time store, persisted in
+    // localStorage / IndexedDB / Supabase.  Do NOT rebuild it from the
+    // (single-import) txns array — that would wipe vendor data from
+    // prior imports.  The persisted copy is already loaded before this
+    // function runs.  We only ensure the version marker is current.
+    if (!lsGet('budget_vendor_data_version')) lsSet('budget_vendor_data_version', '2');
 
     // Show restore banner
     const savedAt = payload.savedAt ? new Date(payload.savedAt) : null;
@@ -7019,6 +7078,8 @@ function saveInvestConfig() {
 
   lsSet('budget_invest_config', JSON.stringify(investConfig));
   saveGoalsState();
+  // Force immediate sync so investment config reaches Supabase without debounce delay
+  if (results) saveLastAnalysis();
   closeInvestModal();
   renderInvestTracker();
   showToast('✓ Investment plan saved');
