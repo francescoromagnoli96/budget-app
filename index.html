@@ -1436,7 +1436,7 @@
     .drilldown-tab { font-size: 11px; padding: 5px 10px; }
 
     /* Bar chart */
-    .bar-label { width: 70px; font-size: 11px; }
+    .bar-label { width: 100px; font-size: 11px; }
 
     /* Historical tab */
     .hist-stat-cards { grid-template-columns: 1fr 1fr; }
@@ -5349,11 +5349,11 @@ function refreshDashboard() {
   if (reimbVal < 0) {
     const reimbColor = CAT_COLORS['Reimbursements'] || '#34C759';
     reimbRow = `
-      <div class="breakdown-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box;width:100%;overflow:hidden">
+      <div class="breakdown-row dash-cat-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box;width:100%;overflow:hidden">
         <div class="cat-name" style="white-space:nowrap;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis"><span class="cat-dot" style="background:${reimbColor}"></span>Reimbursements</div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
           <div style="white-space:nowrap;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;color:${reimbColor}">${nok(reimbVal)}</div>
-          <div style="min-width:48px"></div>
+          <div style="min-width:48px;text-align:right"></div>
         </div>
       </div>`;
   }
@@ -5460,7 +5460,9 @@ function refreshHistoricalTab() {
   document.getElementById('barsChart').innerHTML = catTotals.map(({ c, v }) => {
     const isNeg = v < 0;
     const label = isNeg ? `−${nok(Math.abs(v))}` : nok(v);
-    return `<div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${(Math.abs(v) / maxVal * 100).toFixed(1)}%;background:${CAT_COLORS[c]}${isNeg ? ';opacity:0.7' : ''}"><span>${label}</span></div></div></div>`;
+    const barPct = (Math.abs(v) / maxVal * 100);
+    const labelInside = barPct >= 25;
+    return `<div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track" style="position:relative"><div class="bar-fill" style="width:${barPct.toFixed(1)}%;background:${CAT_COLORS[c]}${isNeg ? ';opacity:0.7' : ''}${!labelInside ? ';min-width:0;padding:0' : ''}">${labelInside ? `<span>${label}</span>` : ''}</div>${!labelInside ? `<span style="position:absolute;left:calc(${barPct.toFixed(1)}% + 8px);top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:${CAT_COLORS[c]};white-space:nowrap">${label}</span>` : ''}</div></div>`;
   }).join('');
 }
 
