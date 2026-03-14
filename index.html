@@ -917,6 +917,137 @@
   .hist-month-table .total-row td { font-weight: 600; color: var(--accent); border-top: 1px solid var(--border2); }
   .hist-month-table .total-row td:first-child { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
 
+  /* ── Month drill-down panel (historical) ── */
+  .month-drill-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,25,50,0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  .month-drill-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .month-drill-modal {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255,255,255,0.95);
+    border-radius: 24px;
+    box-shadow: 0 40px 80px rgba(80,100,160,0.2), 0 8px 32px rgba(80,100,160,0.12);
+    width: 100%;
+    max-width: 560px;
+    padding: 28px 0 0;
+    animation: modalUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    margin: 40px auto;
+  }
+  .month-drill-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px 18px;
+    border-bottom: 1px solid var(--border2);
+  }
+  .month-drill-title { font-size: 20px; font-weight: 600; color: var(--text); }
+  .month-drill-subtitle { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .month-drill-body { padding: 0; }
+  .month-drill-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 0 24px 20px;
+  }
+  .month-drill-card {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .month-drill-card .md-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .month-drill-card .md-value { font-size: 18px; font-weight: 700; color: var(--text); }
+  .month-drill-card .md-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .month-drill-cats { border-top: 1px solid var(--border2); }
+  .month-drill-cat-row {
+    display: flex;
+    align-items: center;
+    padding: 13px 24px;
+    gap: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(200,210,230,0.2);
+    transition: background 0.15s;
+  }
+  .month-drill-cat-row:hover { background: rgba(79,124,255,0.04); }
+  .month-drill-cat-row.active { background: rgba(79,124,255,0.06); }
+  .month-drill-cat-row .md-cat-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .month-drill-cat-row .md-cat-bar { flex: 2; height: 8px; background: rgba(200,210,230,0.25); border-radius: 5px; overflow: hidden; }
+  .month-drill-cat-row .md-cat-bar-fill { height: 100%; border-radius: 5px; transition: width 0.4s ease; }
+  .month-drill-cat-row .md-cat-amount { font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; flex-shrink: 0; min-width: 80px; text-align: right; }
+  .month-drill-cat-row .md-cat-pct { font-size: 11px; color: var(--muted); flex-shrink: 0; min-width: 36px; text-align: right; }
+  .month-drill-cat-arrow { font-size: 14px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+  .month-drill-cat-row.active .month-drill-cat-arrow { transform: rotate(90deg); color: var(--accent); }
+  .month-drill-txn-panel {
+    display: none;
+    border-bottom: 1px solid var(--border2);
+    background: rgba(245,247,252,0.7);
+  }
+  .month-drill-txn-panel.open { display: block; animation: fadeUp 0.2s ease; }
+  .month-drill-txn-list { max-height: 260px; overflow-y: auto; }
+  .month-drill-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 24px;
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.4);
+    border-top: 1px solid var(--border2);
+    border-radius: 0 0 24px 24px;
+  }
+  .month-drill-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 16px 24px;
+  }
+  .month-drill-nav-btn {
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+  .month-drill-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .month-drill-nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+  @media (max-width: 600px) {
+    .month-drill-modal { margin: 16px auto; border-radius: 20px; }
+    .month-drill-cards { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
+    .month-drill-cat-row .md-cat-bar { display: none; }
+    .month-drill-header { padding: 0 20px 14px; }
+    .month-drill-cat-row { padding: 12px 16px; }
+    .month-drill-total { padding: 12px 16px; }
+    .month-drill-nav { padding: 12px 16px; }
+  }
+
   /* ── Manual entry modal ── */
   .modal-overlay {
     position: fixed;
@@ -2464,6 +2595,20 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
       <div id="histContent"></div>
     </div>
 
+    <!-- Month drill-down overlay -->
+    <div class="month-drill-overlay" id="monthDrillOverlay" onclick="if(event.target===this)closeMonthDrill()">
+      <div class="month-drill-modal">
+        <div class="month-drill-header">
+          <div>
+            <div class="month-drill-title" id="monthDrillTitle"></div>
+            <div class="month-drill-subtitle" id="monthDrillSubtitle"></div>
+          </div>
+          <button class="modal-close" onclick="closeMonthDrill()">✕</button>
+        </div>
+        <div class="month-drill-body" id="monthDrillBody"></div>
+      </div>
+    </div>
+
     <!-- Goals tab -->
     <div class="tab-panel" id="tab-goals">
 
@@ -3103,6 +3248,37 @@ async function initApp() {
   }
 
   // Try to restore last analysis first (dashboard + historical)
+  // ── Vendor consolidation migration (v2 → v3) ──
+  // Previous versions used vendorLookup names as keys, causing KIWI stores,
+  // MENY stores, etc. to be stored as separate entries. Now RULES-based grouping
+  // takes priority. This one-time migration consolidates fragmented entries.
+  if (lsGet('budget_vendor_data_version') !== '3' && Object.keys(historicalVendors).length > 0) {
+    console.log('[Migration] Consolidating historicalVendors with RULES-based grouping...');
+    const consolidated = {};
+    for (const [oldKey, v] of Object.entries(historicalVendors)) {
+      const newName = getCleanVendorGroupName(v.name || oldKey);
+      const newKey = newName.toUpperCase();
+      if (!consolidated[newKey]) {
+        consolidated[newKey] = { name: newName, cat: v.cat, total: 0, count: 0, months: {} };
+      }
+      consolidated[newKey].total += v.total || 0;
+      consolidated[newKey].count += v.count || 0;
+      if (v.months) {
+        for (const [m, md] of Object.entries(v.months)) {
+          if (!consolidated[newKey].months[m]) consolidated[newKey].months[m] = { total: 0, count: 0 };
+          consolidated[newKey].months[m].total += md.total || 0;
+          consolidated[newKey].months[m].count += md.count || 0;
+          if (md._debit) consolidated[newKey].months[m]._debit = true;
+        }
+      }
+    }
+    historicalVendors = consolidated;
+    lsSet('budget_historical_vendors', JSON.stringify(historicalVendors));
+    lsSet('budget_vendor_data_version', '3');
+    saveAllStateToIDB();
+    console.log('[Migration] Consolidated to', Object.keys(historicalVendors).length, 'vendor groups');
+  }
+
   const restored = restoreLastAnalysis();
 
   // If no saved analysis, but we have historical data, show historical tab
@@ -4147,12 +4323,32 @@ function classifyDebitTransactions(rawTxns) {
       continue;
     }
 
-    // Rent payments (entered manually, auto-exclude to avoid double-counting)
-    // Detect by: description contains "rent" or payment to known landlord
-    if (lower.includes('rent ') || lower.includes('henrik moestue bang')) {
-      item.excludeReason = 'Rent (entered manually)';
-      groups.excluded.push(item);
+    // Rent payment to landlord — include as Bills expense (not excluded)
+    if (lower.includes('henrik moestue bang')) {
+      item.checked = true;
+      item.category = 'Bills';
+      item.name = 'Rent';
+      item.note = 'Henrik Moestue Bang';
+      groups.expenses.push(item);
       continue;
+    }
+
+    // ── Flatmate rent reimbursement detection ──
+    // Must be BEFORE Giro/Vipps/Visa/Overføring checks to catch all transfer types
+    // (flatmates may pay via Giro, Vipps, or plain Overføring)
+    // Matches: "Ole-Marius Lunde", "Lunde, Ole-Marius", "Sebastian Joachim Bachor"
+    if (isIn) {
+      const FLATMATE_RENT_RULES = [
+        { patterns: ['sebastian joachim bachor'], threshold: 6000 },
+        { patterns: ['ole-marius lunde', 'lunde, ole-marius', 'ole-marius lu'], threshold: 6000 },
+      ];
+      const flatmateMatch = FLATMATE_RENT_RULES.find(r => r.patterns.some(p => lower.includes(p)));
+      if (flatmateMatch && amount >= flatmateMatch.threshold) {
+        item.checked = true;
+        item.note = (item.note ? item.note + ' · ' : '') + 'Rent share (auto-detected)';
+        groups.moneyIn.push(item);
+        continue;
+      }
     }
 
     // Giro — check if it's a credit card bill payment
@@ -4446,6 +4642,8 @@ function confirmTriage() {
     triageData.moneyIn.filter(i => i.checked).reduce((s, i) => s + i.amount, 0);
 
   if (results && results.txns) {
+    // Remove any existing debit-dnb txns for this month (prevents accumulation on re-triage)
+    results.txns = results.txns.filter(t => !(t.source === 'debit-dnb' && t.month === targetMonth));
     for (const t of confirmedExpenses) {
       results.txns.push({
         date: t.date ? new Date(t.date) : null,
@@ -4483,16 +4681,37 @@ function confirmTriage() {
   }
 
   // Merge into historical
+  // First, subtract any previous debit triage data for this month to prevent
+  // accumulation if triage is confirmed more than once for the same month.
+  const oldDebitTriage = debitTriageTotals[targetMonth] || {};
   if (!historicalData[targetMonth]) {
     historicalData[targetMonth] = {};
     for (const cat of CATEGORIES) historicalData[targetMonth][cat] = 0;
+  } else {
+    // Remove old debit triage contributions before adding new ones
+    for (const [cat, oldAmt] of Object.entries(oldDebitTriage)) {
+      if (historicalData[targetMonth][cat]) {
+        historicalData[targetMonth][cat] -= oldAmt;
+      }
+    }
   }
   for (const [cat, amt] of Object.entries(catTotals)) {
     if (!historicalData[targetMonth][cat]) historicalData[targetMonth][cat] = 0;
     historicalData[targetMonth][cat] += Math.round(amt);
   }
 
-  // Merge vendor data
+  // Merge vendor data — remove old debit-triage vendor data for this month before
+  // adding new, to prevent double-counting on re-triage. We use a debit-source marker
+  // stored on the month entry to distinguish debit vendors from credit vendors.
+  for (const key of Object.keys(historicalVendors)) {
+    const v = historicalVendors[key];
+    if (v.months && v.months[targetMonth] && v.months[targetMonth]._debit) {
+      v.total -= v.months[targetMonth].total;
+      v.count -= v.months[targetMonth].count;
+      delete v.months[targetMonth];
+      if (v.count <= 0) { delete historicalVendors[key]; continue; }
+    }
+  }
   for (const t of confirmedExpenses) {
     const cleanName = t.vendorName || getCleanVendorGroupName(t.vendor);
     const key = cleanName.toUpperCase();
@@ -4503,6 +4722,7 @@ function confirmTriage() {
     historicalVendors[key].count++;
     historicalVendors[key].months[targetMonth].total += t.amount;
     historicalVendors[key].months[targetMonth].count++;
+    historicalVendors[key].months[targetMonth]._debit = true; // mark as debit-sourced
     historicalVendors[key].cat = t.category;
   }
 
@@ -4514,28 +4734,25 @@ function confirmTriage() {
     amount: i.amount,
     checked: i.checked
   }));
-  // Save to localStorage for now (Goals tab can read this later)
+  // Replace investments for this month (not append) to prevent accumulation on re-triage
   const savedInvestments = JSON.parse(lsGet('budget_debit_investments') || '[]');
-  savedInvestments.push(...investmentItems);
-  lsSet('budget_debit_investments', JSON.stringify(savedInvestments));
+  const filteredInvestments = savedInvestments.filter(i => i.month !== targetMonth);
+  filteredInvestments.push(...investmentItems);
+  lsSet('budget_debit_investments', JSON.stringify(filteredInvestments));
 
-  // Save reimbursement data
+  // Save reimbursement data — replace for this month (not accumulate)
   const savedReimbursements = JSON.parse(lsGet('budget_debit_reimbursements') || '{}');
-  if (!savedReimbursements[targetMonth]) savedReimbursements[targetMonth] = 0;
-  savedReimbursements[targetMonth] += reimbursementTotal;
+  savedReimbursements[targetMonth] = reimbursementTotal;
   lsSet('budget_debit_reimbursements', JSON.stringify(savedReimbursements));
 
-  // ── Merge triage data into results.monthlySummary (if it exists) ──
-  // The display functions (refreshHistoricalTab, renderHistorical, refreshDashboard)
-  // overlay results.monthlySummary on top of historicalData for months that overlap.
-  // If we only write to historicalData, the display overlay hides the triage additions.
-  // So we must also add the triage totals into results.monthlySummary for consistency.
-  //
-  // We also store debitTriageTotals separately so they survive computeSummary() calls
-  // (which rebuild monthlySummary from txns only, wiping any triage additions).
-  if (!debitTriageTotals[targetMonth]) debitTriageTotals[targetMonth] = {};
+  // ── Store debit triage totals ──
+  // Display functions now read directly from historicalData (no overlay).
+  // We still store debitTriageTotals so computeSummary() can rebuild
+  // results.monthlySummary correctly (for drill-down and other uses).
+  // REPLACE (not accumulate) for the target month — prevents double-counting on re-triage.
+  debitTriageTotals[targetMonth] = {};
   for (const [cat, amt] of Object.entries(catTotals)) {
-    debitTriageTotals[targetMonth][cat] = (debitTriageTotals[targetMonth][cat] || 0) + Math.round(amt);
+    debitTriageTotals[targetMonth][cat] = Math.round(amt);
   }
   lsSet('budget_debit_triage_totals', JSON.stringify(debitTriageTotals));
 
@@ -5114,14 +5331,15 @@ function getCleanVendorGroupName(rawVendor) {
       return 'Vipps ' + recipient.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
     }
   }
-  // 1. Check vendorLookup for a clean name (set by Claude API)
-  const lookupName = getVendorName(key);
-  if (lookupName) return lookupName;
-  // 2. Check EXACT_MATCH — use the raw vendor (it's already a clean-ish name)
-  if (EXACT_MATCH[rawVendor.trim().toUpperCase()]) return rawVendor.trim();
-  // 3. Check RULES — use the matched rule key as group name (e.g. "KIWI", "REMA", "BOLT")
+  // 1. Check RULES FIRST — these define intentional vendor groups (e.g. all KIWI stores → "KIWI")
+  //    RULES must take priority over vendorLookup to ensure consistent grouping across variants
   const v = rawVendor.toUpperCase();
   for (const [k] of Object.entries(RULES)) { if (v.includes(k.toUpperCase())) return k; }
+  // 2. Check EXACT_MATCH — use the raw vendor (it's already a clean-ish name)
+  if (EXACT_MATCH[rawVendor.trim().toUpperCase()]) return rawVendor.trim();
+  // 3. Check vendorLookup for a clean name (set by Claude API)
+  const lookupName = getVendorName(key);
+  if (lookupName) return lookupName;
   // 4. Fallback to raw vendor name
   return rawVendor;
 }
@@ -5238,16 +5456,11 @@ function applyToAll() {
 function refreshDashboard() {
   if (!results) return;
   const { months, txns, uncategorized } = results;
-  // Build combined summary = historical data + CSV from current analysis + manual entries
+  // Build combined summary = historicalData (merged source of truth) + manual entries
+  // DO NOT overlay results.monthlySummary — historicalData is always up to date via
+  // mergeIntoHistorical(), syncHistoricalFromResults(), and confirmTriage().
   const monthlySummary = {};
-  // Start with historical data as the base (for months not in current analysis)
   for (const [m, cats] of Object.entries(historicalData)) {
-    monthlySummary[m] = { ...cats };
-  }
-  // Overlay current analysis for ALL its months — results.monthlySummary is the
-  // live source of truth for any month the user has loaded, and must take priority
-  // over historicalData which may be stale or doubled after a merge
-  for (const [m, cats] of Object.entries(results.monthlySummary)) {
     monthlySummary[m] = { ...cats };
   }
   // Add manual entries on top
@@ -5375,17 +5588,11 @@ function refreshDashboard() {
 }
 
 function refreshHistoricalTab() {
-  // Build display data from historicalData (all months) + current analysis overlay + manual entries
+  // Build display data from historicalData (merged source of truth) + manual entries
+  // DO NOT overlay results.monthlySummary — see renderHistorical comment for rationale.
   const displayData = {};
   for (const [month, cats] of Object.entries(historicalData)) {
     displayData[month] = { ...cats };
-  }
-  // Overlay current analysis for its months — results.monthlySummary is the live
-  // source of truth and must take priority over historicalData (which may be stale/doubled)
-  if (results && results.monthlySummary) {
-    for (const [m, cats] of Object.entries(results.monthlySummary)) {
-      displayData[m] = { ...cats };
-    }
   }
   for (const e of manualEntries) {
     if (!displayData[e.month]) displayData[e.month] = {};
@@ -5455,14 +5662,18 @@ function refreshHistoricalTab() {
   document.getElementById('histDrilldownContainer').innerHTML = histDrillPanels;
 
   // All-time bar chart
-  const catTotals = dataCats.map(c => ({ c, v: allMonths.reduce((s, m) => s + (displayData[m]?.[c] || 0), 0) })).filter(x => x.v !== 0).sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+  const catTotals = dataCats.map(c => ({ c, v: allMonths.reduce((s, m) => s + (displayData[m]?.[c] || 0), 0) })).filter(x => x.v !== 0).sort((a, b) => {
+    const aIsReimb = a.c === 'Reimbursements' ? 1 : 0;
+    const bIsReimb = b.c === 'Reimbursements' ? 1 : 0;
+    if (aIsReimb !== bIsReimb) return aIsReimb - bIsReimb;
+    return Math.abs(b.v) - Math.abs(a.v);
+  });
   const maxVal = Math.max(...catTotals.map(x => Math.abs(x.v)), 1);
   document.getElementById('barsChart').innerHTML = catTotals.map(({ c, v }) => {
     const isNeg = v < 0;
     const label = isNeg ? `−${nok(Math.abs(v))}` : nok(v);
     const barPct = (Math.abs(v) / maxVal * 100);
-    const labelInside = barPct >= 25;
-    return `<div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track" style="position:relative"><div class="bar-fill" style="width:${barPct.toFixed(1)}%;background:${CAT_COLORS[c]}${isNeg ? ';opacity:0.7' : ''}${!labelInside ? ';min-width:0;padding:0' : ''}">${labelInside ? `<span>${label}</span>` : ''}</div>${!labelInside ? `<span style="position:absolute;left:calc(${barPct.toFixed(1)}% + 8px);top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;color:${CAT_COLORS[c]};white-space:nowrap">${label}</span>` : ''}</div></div>`;
+    return `<div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(barPct, 15).toFixed(1)}%;background:${CAT_COLORS[c]}${isNeg ? ';opacity:0.7' : ''}"><span>${label}</span></div></div></div>`;
   }).join('');
 }
 
@@ -5485,16 +5696,14 @@ function renderHistorical() {
   // Update overview cards, largest categories, and breakdown (uses historicalData)
   refreshHistoricalTab();
 
-  // Build display data = CSV totals + current analysis overlay + manual entries combined
+  // Build display data = historicalData (merged credit+debit source of truth) + manual entries
+  // DO NOT overlay results.monthlySummary here — historicalData is kept in sync by
+  // mergeIntoHistorical(), syncHistoricalFromResults(), and confirmTriage().
+  // Overlaying results.monthlySummary can replace correct merged totals with partial
+  // single-file data, causing total expense regressions after debit triage.
   const displayData = {};
   for (const [month, cats] of Object.entries(historicalData)) {
     displayData[month] = { ...cats };
-  }
-  // Overlay current analysis for its months — same fix as refreshDashboard/refreshHistoricalTab
-  if (results && results.monthlySummary) {
-    for (const [m, cats] of Object.entries(results.monthlySummary)) {
-      displayData[m] = { ...cats };
-    }
   }
   for (const e of manualEntries) {
     if (!displayData[e.month]) displayData[e.month] = {};
@@ -5593,11 +5802,11 @@ function renderHistorical() {
     const prev = i>0?allTotals[i-1]:null;
     const pct = prev!==null?((total-prev)/prev*100):null;
     const trend = pct!==null?`<span style="font-size:11px;font-weight:600;color:${pct>5?'var(--danger)':pct<-5?'var(--success)':'var(--muted)'};margin-left:8px">${pct>0?'▲':'▼'} ${Math.abs(pct).toFixed(0)}%</span>`:'';
-    return `<div class="bar-row">
+    return `<div class="bar-row" style="cursor:pointer" onclick="openMonthDrill('${m}')" title="Click to view ${fmtMonth(m)} details">
       <div class="bar-label" style="font-size:12px">${fmtMonth(m)}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${(total/maxT*100).toFixed(1)}%;background:var(--accent)"><span>${nok(total)}</span></div></div>
       ${trend}
-      ${historicalData[m] ? `<button onclick="showMonthDeleteMenu('${m}', event)" title="Remove ${fmtMonth(m)} data" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:4px 6px;border-radius:6px;transition:all 0.2s;flex-shrink:0;line-height:1" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : ''}
+      ${historicalData[m] ? `<button onclick="event.stopPropagation();showMonthDeleteMenu('${m}', event)" title="Remove ${fmtMonth(m)} data" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:4px 6px;border-radius:6px;transition:all 0.2s;flex-shrink:0;line-height:1" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : ''}
     </div>`;
   }).join('');
   const avgBar = `<div class="bar-row">
@@ -5605,7 +5814,7 @@ function renderHistorical() {
     <div class="bar-track"><div class="bar-fill" style="width:${(avgTotal/maxT*100).toFixed(1)}%;background:var(--accent);opacity:0.7"><span>${nok(avgTotal)}</span></div></div>
     <span style="font-size:11px;color:var(--muted);margin-left:8px">${months.length} months</span>
   </div>`;
-  const totalChart = `<div class="hist-section"><div class="section-title">Total Monthly Spend</div>
+  const totalChart = `<div class="hist-section"><div class="section-title">Total Monthly Spend <span style="font-size:10px;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:6px">click a month to drill down</span></div>
   <div class="glass-card chart-wrap">
     <div class="bars">${spendExpanded || !showToggle ? allBars : avgBar}</div>
   </div>
@@ -5616,13 +5825,13 @@ function renderHistorical() {
   const tableRows = months.map((m,i)=>{
     const vals = dataCats.map(c=>displayData[m][c]||0);
     const total = vals.reduce((a,b)=>a+b,0);
-    const delBtn = historicalData[m] ? `<button onclick="showMonthDeleteMenu('${m}', event)" title="Remove ${fmtMonth(m)} data" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 4px;transition:all 0.2s" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : '';
-    return `<tr><td>${fmtMonth(m)}</td>${vals.map(v=>`<td${v<0?' style="color:var(--reimb)"':''}>${v!==0?nok(v):'—'}</td>`).join('')}<td class="total-col">${nok(total)}</td><td>${delBtn}</td></tr>`;
+    const delBtn = historicalData[m] ? `<button onclick="event.stopPropagation();showMonthDeleteMenu('${m}', event)" title="Remove ${fmtMonth(m)} data" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 4px;transition:all 0.2s" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--muted)'">✕</button>` : '';
+    return `<tr style="cursor:pointer" onclick="openMonthDrill('${m}')" title="Click to view ${fmtMonth(m)} details"><td>${fmtMonth(m)}</td>${vals.map(v=>`<td${v<0?' style="color:var(--reimb)"':''}>${v!==0?nok(v):'—'}</td>`).join('')}<td class="total-col">${nok(total)}</td><td>${delBtn}</td></tr>`;
   }).join('');
   const avgVals = dataCats.map(c=>Math.round(months.reduce((s,m)=>s+(displayData[m][c]||0),0)/months.length));
   const avgRow = `<tr class="total-row"><td>AVG / MONTH</td>${avgVals.map(v=>`<td>${nok(v)}</td>`).join('')}<td>${nok(avgVals.reduce((a,b)=>a+b,0))}</td></tr>`;
 
-  const table = `<div class="hist-section"><div class="section-title">Month-by-Month Breakdown</div>
+  const table = `<div class="hist-section"><div class="section-title">Month-by-Month Breakdown <span style="font-size:10px;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:6px">click a month to drill down</span></div>
   <div class="glass-card" style="overflow:hidden;overflow-x:auto">
     <table class="hist-month-table"><thead>${tableHeader}</thead><tbody>${breakdownExpanded || !showToggle ? tableRows + avgRow : avgRow}</tbody></table>
   </div>
@@ -5636,12 +5845,13 @@ function renderHistorical() {
 
   // ── Top Vendors section ──────────────────────────────────────────────────
   let topVendors = '';
-  const vendorEntries = Object.values(historicalVendors).filter(v => v.count > 0);
+  const vendorEntries = Object.values(historicalVendors).filter(v => v.count > 0 && v.total > 0);
   if (vendorEntries.length > 0) {
     const sorted = vendorEntries.sort((a, b) => b.count - a.count).slice(0, 5);
-    const maxVendorTotal = sorted[0]?.total || 1;
+    const maxVendorCount = sorted[0]?.count || 1;
     const vendorRows = sorted.map((v, i) => {
       const catColor = CAT_COLORS[v.cat] || '#aaa';
+      const barPct = (v.count / maxVendorCount * 100).toFixed(1);
       return `<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box">
         <div style="width:22px;text-align:right;font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0">${i+1}</div>
         <div style="flex:1;min-width:0">
@@ -5650,7 +5860,7 @@ function renderHistorical() {
             <span style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.name}</span>
           </div>
           <div style="height:5px;background:rgba(200,210,230,0.25);border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:100%;background:${catColor};border-radius:4px;opacity:0.5"></div>
+            <div style="height:100%;width:${barPct}%;background:${catColor};border-radius:4px;opacity:0.5"></div>
           </div>
         </div>
         <div style="flex-shrink:0;text-align:right;min-width:90px">
@@ -6008,7 +6218,7 @@ function restoreLastAnalysis() {
     // (single-import) txns array — that would wipe vendor data from
     // prior imports.  The persisted copy is already loaded before this
     // function runs.  We only ensure the version marker is current.
-    if (!lsGet('budget_vendor_data_version')) lsSet('budget_vendor_data_version', '2');
+    if (!lsGet('budget_vendor_data_version')) lsSet('budget_vendor_data_version', '3');
 
     // Show restore banner
     const savedAt = payload.savedAt ? new Date(payload.savedAt) : null;
@@ -6064,6 +6274,7 @@ function toggleDrilldown(cat, rowEl, prefix) {
   const pfx = prefix || '';
   const panel = document.getElementById(pfx + 'drill-' + cat);
   if (!panel) return;
+  if (!results) return;
   const isOpen = panel.classList.contains('open');
 
   // Close all panels first
@@ -6072,8 +6283,14 @@ function toggleDrilldown(cat, rowEl, prefix) {
 
   if (!isOpen) {
     activeDrillCat = cat;
-    const months = results.months;
-    activeDrillMonth = months[months.length - 1];
+    // Use all available months (results + historicalData + manual) to ensure we
+    // pick the correct latest month even when the dashboard shows historical data
+    const allMonths = [...new Set([
+      ...(results.months || []),
+      ...Object.keys(historicalData),
+      ...manualEntries.map(e => e.month)
+    ])].sort();
+    activeDrillMonth = allMonths[allMonths.length - 1] || (results.months && results.months[results.months.length - 1]);
     rowEl.classList.add('active');
     renderDrilldown(cat, panel);
     panel.classList.add('open');
@@ -6209,6 +6426,202 @@ function showReassignSelect(btn, txnIdx, currentCat) {
       select.replaceWith(newBtn);
     }
   };
+}
+
+// ── Month drill-down (historical tab) ─────────────────────────────────────────
+let _monthDrillMonth = null;
+let _monthDrillCat = null;
+
+function openMonthDrill(month) {
+  _monthDrillMonth = month;
+  _monthDrillCat = null;
+
+  // Build display data for this month from historicalData + manualEntries
+  const displayData = {};
+  if (historicalData[month]) displayData[month] = { ...historicalData[month] };
+  else displayData[month] = {};
+  for (const e of manualEntries) {
+    if (e.month === month) {
+      displayData[month][e.category] = (displayData[month][e.category] || 0) + e.amount;
+    }
+  }
+
+  const dataCats = CATEGORIES.filter(c => c !== 'Uncategorized');
+  const catVals = dataCats.map(c => ({ c, v: Math.round(displayData[month]?.[c] || 0) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+  const grossTotal = catVals.reduce((s, x) => s + x.v, 0);
+  const reimbVal = Math.round(displayData[month]?.['Reimbursements'] || 0);
+  const netTotal = grossTotal + reimbVal;
+  const maxCatVal = Math.max(...catVals.map(x => x.v), 1);
+  const txnCount = (results?.txns?.filter(t => t.month === month).length || 0) + manualEntries.filter(e => e.month === month).length;
+  const topCat = catVals[0];
+
+  // Previous month for comparison
+  const allMonths = Object.keys(historicalData).sort();
+  const monthIdx = allMonths.indexOf(month);
+  const prevMonth = monthIdx > 0 ? allMonths[monthIdx - 1] : null;
+  const nextMonth = monthIdx < allMonths.length - 1 ? allMonths[monthIdx + 1] : null;
+  let prevTotal = null;
+  if (prevMonth) {
+    const prevData = { ...(historicalData[prevMonth] || {}) };
+    for (const e of manualEntries) { if (e.month === prevMonth) prevData[e.category] = (prevData[e.category] || 0) + e.amount; }
+    prevTotal = dataCats.reduce((s, c) => s + (prevData[c] || 0), 0);
+  }
+
+  document.getElementById('monthDrillTitle').textContent = fmtMonth(month);
+  document.getElementById('monthDrillSubtitle').textContent = txnCount + ' transaction' + (txnCount !== 1 ? 's' : '');
+
+  // Nav buttons
+  const navHtml = `<div class="month-drill-nav">
+    <button class="month-drill-nav-btn" onclick="openMonthDrill('${prevMonth}')" ${!prevMonth ? 'disabled' : ''}>← ${prevMonth ? fmtMonth(prevMonth) : 'Prev'}</button>
+    <button class="month-drill-nav-btn" onclick="openMonthDrill('${nextMonth}')" ${!nextMonth ? 'disabled' : ''}>Next ${nextMonth ? fmtMonth(nextMonth) : ''} →</button>
+  </div>`;
+
+  // MoM badge
+  let momBadge = '';
+  if (prevTotal !== null && prevTotal > 0) {
+    const pct = ((grossTotal - prevTotal) / prevTotal * 100);
+    const color = pct > 5 ? 'var(--danger)' : pct < -5 ? 'var(--success)' : 'var(--muted)';
+    const arrow = pct > 0 ? '▲' : '▼';
+    momBadge = `<div class="md-sub" style="color:${color};font-weight:600">${arrow} ${Math.abs(pct).toFixed(0)}% vs ${fmtMonth(prevMonth)}</div>`;
+  }
+
+  // Summary cards
+  const cardsHtml = `<div class="month-drill-cards">
+    <div class="month-drill-card">
+      <div class="md-label">Net Spend</div>
+      <div class="md-value" style="color:var(--accent)">${nok(netTotal)}</div>
+      ${momBadge}
+    </div>
+    <div class="month-drill-card">
+      <div class="md-label">Top Category</div>
+      <div class="md-value" style="font-size:15px;color:${topCat ? CAT_COLORS[topCat.c] : 'var(--text)'}">${topCat ? topCat.c : '—'}</div>
+      <div class="md-sub">${topCat ? nok(topCat.v) : ''}</div>
+    </div>
+    <div class="month-drill-card">
+      <div class="md-label">Transactions</div>
+      <div class="md-value">${txnCount}</div>
+      <div class="md-sub">this month</div>
+    </div>
+  </div>`;
+
+  // Category rows
+  const catRowsHtml = catVals.map(({ c, v }) => {
+    const pctOfTotal = grossTotal > 0 ? (v / grossTotal * 100).toFixed(0) : 0;
+    const barPct = (v / maxCatVal * 100).toFixed(1);
+    // Per-cat MoM
+    let catTrend = '';
+    if (prevMonth && historicalData[prevMonth]) {
+      const prevV = historicalData[prevMonth][c] || 0;
+      if (prevV > 0) {
+        const pct = ((v - prevV) / prevV * 100);
+        const cls = pct > 5 ? 'color:var(--danger)' : pct < -5 ? 'color:var(--success)' : 'color:var(--muted)';
+        const arrow = pct > 0 ? '▲' : '▼';
+        catTrend = `<span style="font-size:10px;font-weight:600;${cls};margin-left:4px">${arrow}${Math.abs(pct).toFixed(0)}%</span>`;
+      }
+    }
+    return `<div class="month-drill-cat-row" id="md-row-${c.replace(/\s/g,'_')}" onclick="toggleMonthDrillCat('${c}')">
+      <div class="md-cat-name"><span style="width:8px;height:8px;border-radius:50%;background:${CAT_COLORS[c]};flex-shrink:0;display:inline-block"></span>${c} <span class="month-drill-cat-arrow">›</span></div>
+      <div class="md-cat-bar"><div class="md-cat-bar-fill" style="width:${barPct}%;background:${CAT_COLORS[c]};opacity:0.7"></div></div>
+      <div class="md-cat-amount">${nok(v)}${catTrend}</div>
+      <div class="md-cat-pct">${pctOfTotal}%</div>
+    </div>
+    <div class="month-drill-txn-panel" id="md-txn-${c.replace(/\s/g,'_')}"></div>`;
+  }).join('');
+
+  // Reimbursements row (non-clickable)
+  let reimbRow = '';
+  if (reimbVal < 0) {
+    reimbRow = `<div class="month-drill-cat-row" style="cursor:default">
+      <div class="md-cat-name"><span style="width:8px;height:8px;border-radius:50%;background:var(--reimb);flex-shrink:0;display:inline-block"></span>Reimbursements</div>
+      <div class="md-cat-bar"></div>
+      <div class="md-cat-amount" style="color:var(--reimb)">${nok(reimbVal)}</div>
+      <div class="md-cat-pct"></div>
+    </div>`;
+  }
+
+  const totalRow = `<div class="month-drill-total">
+    <span>Total · ${fmtMonth(month)}${reimbVal < 0 ? ' (net of reimbursements)' : ''}</span>
+    <span style="font-weight:700;color:var(--text)">${nok(netTotal)}</span>
+  </div>`;
+
+  document.getElementById('monthDrillBody').innerHTML = navHtml + cardsHtml +
+    `<div class="month-drill-cats">${catRowsHtml}${reimbRow}</div>` + totalRow;
+
+  document.getElementById('monthDrillOverlay').classList.add('open');
+}
+
+function closeMonthDrill() {
+  document.getElementById('monthDrillOverlay').classList.remove('open');
+  _monthDrillMonth = null;
+  _monthDrillCat = null;
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && _monthDrillMonth) closeMonthDrill(); });
+
+function toggleMonthDrillCat(cat) {
+  const safeId = cat.replace(/\s/g, '_');
+  const panel = document.getElementById('md-txn-' + safeId);
+  const row = document.getElementById('md-row-' + safeId);
+  if (!panel || !row) return;
+
+  const isOpen = panel.classList.contains('open');
+
+  // Close all open panels in month drill
+  document.querySelectorAll('.month-drill-txn-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.month-drill-cat-row.active').forEach(r => r.classList.remove('active'));
+
+  if (isOpen) {
+    _monthDrillCat = null;
+    return;
+  }
+
+  _monthDrillCat = cat;
+  row.classList.add('active');
+
+  // Get transactions for this category and month
+  const month = _monthDrillMonth;
+  let filtered = (results?.txns || []).filter(t => t.category === cat && t.month === month);
+  let manualFiltered = manualEntries.filter(e => e.category === cat && e.month === month);
+
+  filtered.sort((a, b) => {
+    if (a.date && b.date) return b.date - a.date;
+    if (a.date) return -1;
+    if (b.date) return 1;
+    return b.amount - a.amount;
+  });
+  manualFiltered.sort((a, b) => a.desc.localeCompare(b.desc));
+
+  const total = filtered.reduce((s, t) => s + t.amount, 0) + manualFiltered.reduce((s, e) => s + e.amount, 0);
+  const count = filtered.length + manualFiltered.length;
+
+  const txnRows = [
+    ...filtered.map(t => `
+      <div class="drilldown-txn" style="${t.isRefund ? 'background:rgba(48,209,88,0.05)' : ''}">
+        <div class="drilldown-txn-name">
+          ${t.vendor}
+          ${t.isRefund ? '<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:rgba(48,209,88,0.15);color:var(--success);margin-left:6px;vertical-align:middle">↩ refund</span>' : ''}
+        </div>
+        <div class="drilldown-txn-date">${t.date ? t.date.toLocaleDateString('en-GB', {day:'numeric', month:'short'}) : fmtMonth(t.month)}</div>
+        <div class="drilldown-txn-amt" style="${t.isRefund ? 'color:var(--success)' : ''}">
+          ${t.isRefund ? '−' : ''}${nok(Math.abs(t.amount))}
+        </div>
+      </div>`),
+    ...manualFiltered.map(e => `
+      <div class="drilldown-txn" style="background:rgba(79,124,255,0.04)">
+        <div class="drilldown-txn-name">✎ ${e.desc} <span style="font-size:10px;color:var(--muted);margin-left:4px">manual</span></div>
+        <div class="drilldown-txn-date">${fmtMonth(e.month)}</div>
+        <div class="drilldown-txn-amt">${nok(e.amount)}</div>
+      </div>`)
+  ].join('');
+
+  panel.innerHTML = `
+    <div style="padding:10px 20px 6px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;align-items:center">
+      <span><strong style="color:var(--text2)">${count}</strong> transaction${count !== 1 ? 's' : ''}</span>
+      <span style="font-weight:600;color:${CAT_COLORS[cat]}">${nok(total)}</span>
+    </div>
+    <div class="month-drill-txn-list drilldown-txns">
+      ${txnRows || '<div class="drilldown-empty">No transactions recorded for this period</div>'}
+    </div>`;
+  panel.classList.add('open');
 }
 
 // Sync historicalData from results.monthlySummary for months in the current analysis
@@ -6364,16 +6777,9 @@ function saveGoalsState() {
 // ── Savings Rate Calculation ─────────────────────────────────────────────────
 function getMonthlySavingsData() {
   const displayData = {};
-  // Start with historical data as base
+  // historicalData is the merged source of truth — no overlay needed
   for (const [month, cats] of Object.entries(historicalData)) {
     displayData[month] = { ...cats };
-  }
-  // Overlay current analysis (same logic as refreshDashboard — results.monthlySummary
-  // is the live source of truth for months in the current analysis)
-  if (results && results.monthlySummary) {
-    for (const [m, cats] of Object.entries(results.monthlySummary)) {
-      displayData[m] = { ...cats };
-    }
   }
   for (const e of manualEntries) {
     if (!displayData[e.month]) displayData[e.month] = {};
@@ -6922,9 +7328,21 @@ function getInvestContribs() {
 }
 
 function calcStreak(months, contribs, target) {
-  let streak = 0;
-  for (let i = months.length - 1; i >= 0; i--) {
-    if (contribs[months[i]] >= target * 0.9) streak++;
+  // Build list of months that met the target, sorted
+  const hitMonths = months.filter(m => contribs[m] >= target * 0.9).sort();
+  if (hitMonths.length === 0) return 0;
+
+  // Helper: get previous calendar month in YYYY-MM format
+  function prevMonth(ym) {
+    const [y, m] = ym.split('-').map(Number);
+    const d = new Date(y, m - 2, 1); // m-1 is current month (0-indexed), m-2 is previous
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+
+  // Walk backwards from the most recent hit month, counting consecutive
+  let streak = 1;
+  for (let i = hitMonths.length - 1; i >= 1; i--) {
+    if (prevMonth(hitMonths[i]) === hitMonths[i - 1]) streak++;
     else break;
   }
   return streak;
