@@ -2197,6 +2197,8 @@ function _showApp() {
 function _skipAuth() {
   window._isOfflineMode = true;
   if (typeof setOfflineMode === 'function') setOfflineMode(true);
+  // Ensure initApp runs fresh (may have run during logged-in session)
+  _appInitialized = false;
   _showApp();
   document.getElementById('accountBar').style.display = 'none';
   document.getElementById('offlineBar').style.display = 'flex';
@@ -2289,6 +2291,15 @@ async function _handleLogout() {
     if (typeof syncToSupabase === 'function') await syncToSupabase();
     await client.auth.signOut();
   }
+  // Clear Supabase's own session keys to prevent auto-login on next page load
+  try {
+    var keysToRemove = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (k && (k.startsWith('sb-') || k.startsWith('supabase'))) keysToRemove.push(k);
+    }
+    for (var j = 0; j < keysToRemove.length; j++) localStorage.removeItem(keysToRemove[j]);
+  } catch(e) {}
   // Reset app state
   if (typeof resetAppState === 'function') resetAppState();
   _appInitialized = false;
@@ -3607,8 +3618,12 @@ async function initApp() {
   const hasData = restored || Object.keys(historicalData).length > 0 || savingsGoals.length > 0 || investConfig;
   if (hasData) {
     activateLandingMode();
+  } else {
+    // Explicitly switch back to setup mode — critical when re-entering after
+    // logout, because the DOM is still in landing mode from the previous session.
+    _landingMode = 'returning'; // force activateSetupMode to actually run
+    activateSetupMode();
   }
-  // else: setup mode is default, no action needed
 
   // If no saved analysis, but we have historical data, show historical tab
   if (!restored && Object.keys(historicalData).length > 0) {
