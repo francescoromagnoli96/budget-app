@@ -4,41 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Budget Analyzer</title>
-<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;1,7..72,300;1,7..72,400&family=Karla:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f0f2f7;
-    --bg2: #e8eaf2;
-    --glass: rgba(255,255,255,0.72);
-    --glass2: rgba(255,255,255,0.55);
-    --glass3: rgba(255,255,255,0.35);
-    --border: rgba(255,255,255,0.9);
-    --border2: rgba(200,210,230,0.6);
-    --shadow: 0 8px 32px rgba(100,120,180,0.10), 0 2px 8px rgba(100,120,180,0.07);
-    --shadow-lg: 0 20px 60px rgba(80,100,160,0.15), 0 4px 16px rgba(80,100,160,0.10);
-    --text: #1a1d2e;
-    --text2: #4a5068;
-    --muted: #8a92b0;
-    --accent: #4f7cff;
-    --accent-light: rgba(79,124,255,0.12);
-    --accent-glass: rgba(79,124,255,0.08);
-    --danger: #ff453a;
-    --danger-light: rgba(255,69,58,0.10);
-    --success: #30d158;
-    --success-light: rgba(48,209,88,0.12);
-    --error: #ff453a;
-    --error-light: rgba(255,69,58,0.12);
+    --bg: #f6f4f0;
+    --bg2: #ede9e3;
+    --glass: rgba(255,255,255,0.85);
+    --glass2: rgba(255,255,255,0.65);
+    --glass3: rgba(255,255,255,0.45);
+    --border: #e7e4de;
+    --border2: #ddd9d1;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+    --text: #1a1a1a;
+    --text2: #6b6760;
+    --muted: #a8a29e;
+    --accent: #2d6a4f;
+    --accent-light: rgba(45,106,79,0.10);
+    --accent-glass: rgba(45,106,79,0.06);
+    --danger: #9b4d4d;
+    --danger-light: rgba(155,77,77,0.10);
+    --success: #2d6a4f;
+    --success-light: rgba(45,106,79,0.10);
+    --error: #9b4d4d;
+    --error-light: rgba(155,77,77,0.10);
 
-    --ent:  #ff6b9d;
-    --groc: #30d158;
-    --trav: #4f7cff;
-    --shop: #bf5af2;
-    --bill: #ff9f0a;
-    --unc:  #8a92b0;
-    --reimb: #34c759;
+    --ent:  #9b4d4d;
+    --groc: #2d6a4f;
+    --trav: #4a6fa5;
+    --shop: #8b6b96;
+    --bill: #b08d57;
+    --unc:  #a8a29e;
+    --reimb: #2d6a4f;
 
-    --blur: blur(20px) saturate(180%);
+    --blur: blur(12px) saturate(140%);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,70 +56,60 @@
     justify-content: center;
   }
   .auth-card {
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    background: #ffffff;
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: 6px;
     box-shadow: var(--shadow-lg);
     padding: 40px 32px;
     width: 100%;
     animation: modalUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .auth-logo { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; text-align: center; }
-  .auth-title { font-size: 26px; font-weight: 600; color: var(--text); text-align: center; margin-bottom: 6px; letter-spacing: -0.3px; }
-  .auth-subtitle { font-size: 14px; color: var(--text2); text-align: center; margin-bottom: 32px; }
-  .auth-tabs { display: flex; gap: 4px; padding: 4px; background: rgba(200,210,230,0.25); border-radius: 12px; margin-bottom: 28px; }
-  .auth-tab { flex: 1; padding: 10px 16px; background: none; border: none; border-radius: 10px; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .auth-logo { font-family: 'Karla', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; text-align: center; }
+  .auth-title { font-family: 'Literata', serif; font-size: 24px; font-weight: 300; color: var(--text); text-align: center; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .auth-subtitle { font-family: 'Karla', sans-serif; font-size: 14px; color: var(--muted); text-align: center; margin-bottom: 32px; font-weight: 300; }
+  .auth-tabs { display: flex; gap: 4px; padding: 4px; background: rgba(0,0,0,0.04); border-radius: 6px; margin-bottom: 28px; }
+  .auth-tab { flex: 1; padding: 10px 16px; background: none; border: none; border-radius: 6px; color: var(--muted); font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
   .auth-tab:hover { color: var(--text); }
-  .auth-tab.active { background: white; color: var(--text); box-shadow: 0 2px 8px rgba(100,120,180,0.12); }
+  .auth-tab.active { background: white; color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .auth-form { display: flex; flex-direction: column; gap: 16px; }
   .auth-form .form-group { margin-bottom: 0; }
-  .auth-error { background: var(--error-light); border: 1px solid rgba(255,69,58,0.25); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--error); display: none; margin-bottom: 12px; }
+  .auth-error { background: var(--error-light); border: 1px solid rgba(155,77,77,0.18); border-radius: 6px; padding: 10px 14px; font-size: 13px; color: var(--error); display: none; margin-bottom: 12px; }
   .auth-error.visible { display: block; }
-  .auth-success { background: var(--success-light); border: 1px solid rgba(48,209,88,0.25); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--success); display: none; margin-bottom: 12px; }
+  .auth-success { background: var(--success-light); border: 1px solid rgba(45,106,79,0.18); border-radius: 6px; padding: 10px 14px; font-size: 13px; color: var(--success); display: none; margin-bottom: 12px; }
   .auth-success.visible { display: block; }
   .auth-divider { display: flex; align-items: center; gap: 14px; margin: 4px 0; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
-  .auth-skip { background: none; border: 1px solid var(--border2); border-radius: 12px; padding: 12px; color: var(--muted); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; width: 100%; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .auth-skip { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 12px; color: var(--muted); font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; width: 100%; }
   .auth-skip:hover { border-color: var(--text2); color: var(--text2); }
   .auth-footer { margin-top: 20px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.6; }
 
   /* ── Account bar ── */
   .account-bar {
     display: flex; align-items: center; gap: 10px; padding: 10px 16px; margin-bottom: 16px;
-    background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-    border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); font-size: 13px;
+    background: #ffffff;
+    border: 1px solid var(--border); border-radius: 8px; box-shadow: none; font-size: 13px;
   }
   .account-bar .account-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .account-bar .account-email { color: var(--text2); font-weight: 500; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .account-bar .sync-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .account-bar .sync-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; }
   .sync-badge.synced { background: var(--success-light); color: var(--success); }
   .sync-badge.syncing { background: var(--accent-light); color: var(--accent); }
-  .sync-badge.offline { background: rgba(138,146,176,0.12); color: var(--muted); }
+  .sync-badge.offline { background: rgba(168,162,158,0.12); color: var(--muted); }
   .sync-badge.error { background: var(--error-light); color: var(--error); }
-  .account-bar .account-logout { background: none; border: 1px solid var(--border2); border-radius: 8px; padding: 5px 12px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+  .account-bar .account-logout { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; font-family: 'Karla', sans-serif; font-size: 11px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
   .account-bar .account-logout:hover { border-color: var(--danger); color: var(--danger); }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* Soft gradient background blobs */
+  /* Clean background — no decorative blobs */
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(180,200,255,0.35) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(200,180,255,0.25) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(180,240,210,0.15) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
+    display: none;
   }
 
   .app {
@@ -136,38 +125,39 @@
     margin-bottom: 40px;
   }
   .logo {
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--muted);
     margin-bottom: 16px;
     opacity: 0.9;
   }
   h1 {
-    font-size: clamp(32px, 5vw, 48px);
-    font-weight: 600;
-    line-height: 1.15;
+    font-family: 'Literata', serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 300;
+    line-height: 1.2;
     color: var(--text);
     margin-bottom: 12px;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.01em;
   }
   h1 span { color: var(--accent); }
   .subtitle {
-    font-size: 15px;
-    color: var(--text2);
-    font-weight: 400;
-    line-height: 1.5;
+    font-family: 'Karla', sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
   }
 
-  /* ── Glass card base ── */
+  /* ── Card base ── */
   .glass-card {
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    background: #ffffff;
     border: 1px solid var(--border);
-    border-radius: 20px;
-    box-shadow: var(--shadow);
+    border-radius: 8px;
+    box-shadow: none;
   }
 
   /* ── API Key ── */
@@ -188,12 +178,12 @@
   }
   .api-section input {
     flex: 1;
-    background: rgba(255,255,255,0.5);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--border);
+    border-radius: 6px;
     padding: 9px 14px;
     color: var(--text);
-    font-family: 'SF Mono', 'Monaco', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     outline: none;
     transition: all 0.2s;
@@ -204,11 +194,11 @@
     box-shadow: 0 0 0 3px var(--accent-light);
   }
   .save-key-btn {
-    background: var(--glass2);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
     color: var(--accent);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 12px;
     font-weight: 600;
     padding: 9px 18px;
@@ -249,7 +239,7 @@
     cursor: pointer;
     transition: all 0.25s;
     margin-bottom: 16px;
-    border: 1.5px dashed var(--border2);
+    border: 1.5px dashed var(--border);
   }
   .drop-zone:hover, .drop-zone.drag-over {
     border-color: var(--accent);
@@ -258,7 +248,7 @@
   }
   .drop-zone.has-files {
     border-style: solid;
-    border-color: rgba(79,124,255,0.3);
+    border-color: rgba(45,106,79,0.2);
     padding-bottom: 14px;
   }
   .drop-zone-icon { font-size: 24px; margin-bottom: 6px; }
@@ -267,9 +257,9 @@
   .drop-zone-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
   .drop-zone-files { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
   .file-chip {
-    background: rgba(79,124,255,0.1);
-    border: 1px solid rgba(79,124,255,0.25);
-    border-radius: 20px;
+    background: rgba(45,106,79,0.07);
+    border: 1px solid rgba(45,106,79,0.15);
+    border-radius: 8px;
     padding: 5px 12px 5px 10px;
     font-size: 11px;
     font-weight: 500;
@@ -297,32 +287,30 @@
     flex: 1;
     background: var(--accent);
     border: none;
-    border-radius: 14px;
+    border-radius: 8px;
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     padding: 16px 24px;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(79,124,255,0.3);
+    box-shadow: none;
   }
   .analyze-btn:hover:not(:disabled) {
-    background: #3d6aee;
-    box-shadow: 0 6px 28px rgba(79,124,255,0.4);
+    background: #245a42;
+    box-shadow: 0 2px 8px rgba(45,106,79,0.15);
     transform: translateY(-1px);
   }
   .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
   .btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 
   .manual-entry-btn {
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     color: var(--text2);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     font-weight: 500;
     padding: 16px 20px;
@@ -357,27 +345,27 @@
   }
   .progress-bar-wrap {
     height: 4px;
-    background: var(--border2);
+    background: var(--border);
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 16px;
   }
   .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), #7b9fff);
+    background: linear-gradient(90deg, var(--accent), #4a9a72);
     border-radius: 4px;
     transition: width 0.4s ease;
     width: 0%;
   }
   .progress-log {
-    font-family: 'SF Mono', 'Monaco', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     max-height: 120px;
     overflow-y: auto;
     color: var(--muted);
   }
   .log-line { display: flex; gap: 10px; padding: 2px 0; }
-  .log-line .ts { color: rgba(138,146,176,0.5); flex-shrink: 0; }
+  .log-line .ts { color: rgba(168,162,158,0.5); flex-shrink: 0; }
   .log-line.ok .msg { color: var(--success); }
   .log-line.warn .msg { color: var(--bill); }
   .log-line.info .msg { color: var(--text2); }
@@ -394,39 +382,50 @@
   /* ── Tabs ── */
   .tab-nav {
     display: flex;
-    gap: 4px;
+    gap: 0;
     margin-bottom: 28px;
-    padding: 5px;
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+    background: none;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    box-shadow: none;
   }
   .tab-btn {
     flex: 1;
-    padding: 10px 16px;
+    padding: 12px 16px;
     background: none;
     border: none;
-    border-radius: 12px;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
     color: var(--muted);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 400;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.5); }
+  .tab-btn:hover { color: var(--text); background: none; }
   .tab-btn.active {
-    background: white;
+    background: none;
     color: var(--text);
-    box-shadow: 0 2px 8px rgba(100,120,180,0.12);
+    border-bottom-color: var(--accent);
+    font-weight: 500;
+    box-shadow: none;
   }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
   /* ── Section title ── */
   .section-title {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-family: 'Literata', serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--text);
     margin-bottom: 14px;
     margin-top: 0;
   }
@@ -443,32 +442,40 @@
   .summary-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    gap: 12px;
+    background: none;
+    border-radius: 0;
+    overflow: visible;
     margin-bottom: 8px;
   }
   .card {
-    padding: 22px 20px;
+    padding: 20px 22px;
     display: flex;
     flex-direction: column;
     gap: 4px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
   }
   .card-label {
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
   }
   .card-value {
-    font-size: 24px;
-    font-weight: 600;
+    font-family: 'Literata', serif;
+    font-size: 22px;
+    font-weight: 400;
     color: var(--text);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.03em;
     white-space: nowrap;
     line-height: 1.1;
   }
   .card-value.accent { color: var(--accent); }
-  .card-sub { font-size: 12px; color: var(--muted); }
+  .card-sub { font-family: 'Karla', sans-serif; font-size: 12px; color: var(--muted); font-weight: 300; }
 
   /* ── Breakdown table ── */
   .breakdown {
@@ -484,47 +491,49 @@
     min-width: fit-content;
   }
   .breakdown-header {
+    font-family: 'Karla', sans-serif;
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
-    border-bottom: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border);
   }
   .breakdown-row {
-    border-bottom: 1px solid rgba(200,210,230,0.3);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     transition: background 0.15s;
   }
-  .breakdown-row:hover { background: rgba(255,255,255,0.4); }
+  .breakdown-row:hover { background: rgba(0,0,0,0.015); }
   .breakdown-total-row {
-    border-top: 1px solid var(--border2);
-    background: rgba(255,255,255,0.3);
-    border-radius: 0 0 16px 16px;
+    border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.02);
+    border-radius: 0 0 8px 8px;
   }
-  .cat-name { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 13px; }
+  .cat-name { display: flex; align-items: center; gap: 8px; font-family: 'Karla', sans-serif; font-weight: 400; font-size: 13px; color: var(--text2); }
   .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .month-val { text-align: right; font-size: 13px; color: var(--text2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .total-val { text-align: right; font-weight: 600; font-size: 13px; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .month-val { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text2); font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: -0.02em; }
+  .total-val { text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: -0.02em; }
   .trend-badge {
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 400;
     padding: 3px 8px;
-    border-radius: 20px;
+    border-radius: 4px;
     text-align: center;
     white-space: nowrap;
   }
   .trend-up { background: var(--danger-light); color: var(--danger); }
   .trend-down { background: var(--success-light); color: var(--success); }
-  .trend-flat { background: rgba(138,146,176,0.12); color: var(--muted); }
+  .trend-flat { background: rgba(168,162,158,0.12); color: var(--muted); }
 
   /* ── Month picker ── */
   .month-pill {
     padding: 6px 14px;
-    border-radius: 20px;
+    border-radius: 8px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     background: rgba(255,255,255,0.6);
     color: var(--text2);
     transition: all 0.15s;
@@ -538,11 +547,11 @@
   }
   .month-pill-add {
     padding: 6px 14px;
-    border-radius: 20px;
+    border-radius: 8px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    border: 1px dashed var(--border2);
+    border: 1px dashed var(--border);
     background: transparent;
     color: var(--muted);
     transition: all 0.15s;
@@ -553,10 +562,10 @@
   .month-pill-add:hover { border-color: var(--accent); color: var(--accent); }
   .month-input-inline {
     border: 1px solid var(--accent);
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 4px 10px;
     font-size: 12px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     background: white;
     color: var(--text);
     outline: none;
@@ -566,13 +575,12 @@
   .drilldown-panel {
     display: none;
     margin: 10px 12px 4px 12px;
-    border-radius: 16px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     background: rgba(255,255,255,0.7);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
-    box-shadow: 0 4px 20px rgba(100,120,180,0.10);
+    
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
     animation: fadeUp 0.2s ease;
   }
   .drilldown-panel.open { display: block; }
@@ -581,8 +589,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    background: rgba(255,255,255,0.4);
-    border-bottom: 1px solid var(--border2);
+    background: rgba(255,255,255,0.5);
+    border-bottom: 1px solid var(--border);
   }
   .drilldown-title {
     font-size: 12px;
@@ -608,18 +616,18 @@
     display: flex;
     gap: 4px;
     padding: 10px 16px;
-    border-bottom: 1px solid var(--border2);
-    background: rgba(255,255,255,0.3);
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.4);
     flex-wrap: wrap;
   }
   .drilldown-tab {
     padding: 5px 14px;
-    border-radius: 20px;
+    border-radius: 8px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    border: 1px solid var(--border2);
-    background: rgba(255,255,255,0.5);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.6);
     color: var(--text2);
     transition: all 0.15s;
   }
@@ -638,12 +646,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 9px 20px;
-    border-bottom: 1px solid rgba(200,210,230,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     transition: background 0.1s;
     gap: 12px;
   }
   .drilldown-txn:last-child { border-bottom: none; }
-  .drilldown-txn:hover { background: rgba(255,255,255,0.5); }
+  .drilldown-txn:hover { background: rgba(255,255,255,0.6); }
   .drilldown-txn-name { font-size: 13px; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .drilldown-txn-date { font-size: 11px; color: var(--muted); flex-shrink: 0; }
   .drilldown-txn-amt { font-size: 13px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; flex-shrink: 0; }
@@ -671,7 +679,7 @@
   .drilldown-txn-del:hover { color: var(--danger) !important; background: var(--danger-light); }
   .drilldown-txn-reassign {
     background: none;
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     color: var(--muted);
     cursor: pointer;
     font-size: 11px;
@@ -680,13 +688,13 @@
     border-radius: 6px;
     transition: all 0.15s;
     line-height: 1;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     white-space: nowrap;
   }
   .drilldown-txn-reassign:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
   .drilldown-inline-select {
     font-size: 11px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     border: 1px solid var(--accent);
     border-radius: 6px;
     padding: 3px 6px;
@@ -697,7 +705,7 @@
     max-width: 110px;
   }
   .breakdown-row { cursor: pointer; }
-  .breakdown-row.active { background: rgba(79,124,255,0.06); }
+  .breakdown-row.active { background: rgba(45,106,79,0.04); }
   .dash-cat-arrow {
     font-size: 14px;
     color: var(--muted);
@@ -708,30 +716,30 @@
   .breakdown-row.active .dash-cat-arrow { transform: rotate(90deg); color: var(--accent); }
 
   /* ── Bar chart ── */
-  .chart-wrap { padding: 20px 20px; }
-  .bars { display: flex; flex-direction: column; gap: 14px; }
-  .bar-row { display: flex; align-items: center; gap: 12px; }
-  .bar-label { width: 110px; font-size: 12px; font-weight: 500; color: var(--text2); flex-shrink: 0; }
-  .bar-track { flex: 1; height: 28px; background: rgba(200,210,230,0.25); border-radius: 8px; overflow: hidden; }
+  .chart-wrap { padding: 20px 22px; }
+  .bars { display: flex; flex-direction: column; gap: 11px; }
+  .bar-row { display: flex; align-items: center; gap: 14px; }
+  .bar-label { width: 110px; font-family: 'Karla', sans-serif; font-size: 12px; font-weight: 400; color: var(--text2); flex-shrink: 0; }
+  .bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .bar-fill {
     height: 100%;
-    border-radius: 8px;
+    border-radius: 3px;
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    min-width: 60px;
+    padding: 0;
+    min-width: 4px;
     transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    opacity: 0.85;
+    opacity: 0.7;
   }
-  .bar-fill span { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.95); white-space: nowrap; }
-  .bar-amount { font-size: 12px; color: var(--muted); white-space: nowrap; width: 80px; text-align: right; }
+  .bar-fill span { display: none; }
+  .bar-amount { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); white-space: nowrap; width: 80px; text-align: right; letter-spacing: -0.02em; }
 
   /* ── Uncategorized table ── */
   .unc-table-wrap {
-    border-radius: 16px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid rgba(255,69,58,0.2);
-    background: rgba(255,69,58,0.04);
+    border: 1px solid rgba(155,77,77,0.15);
+    background: rgba(155,77,77,0.03);
     margin-bottom: 20px;
   }
   .unc-table-wrap.hidden { display: none; }
@@ -740,16 +748,16 @@
     font-size: 13px;
     font-weight: 500;
     color: var(--danger);
-    border-bottom: 1px solid rgba(255,69,58,0.15);
-    background: rgba(255,69,58,0.05);
+    border-bottom: 1px solid rgba(155,77,77,0.10);
+    background: rgba(155,77,77,0.04);
   }
   .unc-all-wrap {
     padding: 10px 16px;
-    border-bottom: 1px solid rgba(255,69,58,0.1);
+    border-bottom: 1px solid rgba(155,77,77,0.08);
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.4);
   }
   .unc-all-label {
     font-size: 11px;
@@ -768,26 +776,26 @@
     text-transform: uppercase;
     padding: 10px 16px;
     text-align: left;
-    border-bottom: 1px solid rgba(200,210,230,0.3);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
   }
   .unc-table td {
     padding: 10px 16px;
     font-size: 13px;
-    border-bottom: 1px solid rgba(200,210,230,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     color: var(--text2);
   }
   .unc-table tr:last-child td { border-bottom: none; }
-  .unc-table tr:hover td { background: rgba(255,255,255,0.4); }
+  .unc-table tr:hover td { background: rgba(255,255,255,0.5); }
   .unc-table td:last-child { font-size: 12px; color: var(--muted); }
   .unc-table td.cat-cell { padding: 6px 10px; width: 160px; }
   .unc-table td.btn-cell { padding: 6px 10px; width: 90px; }
 
   .cat-select {
     background: rgba(255,255,255,0.7);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 12px;
     padding: 6px 10px;
     outline: none;
@@ -799,10 +807,10 @@
 
   .apply-cat-btn {
     background: rgba(255,255,255,0.6);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--accent);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
     font-weight: 600;
     padding: 6px 14px;
@@ -821,11 +829,11 @@
   .download-btn {
     width: 100%;
     padding: 16px;
-    background: var(--glass2);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     color: var(--text2);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
@@ -841,8 +849,8 @@
   /* ── Warn banner ── */
   .warn-banner {
     background: var(--danger-light);
-    border: 1px solid rgba(255,69,58,0.25);
-    border-radius: 14px;
+    border: 1px solid rgba(155,77,77,0.18);
+    border-radius: 8px;
     padding: 14px 18px;
     margin-bottom: 20px;
     font-size: 13px;
@@ -867,7 +875,7 @@
   .warn-banner .warn-cancel {
     background: transparent;
     color: var(--muted);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     margin-left: 6px;
   }
 
@@ -884,6 +892,9 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
+    background: none;
+    border-radius: 0;
+    overflow: visible;
     margin-bottom: 8px;
   }
   .hist-month-table {
@@ -899,29 +910,29 @@
     text-transform: uppercase;
     padding: 10px 16px;
     text-align: right;
-    border-bottom: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border);
   }
   .hist-month-table th:first-child { text-align: left; }
   .hist-month-table td {
     padding: 11px 16px;
     text-align: right;
     font-size: 13px;
-    border-bottom: 1px solid rgba(200,210,230,0.3);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
     color: var(--text2);
     font-variant-numeric: tabular-nums;
   }
-  .hist-month-table td:first-child { text-align: left; font-weight: 600; color: var(--text); }
+  .hist-month-table td:first-child { text-align: left; font-family: 'Karla', sans-serif; font-weight: 500; color: var(--text); }
   .hist-month-table tr:last-child td { border-bottom: none; }
-  .hist-month-table tr:hover td { background: rgba(255,255,255,0.4); }
+  .hist-month-table tr:hover td { background: rgba(255,255,255,0.5); }
   .hist-month-table .total-col { color: var(--accent); font-weight: 600; }
-  .hist-month-table .total-row td { font-weight: 600; color: var(--accent); border-top: 1px solid var(--border2); }
+  .hist-month-table .total-row td { font-weight: 600; color: var(--accent); border-top: 1px solid var(--border); }
   .hist-month-table .total-row td:first-child { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
 
   /* ── Month drill-down panel (historical) ── */
   .month-drill-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(20,25,50,0.35);
+    background: rgba(26,26,26,0.25);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 100;
@@ -933,12 +944,10 @@
   }
   .month-drill-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
   .month-drill-modal {
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 1px solid rgba(255,255,255,0.95);
-    border-radius: 24px;
-    box-shadow: 0 40px 80px rgba(80,100,160,0.2), 0 8px 32px rgba(80,100,160,0.12);
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
     width: 100%;
     max-width: 560px;
     padding: 28px 0 0;
@@ -950,10 +959,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 28px 18px;
-    border-bottom: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border);
   }
-  .month-drill-title { font-size: 20px; font-weight: 600; color: var(--text); }
-  .month-drill-subtitle { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .month-drill-title { font-family: 'Literata', serif; font-size: 18px; font-weight: 400; color: var(--text); letter-spacing: -0.01em; }
+  .month-drill-subtitle { font-family: 'Karla', sans-serif; font-size: 13px; color: var(--muted); margin-top: 2px; font-weight: 300; }
   .month-drill-body { padding: 0; }
   .month-drill-cards {
     display: grid;
@@ -963,26 +972,26 @@
   }
   .month-drill-card {
     background: rgba(255,255,255,0.6);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     padding: 14px 16px;
     text-align: center;
   }
-  .month-drill-card .md-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .month-drill-card .md-value { font-size: 18px; font-weight: 700; color: var(--text); }
-  .month-drill-card .md-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
-  .month-drill-cats { border-top: 1px solid var(--border2); }
+  .month-drill-card .md-label { font-family: 'Karla', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .month-drill-card .md-value { font-family: 'Literata', serif; font-size: 18px; font-weight: 400; color: var(--text); }
+  .month-drill-card .md-sub { font-family: 'Karla', sans-serif; font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 300; }
+  .month-drill-cats { border-top: 1px solid var(--border); }
   .month-drill-cat-row {
     display: flex;
     align-items: center;
     padding: 13px 24px;
     gap: 10px;
     cursor: pointer;
-    border-bottom: 1px solid rgba(200,210,230,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     transition: background 0.15s;
   }
-  .month-drill-cat-row:hover { background: rgba(79,124,255,0.04); }
-  .month-drill-cat-row.active { background: rgba(79,124,255,0.06); }
+  .month-drill-cat-row:hover { background: rgba(45,106,79,0.03); }
+  .month-drill-cat-row.active { background: rgba(45,106,79,0.04); }
   .month-drill-cat-row .md-cat-name {
     flex: 1;
     font-size: 13px;
@@ -993,7 +1002,7 @@
     gap: 8px;
     min-width: 0;
   }
-  .month-drill-cat-row .md-cat-bar { flex: 2; height: 8px; background: rgba(200,210,230,0.25); border-radius: 5px; overflow: hidden; }
+  .month-drill-cat-row .md-cat-bar { flex: 2; height: 8px; background: rgba(0,0,0,0.04); border-radius: 5px; overflow: hidden; }
   .month-drill-cat-row .md-cat-bar-fill { height: 100%; border-radius: 5px; transition: width 0.4s ease; }
   .month-drill-cat-row .md-cat-amount { font-size: 14px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; flex-shrink: 0; min-width: 80px; text-align: right; }
   .month-drill-cat-row .md-cat-pct { font-size: 11px; color: var(--muted); flex-shrink: 0; min-width: 36px; text-align: right; }
@@ -1001,7 +1010,7 @@
   .month-drill-cat-row.active .month-drill-cat-arrow { transform: rotate(90deg); color: var(--accent); }
   .month-drill-txn-panel {
     display: none;
-    border-bottom: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border);
     background: rgba(245,247,252,0.7);
   }
   .month-drill-txn-panel.open { display: block; animation: fadeUp 0.2s ease; }
@@ -1012,8 +1021,8 @@
     padding: 14px 24px;
     font-size: 12px;
     color: var(--muted);
-    background: rgba(255,255,255,0.4);
-    border-top: 1px solid var(--border2);
+    background: rgba(255,255,255,0.5);
+    border-top: 1px solid var(--border);
     border-radius: 0 0 24px 24px;
   }
   .month-drill-nav {
@@ -1025,21 +1034,21 @@
   }
   .month-drill-nav-btn {
     background: none;
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 6px 14px;
     font-size: 12px;
     font-weight: 500;
     color: var(--text2);
     cursor: pointer;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     transition: all 0.15s;
   }
   .month-drill-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
   .month-drill-nav-btn:disabled { opacity: 0.35; cursor: default; }
 
   @media (max-width: 600px) {
-    .month-drill-modal { margin: 16px auto; border-radius: 20px; }
+    .month-drill-modal { margin: 16px auto; border-radius: 8px; }
     .month-drill-cards { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
     .month-drill-cat-row .md-cat-bar { display: none; }
     .month-drill-header { padding: 0 20px 14px; }
@@ -1052,7 +1061,7 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(20,25,50,0.35);
+    background: rgba(26,26,26,0.25);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 100;
@@ -1065,12 +1074,10 @@
   @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
 
   .modal {
-    background: rgba(255,255,255,0.88);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border: 1px solid rgba(255,255,255,0.95);
-    border-radius: 24px;
-    box-shadow: 0 40px 80px rgba(80,100,160,0.2), 0 8px 32px rgba(80,100,160,0.12);
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
     width: 100%;
     max-width: 480px;
     padding: 32px;
@@ -1086,10 +1093,10 @@
     justify-content: space-between;
     margin-bottom: 28px;
   }
-  .modal-title { font-size: 20px; font-weight: 600; color: var(--text); }
-  .modal-subtitle { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .modal-title { font-family: 'Literata', serif; font-size: 18px; font-weight: 400; color: var(--text); letter-spacing: -0.01em; }
+  .modal-subtitle { font-family: 'Karla', sans-serif; font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 300; }
   .modal-close {
-    background: rgba(200,210,230,0.3);
+    background: rgba(0,0,0,0.06);
     border: none;
     border-radius: 50%;
     width: 30px; height: 30px;
@@ -1105,21 +1112,22 @@
   .form-group { margin-bottom: 18px; }
   .form-label {
     display: block;
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 8px;
   }
   .form-input, .form-select {
     width: 100%;
-    background: rgba(255,255,255,0.7);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
     padding: 12px 16px;
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 14px;
     outline: none;
     transition: all 0.2s;
@@ -1128,14 +1136,14 @@
   .form-input:focus, .form-select:focus {
     border-color: var(--accent);
     background: white;
-    box-shadow: 0 0 0 3px var(--accent-light);
+    box-shadow: 0 0 0 2px var(--accent-light);
   }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
   .recurring-section {
-    background: rgba(79,124,255,0.06);
-    border: 1px solid rgba(79,124,255,0.15);
-    border-radius: 14px;
+    background: rgba(45,106,79,0.04);
+    border: 1px solid rgba(45,106,79,0.10);
+    border-radius: 8px;
     padding: 16px;
     margin-bottom: 20px;
   }
@@ -1154,8 +1162,8 @@
     align-items: center;
     justify-content: space-between;
     background: rgba(255,255,255,0.6);
-    border: 1px solid rgba(79,124,255,0.15);
-    border-radius: 10px;
+    border: 1px solid rgba(45,106,79,0.10);
+    border-radius: 6px;
     padding: 10px 14px;
     font-size: 13px;
     gap: 10px;
@@ -1166,8 +1174,8 @@
     font-size: 10px;
     font-weight: 600;
     padding: 3px 8px;
-    border-radius: 20px;
-    background: rgba(79,124,255,0.1);
+    border-radius: 8px;
+    background: rgba(45,106,79,0.07);
     color: var(--accent);
   }
   .recurring-item .ri-add {
@@ -1182,7 +1190,7 @@
     transition: all 0.2s;
     white-space: nowrap;
   }
-  .recurring-item .ri-add:hover { background: #3d6aee; }
+  .recurring-item .ri-add:hover { background: #245a42; }
   .recurring-item .ri-delete {
     background: none;
     border: none;
@@ -1200,33 +1208,33 @@
     background: var(--accent);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 6px;
     padding: 14px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 16px rgba(79,124,255,0.25);
+    box-shadow: 0 4px 16px rgba(45,106,79,0.15);
   }
-  .btn-primary:hover { background: #3d6aee; transform: translateY(-1px); }
+  .btn-primary:hover { background: #245a42; transform: translateY(-1px); }
   .btn-secondary {
-    background: rgba(200,210,230,0.3);
+    background: rgba(0,0,0,0.06);
     color: var(--text2);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
     padding: 14px 20px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
   }
-  .btn-secondary:hover { background: rgba(200,210,230,0.5); }
+  .btn-secondary:hover { background: rgba(0,0,0,0.1); }
 
   .modal-divider {
     border: none;
-    border-top: 1px solid var(--border2);
+    border-top: 1px solid var(--border);
     margin: 20px 0;
   }
 
@@ -1247,18 +1255,20 @@
   }
   .sr-main { flex: 1; }
   .sr-rate {
+    font-family: 'Literata', serif;
     font-size: 48px;
-    font-weight: 600;
-    letter-spacing: -1px;
+    font-weight: 300;
+    letter-spacing: -0.03em;
     line-height: 1.1;
   }
-  .sr-rate-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .sr-rate-sub { font-family: 'Karla', sans-serif; font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 300; }
   .sr-target-badge {
     display: inline-block;
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 400;
     padding: 4px 10px;
-    border-radius: 20px;
+    border-radius: 4px;
     margin-top: 8px;
   }
   .sr-sparkline-wrap {
@@ -1294,8 +1304,9 @@
     margin-bottom: 14px;
   }
   .goal-card-name {
+    font-family: 'Literata', serif;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text);
     display: flex;
     align-items: center;
@@ -1303,7 +1314,7 @@
   }
   .goal-icon {
     width: 32px; height: 32px;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1319,27 +1330,27 @@
   .goal-card:hover .goal-card-actions { opacity: 1; }
   .goal-action-btn {
     background: none;
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: 6px;
     padding: 4px 8px;
     font-size: 11px;
     color: var(--muted);
     cursor: pointer;
     transition: all 0.15s;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
   }
   .goal-action-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
   .goal-action-btn.del:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-light); }
   .goal-progress-wrap {
-    height: 8px;
-    background: var(--bg2);
-    border-radius: 4px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
     overflow: hidden;
     margin-bottom: 8px;
   }
   .goal-progress-fill {
     height: 100%;
-    border-radius: 4px;
+    border-radius: 3px;
     transition: width 0.4s ease;
   }
   .goal-stats {
@@ -1353,7 +1364,7 @@
     font-size: 10px;
     font-weight: 600;
     padding: 3px 8px;
-    border-radius: 20px;
+    border-radius: 8px;
     white-space: nowrap;
   }
   .goal-completed {
@@ -1367,7 +1378,7 @@
   /* Contribution log */
   .contrib-log {
     margin-top: 12px;
-    border-top: 1px solid rgba(200,210,230,0.25);
+    border-top: 1px solid rgba(0,0,0,0.04);
     padding-top: 10px;
     display: none;
   }
@@ -1379,7 +1390,7 @@
     padding: 6px 0;
     font-size: 12px;
     color: var(--text2);
-    border-bottom: 1px solid rgba(200,210,230,0.15);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
   }
   .contrib-item:last-child { border-bottom: none; }
   .contrib-amount { font-weight: 600; color: var(--text); margin-left: auto; font-variant-numeric: tabular-nums; }
@@ -1410,7 +1421,7 @@
   }
   .invest-month-chip {
     width: 36px; height: 36px;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1420,7 +1431,7 @@
   }
   .invest-month-chip.hit { background: var(--success-light); color: var(--success); }
   .invest-month-chip.miss { background: var(--danger-light); color: var(--danger); }
-  .invest-month-chip.partial { background: rgba(255,159,10,0.12); color: #ff9f0a; }
+  .invest-month-chip.partial { background: rgba(176,141,87,0.12); color: #ff9f0a; }
   .invest-month-chip .chip-label {
     position: absolute;
     bottom: -14px;
@@ -1447,10 +1458,10 @@
   }
   .proj-input-group input {
     background: rgba(255,255,255,0.6);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 8px 12px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     color: var(--text);
     outline: none;
@@ -1468,10 +1479,10 @@
     width: 100%;
     padding: 14px;
     background: var(--glass2);
-    border: 1.5px dashed var(--border2);
-    border-radius: 14px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
     color: var(--muted);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
@@ -1497,10 +1508,10 @@
   }
   .goals-settings-row input {
     background: rgba(255,255,255,0.6);
-    border: 1px solid var(--border2);
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 7px 12px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     color: var(--text);
     outline: none;
@@ -1589,7 +1600,7 @@
     .dash-cat-row { padding: 10px 12px !important; gap: 8px !important; min-width: 0 !important; }
     .dash-cat-row .cat-name { font-size: 11px !important; }
     .dash-cat-row .trend-badge { font-size: 9px !important; padding: 2px 5px !important; }
-    .dash-cat-row div[style*="font-weight:700"] { font-size: 12px !important; }
+    .dash-cat-row div[style*="font-weight:500"], .dash-cat-row div[style*="font-weight:400"] { font-size: 12px !important; }
 
     /* Progress section */
     .progress-bar { height: 4px; }
@@ -1630,8 +1641,9 @@
     padding: 28px 20px 20px;
   }
   .triage-header h2 {
+    font-family: 'Literata', serif;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text);
     margin-bottom: 6px;
     letter-spacing: -0.3px;
@@ -1644,13 +1656,11 @@
 
   .triage-group {
     margin-bottom: 14px;
-    border-radius: 18px;
+    border-radius: 8px;
     overflow: hidden;
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    background: #ffffff;
     border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    box-shadow: none;
   }
   .triage-group-header {
     display: flex;
@@ -1661,11 +1671,11 @@
     user-select: none;
     transition: background 0.15s;
   }
-  .triage-group-header:hover { background: rgba(200,210,230,0.1); }
+  .triage-group-header:hover { background: rgba(0,0,0,0.02); }
   .triage-group-icon {
     width: 32px;
     height: 32px;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1674,15 +1684,16 @@
   }
   .triage-group-icon.excluded { background: var(--danger-light); }
   .triage-group-icon.expense { background: var(--success-light); }
-  .triage-group-icon.invest { background: rgba(79,124,255,0.12); }
-  .triage-group-icon.vipps-out { background: rgba(255,159,10,0.12); }
-  .triage-group-icon.vipps-in { background: rgba(48,209,88,0.12); }
-  .triage-group-icon.transfer { background: rgba(138,146,176,0.15); }
+  .triage-group-icon.invest { background: rgba(45,106,79,0.08); }
+  .triage-group-icon.vipps-out { background: rgba(176,141,87,0.12); }
+  .triage-group-icon.vipps-in { background: rgba(45,106,79,0.10); }
+  .triage-group-icon.transfer { background: rgba(168,162,158,0.15); }
 
   .triage-group-info { flex: 1; min-width: 0; }
   .triage-group-title {
+    font-family: 'Karla', sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--text);
     display: flex;
     align-items: center;
@@ -1692,9 +1703,9 @@
     font-size: 11px;
     font-weight: 500;
     color: var(--muted);
-    background: rgba(138,146,176,0.1);
+    background: rgba(168,162,158,0.1);
     padding: 2px 8px;
-    border-radius: 20px;
+    border-radius: 8px;
   }
   .triage-group-subtitle {
     font-size: 12px;
@@ -1718,7 +1729,7 @@
 
   .triage-group-body {
     display: none;
-    border-top: 1px solid rgba(200,210,230,0.2);
+    border-top: 1px solid rgba(0,0,0,0.04);
   }
   .triage-group.expanded .triage-group-body { display: block; }
 
@@ -1727,18 +1738,18 @@
     align-items: center;
     gap: 12px;
     padding: 11px 18px;
-    border-bottom: 1px solid rgba(200,210,230,0.12);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
     transition: background 0.12s;
   }
   .triage-item:last-child { border-bottom: none; }
-  .triage-item:hover { background: rgba(200,210,230,0.06); }
+  .triage-item:hover { background: rgba(0,0,0,0.015); }
   .triage-item.excluded-item { opacity: 0.5; }
 
   .triage-check {
     width: 20px;
     height: 20px;
     border-radius: 6px;
-    border: 2px solid rgba(138,146,176,0.3);
+    border: 2px solid rgba(168,162,158,0.3);
     background: white;
     cursor: pointer;
     display: flex;
@@ -1798,10 +1809,10 @@
   .triage-item-amount.reimburse { color: var(--success); }
 
   .triage-cat-select {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
     padding: 4px 8px;
-    border: 1px solid rgba(200,210,230,0.4);
+    border: 1px solid rgba(0,0,0,0.08);
     border-radius: 8px;
     background: white;
     color: var(--text2);
@@ -1813,17 +1824,16 @@
   .triage-summary {
     margin-top: 18px;
     padding: 20px;
-    border-radius: 18px;
-    background: var(--glass);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    border-radius: 8px;
+    background: #ffffff;
     border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    box-shadow: none;
   }
   .triage-summary-title {
+    font-family: 'Karla', sans-serif;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 14px;
@@ -1837,7 +1847,7 @@
     color: var(--text2);
   }
   .triage-summary-row.total {
-    border-top: 1px solid rgba(200,210,230,0.3);
+    border-top: 1px solid rgba(0,0,0,0.06);
     margin-top: 8px;
     padding-top: 12px;
     font-weight: 600;
@@ -1847,7 +1857,7 @@
   .triage-summary-row.invest-row {
     margin-top: 8px;
     padding-top: 8px;
-    border-top: 1px solid rgba(200,210,230,0.15);
+    border-top: 1px solid rgba(0,0,0,0.03);
     color: var(--accent);
     font-weight: 500;
   }
@@ -1858,9 +1868,9 @@
     margin-top: 16px;
     margin-bottom: 14px;
     padding: 14px 18px;
-    border-radius: 14px;
+    border-radius: 8px;
     background: var(--accent-light);
-    border: 1px solid rgba(79,124,255,0.2);
+    border: 1px solid rgba(45,106,79,0.12);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1868,11 +1878,11 @@
     color: var(--text);
   }
   .triage-month-confirm select {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     font-weight: 500;
     padding: 4px 8px;
-    border: 1px solid rgba(79,124,255,0.3);
+    border: 1px solid rgba(45,106,79,0.2);
     border-radius: 8px;
     background: white;
     color: var(--accent);
@@ -1885,15 +1895,15 @@
     background: var(--accent);
     color: white;
     border: none;
-    border-radius: 14px;
-    font-family: 'Inter', sans-serif;
+    border-radius: 8px;
+    font-family: 'Karla', sans-serif;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 16px rgba(79,124,255,0.3);
+    box-shadow: 0 4px 16px rgba(45,106,79,0.2);
   }
-  .triage-confirm-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,124,255,0.4); }
+  .triage-confirm-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(45,106,79,0.25); }
   .triage-confirm-btn:active { transform: translateY(0); }
 
   .triage-cancel-btn {
@@ -1902,15 +1912,15 @@
     padding: 12px 24px;
     background: none;
     color: var(--text2);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
-    font-family: 'Inter', sans-serif;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Karla', sans-serif;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s;
   }
-  .triage-cancel-btn:hover { background: rgba(200,210,230,0.1); }
+  .triage-cancel-btn:hover { background: rgba(0,0,0,0.02); }
 
   @media (max-width: 640px) {
     .triage-item { gap: 8px; padding: 10px 14px; }
@@ -1923,12 +1933,10 @@
   /* Month delete dropdown */
   .month-del-menu {
     position: fixed;
-    background: var(--glass);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     padding: 6px;
     z-index: 9999;
     min-width: 200px;
@@ -1940,7 +1948,7 @@
     text-align: left;
     background: none;
     border: none;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karla', sans-serif;
     font-size: 12px;
     font-weight: 500;
     color: var(--text);
@@ -1951,14 +1959,130 @@
     white-space: nowrap;
   }
   .month-del-menu button:hover {
-    background: rgba(200,210,230,0.15);
+    background: rgba(0,0,0,0.03);
   }
   .month-del-menu button.danger { color: var(--danger); }
   .month-del-menu button.danger:hover { background: var(--danger-light); }
   .month-del-menu .menu-divider {
     height: 1px;
-    background: var(--border2);
+    background: var(--border);
     margin: 4px 8px;
+  }
+
+  /* ── Landing Summary (returning user hero) ── */
+  .landing-summary { display: none; }
+  .landing-summary.visible { display: block; margin-bottom: 32px; }
+  .landing-hero-label {
+    font-family: 'Karla', sans-serif;
+    font-size: 11px; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+  }
+  .landing-hero-title {
+    font-family: 'Literata', serif;
+    font-size: clamp(24px, 5vw, 32px); font-weight: 300; line-height: 1.2;
+    color: var(--text); margin-bottom: 20px; letter-spacing: -0.01em;
+  }
+  .landing-hero-title span { color: var(--accent); }
+  .landing-summary-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: none; border-radius: 0; overflow: visible; margin-bottom: 16px;
+  }
+  .landing-summary-card {
+    background: #ffffff;
+    border: 1px solid var(--border); border-radius: 8px; box-shadow: none;
+    padding: 20px 22px;
+  }
+  .landing-summary-card .ls-label {
+    font-family: 'Karla', sans-serif;
+    font-size: 10px; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .landing-summary-card .ls-value {
+    font-family: 'Literata', serif;
+    font-size: 22px; font-weight: 400; color: var(--text);
+    font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+  }
+  .landing-summary-card .ls-sub {
+    font-family: 'Karla', sans-serif;
+    font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 300;
+  }
+
+  /* Budget ring row */
+  .landing-ring-card {
+    background: #ffffff;
+    border: 1px solid var(--border); border-radius: 8px; box-shadow: none;
+    padding: 18px 20px; display: flex; align-items: center; gap: 18px; margin-bottom: 16px;
+  }
+  .landing-ring-wrap { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
+  .landing-ring-wrap svg { transform: rotate(-90deg); }
+  .landing-ring-label {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .landing-ring-label .pct { font-family: 'Literata', serif; font-size: 18px; font-weight: 400; color: var(--text); }
+  .landing-ring-label .pct-sub { font-family: 'Karla', sans-serif; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .landing-ring-info h3 { font-family: 'Literata', serif; font-size: 14px; font-weight: 400; margin-bottom: 3px; color: var(--text); }
+  .landing-ring-info p { font-family: 'Karla', sans-serif; font-size: 12px; color: var(--text2); line-height: 1.4; font-weight: 300; }
+
+  /* Top categories mini list */
+  .landing-cats-card {
+    background: #ffffff;
+    border: 1px solid var(--border); border-radius: 8px; box-shadow: none;
+    padding: 16px 18px; margin-bottom: 16px;
+  }
+  .landing-cats-title {
+    font-family: 'Literata', serif;
+    font-size: 13px; font-weight: 400;
+    color: var(--text); margin-bottom: 12px;
+  }
+  .landing-cat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .landing-cat-row:last-child { margin-bottom: 0; }
+  .landing-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .landing-cat-name { font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 400; color: var(--text2); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .landing-cat-bar-wrap { width: 80px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+  .landing-cat-bar { height: 100%; border-radius: 2px; }
+  .landing-cat-amt { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 400; width: 70px; text-align: right; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+  /* Settings gear button in account bar */
+  .acct-settings-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #ffffff; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--text2); cursor: pointer;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    flex-shrink: 0; padding: 0; transition: all 0.2s;
+  }
+  .acct-settings-btn:hover { background: rgba(0,0,0,0.03); color: var(--text); }
+  .settings-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; margin-bottom: 0; background: none; border: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .settings-panel.open { max-height: 500px; margin-bottom: 16px; }
+  .settings-panel .api-collapsed { background: rgba(255,255,255,0.15); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .settings-panel .api-collapsed:hover { background: rgba(255,255,255,0.4); }
+
+  /* Collapsible upload toggle */
+  .upload-toggle-btn {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    background: #ffffff;
+    border: 1px solid var(--border); border-radius: 8px; box-shadow: none;
+    padding: 13px 18px; font-family: 'Karla', sans-serif; font-size: 13px;
+    font-weight: 400; color: var(--text2); cursor: pointer; margin-top: 8px; margin-bottom: 0;
+  }
+  .upload-toggle-btn .upload-arrow {
+    font-size: 16px; color: var(--muted); transition: transform 0.3s ease;
+  }
+  .upload-toggle-btn.open .upload-arrow { transform: rotate(180deg); }
+  .upload-collapsible { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: none; border: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .upload-collapsible.open { max-height: 500px; margin-bottom: 12px; }
+  .upload-collapsible .drop-zone { margin-top: 12px; }
+  .upload-collapsible .action-row { margin-top: 12px; }
+
+  /* Setup flow (first-time user) — header stays visible */
+  .setup-flow { display: none; }
+  .setup-flow.visible { display: block; }
+
+  @media (max-width: 600px) {
+    .landing-summary-card .ls-value { font-size: 20px; }
+    .landing-cat-bar-wrap { width: 60px; }
+    .landing-cat-amt { width: 62px; font-size: 12px; }
+    .landing-cat-name { font-size: 12px; }
   }
 </style>
 </head>
@@ -2201,7 +2325,7 @@ var _sdkLoadAttempted = false;
 function _showToast(msg) {
   var t = document.createElement('div');
   t.textContent = msg;
-  t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(30,35,60,0.92);backdrop-filter:blur(20px);color:white;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:500;z-index:9999;animation:fadeUp 0.3s ease;box-shadow:0 8px 32px rgba(0,0,0,0.25);text-align:center;max-width:90vw';
+  t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(26,26,26,0.92);color:white;padding:14px 28px;border-radius:6px;font-family:Karla,sans-serif;font-size:14px;font-weight:400;z-index:9999;animation:fadeUp 0.3s ease;box-shadow:0 4px 16px rgba(0,0,0,0.12);text-align:center;max-width:90vw';
   document.body.appendChild(t);
   setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity 0.4s'; }, 3000);
   setTimeout(function() { t.remove(); }, 3500);
@@ -2389,7 +2513,7 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
     </div>
     <div class="form-group">
       <label class="form-label">Months <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— select one or more</span></label>
-      <div id="monthPickerWrap" style="display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:rgba(255,255,255,0.6);border:1px solid var(--border2);border-radius:12px;min-height:48px">
+      <div id="monthPickerWrap" style="display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:12px;min-height:48px">
         <div style="font-size:12px;color:var(--muted)" id="monthPickerEmpty">Loading months…</div>
       </div>
     </div>
@@ -2424,15 +2548,70 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
     <div class="account-email" id="accountEmail">—</div>
     <div class="sync-badge synced" id="syncBadge">✓ Synced</div>
     <button class="account-logout" onclick="_handleLogout()">Sign out</button>
+    <button class="acct-settings-btn" id="acctSettingsBtn" style="display:none" onclick="toggleSettingsPanel()" title="Settings">⚙</button>
   </div>
 
   <!-- Offline mode bar (shown when using without account) -->
   <div class="account-bar" id="offlineBar" style="display:none">
     <span style="font-size:13px;color:var(--muted)">○ Using without account</span>
     <button class="account-logout" style="margin-left:auto;color:var(--accent);border-color:var(--accent)" onclick="_goToAuth()">← Sign in / Sign up</button>
+    <button class="acct-settings-btn" id="offlineSettingsBtn" style="display:none" onclick="toggleSettingsPanel()" title="Settings">⚙</button>
   </div>
 
-  <header>
+  <!-- Settings dropdown panel (triggered by gear icon in account bar) -->
+  <div class="settings-panel" id="settingsPanel"></div>
+
+  <!-- ═══ LANDING SUMMARY (returning user hero — hidden until data exists) ═══ -->
+  <div class="landing-summary" id="landingSummary">
+    <div class="landing-hero-label">Budget Analyzer</div>
+    <div class="landing-hero-title" id="landingHeroTitle">Your <span>month</span><br>at a glance.</div>
+
+    <div class="landing-summary-row">
+      <div class="landing-summary-card">
+        <div class="ls-label">Total Spent</div>
+        <div class="ls-value" id="lsSpent">—</div>
+        <div class="ls-sub" id="lsSpentSub"></div>
+      </div>
+      <div class="landing-summary-card">
+        <div class="ls-label">Saved</div>
+        <div class="ls-value" id="lsSaved" style="color:var(--success)">—</div>
+        <div class="ls-sub" id="lsSavedSub"></div>
+      </div>
+    </div>
+
+    <div class="landing-ring-card" id="lsRingCard" style="display:none">
+      <div class="landing-ring-wrap">
+        <svg width="72" height="72" viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="30" fill="none" stroke="var(--bg2)" stroke-width="6"/>
+          <circle cx="36" cy="36" r="30" fill="none" stroke="var(--success)" stroke-width="6"
+            id="lsRingCircle" stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round"/>
+        </svg>
+        <div class="landing-ring-label">
+          <span class="pct" id="lsRingPct">0%</span>
+          <span class="pct-sub">used</span>
+        </div>
+      </div>
+      <div class="landing-ring-info">
+        <h3 id="lsRingTitle">—</h3>
+        <p id="lsRingDesc">—</p>
+      </div>
+    </div>
+
+    <div class="landing-cats-card" id="lsCatsCard">
+      <div class="landing-cats-title" id="lsCatsTitle">Top Categories</div>
+      <div id="lsCatsBody"></div>
+    </div>
+
+    <!-- Upload toggle — collapsed for returning users -->
+    <button class="upload-toggle-btn" id="uploadToggleBtn" onclick="toggleUploadPanel()">
+      <span>📂 Import new statement</span>
+      <span class="upload-arrow">▾</span>
+    </button>
+    <div class="upload-collapsible" id="uploadCollapsible"></div>
+  </div>
+
+  <!-- ═══ SETUP HEADER (first-time user — hidden when data exists) ═══ -->
+  <header id="setupHeader">
     <div class="logo">Budget Analyzer</div>
     <h1>Track your <span>spending</span><br>month by month.</h1>
     <p class="subtitle">Drop your bank CSV files. Claude categorizes everything automatically and builds your history.</p>
@@ -2467,7 +2646,7 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
     <div id="incomeExpanded">
       <div class="glass-card api-section" style="margin-bottom:10px">
         <span class="api-label">Income</span>
-        <input type="text" id="monthlyIncome" placeholder="e.g. 45 000" autocomplete="off" inputmode="numeric" style="font-family:'Inter',sans-serif">
+        <input type="text" id="monthlyIncome" placeholder="e.g. 45 000" autocomplete="off" inputmode="numeric" style="font-family:'Karla',sans-serif">
         <span style="font-size:12px;color:var(--muted);white-space:nowrap">kr / month</span>
         <button class="save-key-btn" id="saveIncomeBtn" onclick="saveIncome()">Save</button>
       </div>
@@ -2478,18 +2657,20 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
   </div>
 
   <!-- Drop zone -->
-  <div class="glass-card drop-zone" id="dropZone"
-    onclick="document.getElementById('fileInput').click()"
-    ondragover="onDragOver(event)" ondragleave="onDragLeave()" ondrop="onDrop(event)">
-    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" multiple onchange="onFileSelect(event)">
-    <div class="drop-zone-icon">📂</div>
-    <div class="drop-zone-label">Drop CSV or Excel files here or <span class="drop-link">browse</span></div>
-    <div class="drop-zone-sub">Drop multiple files at once — one per month or combined</div>
-    <div class="drop-zone-files" id="dropZoneFiles"></div>
+  <div id="dropZoneWrap">
+    <div class="glass-card drop-zone" id="dropZone"
+      onclick="document.getElementById('fileInput').click()"
+      ondragover="onDragOver(event)" ondragleave="onDragLeave()" ondrop="onDrop(event)">
+      <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" multiple onchange="onFileSelect(event)">
+      <div class="drop-zone-icon">📂</div>
+      <div class="drop-zone-label">Drop CSV or Excel files here or <span class="drop-link">browse</span></div>
+      <div class="drop-zone-sub">Drop multiple files at once — one per month or combined</div>
+      <div class="drop-zone-files" id="dropZoneFiles"></div>
+    </div>
   </div>
 
   <!-- Action row -->
-  <div class="action-row">
+  <div class="action-row" id="actionRow">
     <button class="analyze-btn" id="analyzeBtn" disabled onclick="analyze()">
       <div class="btn-inner"><span>✦</span><span>Analyze Spending</span></div>
     </button>
@@ -2561,7 +2742,7 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
             <span style="font-size:13px;font-weight:600;color:var(--text2)" id="manualEntriesCount"></span>
             <span id="manualEntriesChevron" style="font-size:18px;color:var(--muted);transition:transform 0.25s;display:inline-block">›</span>
           </div>
-          <div id="manualEntriesCollapsible" style="display:none;border-top:1px solid rgba(200,210,230,0.2);overflow-x:auto;-webkit-overflow-scrolling:touch">
+          <div id="manualEntriesCollapsible" style="display:none;border-top:1px solid rgba(0,0,0,0.04);overflow-x:auto;-webkit-overflow-scrolling:touch">
             <table class="unc-table" id="manualEntriesTable" style="min-width:480px">
               <thead><tr><th>Description</th><th>Amount</th><th>Month</th><th>Category</th><th></th></tr></thead>
               <tbody id="manualEntriesBody"></tbody>
@@ -3172,6 +3353,147 @@ document.getElementById('apiKey').addEventListener('input', updateAnalyzeBtn);
 // Auth and session checking handled by standalone auth script above.
 // initApp() is called by the auth script after successful login or skip.
 
+// ── Landing Summary (returning user hero) ────────────────────────────────────
+let _landingMode = 'setup'; // 'setup' or 'returning'
+
+function activateLandingMode() {
+  if (_landingMode === 'returning') return;
+  _landingMode = 'returning';
+  // Hide setup header, show landing summary
+  document.getElementById('setupHeader').style.display = 'none';
+  document.getElementById('landingSummary').classList.add('visible');
+  // Show gear icon in account bar (both logged-in and offline)
+  const gearBtn = document.getElementById('acctSettingsBtn');
+  if (gearBtn) gearBtn.style.display = 'flex';
+  const offlineGear = document.getElementById('offlineSettingsBtn');
+  if (offlineGear) offlineGear.style.display = 'flex';
+  // Move config elements into settings panel
+  const settingsPanel = document.getElementById('settingsPanel');
+  settingsPanel.appendChild(document.getElementById('apiKeyWrap'));
+  settingsPanel.appendChild(document.getElementById('incomeWrap'));
+  // Move drop zone into upload collapsible
+  const uploadPanel = document.getElementById('uploadCollapsible');
+  uploadPanel.appendChild(document.getElementById('dropZoneWrap'));
+  uploadPanel.appendChild(document.getElementById('actionRow'));
+  refreshLandingSummary();
+}
+
+function activateSetupMode() {
+  if (_landingMode === 'setup') return;
+  _landingMode = 'setup';
+  document.getElementById('setupHeader').style.display = '';
+  document.getElementById('landingSummary').classList.remove('visible');
+  // Hide gear icon
+  const gearBtn = document.getElementById('acctSettingsBtn');
+  if (gearBtn) gearBtn.style.display = 'none';
+  const offlineGear = document.getElementById('offlineSettingsBtn');
+  if (offlineGear) offlineGear.style.display = 'none';
+  // Close settings panel if open
+  document.getElementById('settingsPanel').classList.remove('open');
+  // Move elements back to main flow (before progress section)
+  const progress = document.getElementById('progressSection');
+  const parent = progress.parentNode;
+  parent.insertBefore(document.getElementById('apiKeyWrap'), progress);
+  parent.insertBefore(document.getElementById('incomeWrap'), progress);
+  parent.insertBefore(document.getElementById('dropZoneWrap'), progress);
+  parent.insertBefore(document.getElementById('actionRow'), progress);
+}
+
+function toggleSettingsPanel() {
+  const panel = document.getElementById('settingsPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    expandApiKey();
+    expandIncome();
+  }
+}
+
+function toggleUploadPanel() {
+  const btn = document.getElementById('uploadToggleBtn');
+  const panel = document.getElementById('uploadCollapsible');
+  btn.classList.toggle('open');
+  panel.classList.toggle('open');
+}
+
+function refreshLandingSummary() {
+  // Build summary from historicalData + manualEntries (same source of truth as refreshDashboard)
+  const monthlySummary = {};
+  for (const [m, cats] of Object.entries(historicalData)) {
+    monthlySummary[m] = { ...cats };
+  }
+  for (const e of manualEntries) {
+    if (!monthlySummary[e.month]) monthlySummary[e.month] = {};
+    monthlySummary[e.month][e.category] = (monthlySummary[e.month][e.category] || 0) + e.amount;
+  }
+  const allMonths = Object.keys(monthlySummary).sort();
+  if (allMonths.length === 0) return;
+
+  const dataCats = CATEGORIES.filter(c => c !== 'Uncategorized' && c !== 'Reimbursements');
+  const income = getSavedIncome();
+  const latestMonth = allMonths[allMonths.length - 1];
+  const latestSpend = dataCats.reduce((s, c) => s + (monthlySummary[latestMonth]?.[c] || 0), 0);
+  const reimbVal = Math.round(monthlySummary[latestMonth]?.['Reimbursements'] || 0);
+  const netSpend = Math.round(latestSpend + reimbVal); // reimbVal is negative
+
+  // Hero title
+  document.getElementById('landingHeroTitle').innerHTML = `Your <span>${fmtMonth(latestMonth)}</span><br>at a glance.`;
+
+  // Spent card
+  document.getElementById('lsSpent').textContent = nok(netSpend);
+  document.getElementById('lsSpentSub').textContent = income ? `of ${nok(income)} income` : '';
+
+  // Saved card
+  if (income) {
+    const saved = income - netSpend;
+    const rate = ((saved / income) * 100).toFixed(1);
+    document.getElementById('lsSaved').textContent = nok(saved);
+    document.getElementById('lsSaved').style.color = saved >= 0 ? 'var(--success)' : 'var(--danger)';
+    document.getElementById('lsSavedSub').textContent = `${rate}% savings rate`;
+  } else {
+    document.getElementById('lsSaved').textContent = '—';
+    document.getElementById('lsSavedSub').textContent = 'Set income to see';
+  }
+
+  // Budget ring
+  if (income) {
+    const pct = Math.min(Math.round((netSpend / income) * 100), 100);
+    const circumference = 2 * Math.PI * 30; // r=30
+    const offset = circumference - (pct / 100) * circumference;
+    const ringColor = pct > 90 ? 'var(--danger)' : pct > 70 ? 'var(--bill)' : 'var(--success)';
+    document.getElementById('lsRingCircle').setAttribute('stroke-dashoffset', offset);
+    document.getElementById('lsRingCircle').setAttribute('stroke', ringColor);
+    document.getElementById('lsRingPct').textContent = pct + '%';
+    const statusMsg = pct > 90 ? 'Budget nearly used'
+      : pct > 70 ? 'Watch your spending'
+      : 'On track this month';
+    const remaining = income - netSpend;
+    document.getElementById('lsRingTitle').textContent = statusMsg;
+    document.getElementById('lsRingDesc').textContent = `You've used ${pct}% of your income. ${nok(remaining)} remaining.`;
+    document.getElementById('lsRingCard').style.display = 'flex';
+  } else {
+    document.getElementById('lsRingCard').style.display = 'none';
+  }
+
+  // Top categories (up to 4)
+  const catVals = dataCats
+    .map(c => ({ c, v: Math.round(monthlySummary[latestMonth]?.[c] || 0) }))
+    .filter(x => x.v > 0)
+    .sort((a, b) => b.v - a.v)
+    .slice(0, 4);
+  const maxVal = catVals.length > 0 ? catVals[0].v : 1;
+  document.getElementById('lsCatsTitle').textContent = `Top Categories · ${fmtMonth(latestMonth)}`;
+  document.getElementById('lsCatsBody').innerHTML = catVals.map(({ c, v }) => {
+    const barW = Math.max((v / maxVal) * 100, 8);
+    const color = CAT_COLORS[c] || 'var(--muted)';
+    return `<div class="landing-cat-row">
+      <div class="landing-cat-dot" style="background:${color}"></div>
+      <span class="landing-cat-name">${c}</span>
+      <div class="landing-cat-bar-wrap"><div class="landing-cat-bar" style="width:${barW}%;background:${color}"></div></div>
+      <span class="landing-cat-amt">${nok(v)}</span>
+    </div>`;
+  }).join('');
+}
+
 async function initApp() {
   // ── Reset UI to default state (important when switching between modes) ──
   document.getElementById('apiKey').value = '';
@@ -3280,6 +3602,13 @@ async function initApp() {
   }
 
   const restored = restoreLastAnalysis();
+
+  // Decide landing mode: returning user (has data) vs setup (first time)
+  const hasData = restored || Object.keys(historicalData).length > 0 || savingsGoals.length > 0 || investConfig;
+  if (hasData) {
+    activateLandingMode();
+  }
+  // else: setup mode is default, no action needed
 
   // If no saved analysis, but we have historical data, show historical tab
   if (!restored && Object.keys(historicalData).length > 0) {
@@ -3627,7 +3956,7 @@ function toggleManualEntries() {
 
 function showToast(msg) {
   const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(30,35,60,0.9);backdrop-filter:blur(20px);color:white;padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;z-index:999;animation:fadeUp 0.3s ease;box-shadow:0 8px 32px rgba(0,0,0,0.2)`;
+  t.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(26,26,26,0.92);color:white;padding:12px 24px;border-radius:6px;font-family:Karla,sans-serif;font-size:13px;font-weight:400;z-index:999;animation:fadeUp 0.3s ease;box-shadow:0 4px 16px rgba(0,0,0,0.12)`;
   t.textContent = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2800);
@@ -4789,6 +5118,7 @@ function confirmTriage() {
   }
   document.getElementById('resultsSection').classList.add('visible');
   switchTab('historical');
+  activateLandingMode();
 
   // Clear uploaded files
   loadedFiles = {};
@@ -4930,6 +5260,7 @@ async function analyze() {
     renderHistorical();
     document.getElementById('analyzeBtn').disabled = false;
     renderManualEntriesTable();
+    activateLandingMode();
     // Clear uploaded files from drop zone
     loadedFiles = {};
     renderDropZone();
@@ -4951,8 +5282,8 @@ function showDuplicateWarning(duplicates) {
   banner.innerHTML = `
     <span>⚠ <strong>${monthNames}</strong> already in history. What should we do?</span>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-      <button onclick="confirmMerge()" title="Combine new transactions with existing ones" style="background:var(--accent);color:white;border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer">✚ Merge (combine both)</button>
-      <button onclick="confirmOverwrite()" title="Replace existing data with new import" style="background:none;border:1px solid var(--border2);color:var(--text);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:10px;cursor:pointer">↻ Overwrite (replace)</button>
+      <button onclick="confirmMerge()" title="Combine new transactions with existing ones" style="background:var(--accent);color:white;border:none;font-family:'Karla',sans-serif;font-size:12px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer">✚ Merge (combine both)</button>
+      <button onclick="confirmOverwrite()" title="Replace existing data with new import" style="background:none;border:1px solid var(--border);color:var(--text);font-family:'Karla',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:10px;cursor:pointer">↻ Overwrite (replace)</button>
       <button class="warn-cancel" onclick="cancelOverwrite()">Keep existing</button>
     </div>
   `;
@@ -5546,10 +5877,10 @@ function refreshDashboard() {
     }
     drillPanels += `<div class="drilldown-panel" id="drill-${c}"></div>`;
     return `
-      <div class="breakdown-row dash-cat-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;cursor:pointer;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box;width:100%;overflow:hidden" onclick="toggleDrilldown('${c}', this)" id="brow-${c}">
+      <div class="breakdown-row dash-cat-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,0.04);box-sizing:border-box;width:100%;overflow:hidden" onclick="toggleDrilldown('${c}', this)" id="brow-${c}">
         <div class="cat-name" style="white-space:nowrap;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis"><span class="cat-dot" style="background:${CAT_COLORS[c]}"></span>${c} <span class="dash-cat-arrow" style="display:inline-block;transition:transform 0.2s">›</span></div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-          <div style="white-space:nowrap;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;color:var(--text)">${nok(v)}</div>
+          <div style="white-space:nowrap;font-family:'JetBrains Mono',monospace;font-weight:400;font-size:13px;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;color:var(--text)">${nok(v)}</div>
           <div style="min-width:48px;text-align:right">${catTrend}</div>
         </div>
       </div>`;
@@ -5562,19 +5893,19 @@ function refreshDashboard() {
   if (reimbVal < 0) {
     const reimbColor = CAT_COLORS['Reimbursements'] || '#34C759';
     reimbRow = `
-      <div class="breakdown-row dash-cat-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box;width:100%;overflow:hidden">
+      <div class="breakdown-row dash-cat-row" style="display:flex;align-items:center;padding:13px 18px;gap:10px;border-bottom:1px solid rgba(0,0,0,0.04);box-sizing:border-box;width:100%;overflow:hidden">
         <div class="cat-name" style="white-space:nowrap;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis"><span class="cat-dot" style="background:${reimbColor}"></span>Reimbursements</div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-          <div style="white-space:nowrap;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;color:${reimbColor}">${nok(reimbVal)}</div>
+          <div style="white-space:nowrap;font-family:'JetBrains Mono',monospace;font-weight:400;font-size:13px;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;color:${reimbColor}">${nok(reimbVal)}</div>
           <div style="min-width:48px;text-align:right"></div>
         </div>
       </div>`;
   }
   const totalThisMonth = grossThisMonth + reimbVal; // net total (reimbVal is negative)
   document.getElementById('dashCategoryBreakdown').innerHTML = catRows + reimbRow +
-    `<div style="display:flex;justify-content:space-between;padding:12px 20px;font-size:11px;color:var(--muted);background:rgba(255,255,255,0.3)">
+    `<div style="display:flex;justify-content:space-between;padding:12px 20px;font-size:11px;color:var(--muted);background:rgba(255,255,255,0.4)">
       <span>Total · ${fmtMonth(latestMonth)}</span>
-      <span style="font-weight:700;color:var(--text)">${nok(totalThisMonth)}</span>
+      <span style="font-weight:500;color:var(--text)">${nok(totalThisMonth)}</span>
     </div>`;
   document.getElementById('drilldownContainer').innerHTML = drillPanels;
 
@@ -5585,6 +5916,9 @@ function refreshDashboard() {
 
   // Also update historical tab
   refreshHistoricalTab();
+
+  // Also update landing summary hero if in returning-user mode
+  if (_landingMode === 'returning') refreshLandingSummary();
 }
 
 function refreshHistoricalTab() {
@@ -5742,18 +6076,18 @@ function renderHistorical() {
     const pct = (prevVal !== null && prevVal > 0) ? ((lastVal - prevVal) / prevVal * 100) : null;
     const pctBadge = pct !== null
       ? `<span style="
-          font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;
-          background:${pct>5?'var(--danger-light)':pct<-5?'var(--success-light)':'rgba(138,146,176,0.12)'};
+          font-size:11px;font-weight:400;padding:3px 9px;border-radius:4px;white-space:nowrap;
+          background:${pct>5?'var(--danger-light)':pct<-5?'var(--success-light)':'rgba(168,162,158,0.12)'};
           color:${pct>5?'var(--danger)':pct<-5?'var(--success)':'var(--muted)'};
         ">${pct>0?'▲':'▼'} ${Math.abs(pct).toFixed(0)}% vs ${fmtMonth(prevMonth)}</span>`
       : `<span style="font-size:11px;color:var(--muted)">first month</span>`;
 
     const barPct = (allTimeTotal / maxCatTotal * 100).toFixed(1);
 
-    return `<div style="display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(200,210,230,0.25)">
+    return `<div style="display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(0,0,0,0.04)">
       <div style="width:110px;font-size:13px;font-weight:600;color:var(--text);flex-shrink:0">${cat}</div>
       <div style="flex:1;display:flex;flex-direction:column;gap:6px">
-        <div style="height:10px;background:rgba(200,210,230,0.25);border-radius:6px;overflow:hidden">
+        <div style="height:10px;background:rgba(0,0,0,0.04);border-radius:6px;overflow:hidden">
           <div style="height:100%;width:${barPct}%;background:${CAT_COLORS[cat]};border-radius:6px;opacity:0.85;transition:width 0.6s ease"></div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between">
@@ -5774,7 +6108,7 @@ function renderHistorical() {
   const trendChart = `<div class="hist-section"><div class="section-title">Category Trends <span style="font-size:10px;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:6px">% change vs previous month · bar = all-time relative size</span></div>
   <div class="glass-card" style="overflow:hidden">
     ${trendRows}
-    <div style="padding:12px 20px;background:rgba(255,255,255,0.3);border-top:1px solid var(--border2);font-size:11px;color:var(--muted)">
+    <div style="padding:12px 20px;background:rgba(255,255,255,0.4);border-top:1px solid var(--border);font-size:11px;color:var(--muted)">
       Latest month: <strong style="color:var(--text2)">${fmtMonth(lastMonth)}</strong>${prevMonth ? ` · compared to <strong style="color:var(--text2)">${fmtMonth(prevMonth)}</strong>` : ''}
     </div>
   </div></div>`;
@@ -5783,12 +6117,12 @@ function renderHistorical() {
   const spendExpanded = window._histSpendExpanded || false;
   const breakdownExpanded = window._histBreakdownExpanded || false;
   const spendToggleBtn = `<div style="display:flex;justify-content:center;padding:10px 0 2px;width:100%;box-sizing:border-box">
-    <button onclick="window._histSpendExpanded=!window._histSpendExpanded;renderHistorical()" style="background:none;border:1px solid var(--border2);color:var(--accent);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;padding:7px 18px;border-radius:20px;cursor:pointer;transition:all 0.2s">
+    <button onclick="window._histSpendExpanded=!window._histSpendExpanded;renderHistorical()" style="background:none;border:1px solid var(--border);color:var(--accent);font-family:'Karla',sans-serif;font-size:11px;font-weight:600;padding:7px 18px;border-radius:20px;cursor:pointer;transition:all 0.2s">
       ${spendExpanded ? '▲ Show summary only' : '▼ Show all months'}
     </button>
   </div>`;
   const breakdownToggleBtn = `<div style="display:flex;justify-content:center;padding:10px 0 2px;width:100%;box-sizing:border-box">
-    <button onclick="window._histBreakdownExpanded=!window._histBreakdownExpanded;renderHistorical()" style="background:none;border:1px solid var(--border2);color:var(--accent);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;padding:7px 18px;border-radius:20px;cursor:pointer;transition:all 0.2s">
+    <button onclick="window._histBreakdownExpanded=!window._histBreakdownExpanded;renderHistorical()" style="background:none;border:1px solid var(--border);color:var(--accent);font-family:'Karla',sans-serif;font-size:11px;font-weight:600;padding:7px 18px;border-radius:20px;cursor:pointer;transition:all 0.2s">
       ${breakdownExpanded ? '▲ Show summary only' : '▼ Show all months'}
     </button>
   </div>`;
@@ -5810,7 +6144,7 @@ function renderHistorical() {
     </div>`;
   }).join('');
   const avgBar = `<div class="bar-row">
-    <div class="bar-label" style="font-size:12px;font-weight:700;color:var(--text)">Avg / month</div>
+    <div class="bar-label" style="font-size:12px;font-weight:500;color:var(--text)">Avg / month</div>
     <div class="bar-track"><div class="bar-fill" style="width:${(avgTotal/maxT*100).toFixed(1)}%;background:var(--accent);opacity:0.7"><span>${nok(avgTotal)}</span></div></div>
     <span style="font-size:11px;color:var(--muted);margin-left:8px">${months.length} months</span>
   </div>`;
@@ -5838,7 +6172,7 @@ function renderHistorical() {
   ${showToggle ? breakdownToggleBtn : ''}</div>`;
 
   const clearBtn = `<div style="text-align:right;margin-top:16px">
-    <button onclick="clearHistory()" style="background:none;border:1px solid var(--border2);color:var(--muted);font-family:'Inter',sans-serif;font-size:11px;font-weight:500;padding:8px 16px;border-radius:10px;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)'">
+    <button onclick="clearHistory()" style="background:none;border:1px solid var(--border);color:var(--muted);font-family:'Karla',sans-serif;font-size:11px;font-weight:500;padding:8px 16px;border-radius:10px;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
       Clear all historical data
     </button>
   </div>`;
@@ -5852,19 +6186,19 @@ function renderHistorical() {
     const vendorRows = sorted.map((v, i) => {
       const catColor = CAT_COLORS[v.cat] || '#aaa';
       const barPct = (v.count / maxVendorCount * 100).toFixed(1);
-      return `<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid rgba(200,210,230,0.2);box-sizing:border-box">
-        <div style="width:22px;text-align:right;font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0">${i+1}</div>
+      return `<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid rgba(0,0,0,0.04);box-sizing:border-box">
+        <div style="width:22px;text-align:right;font-size:11px;font-weight:400;color:var(--muted);flex-shrink:0">${i+1}</div>
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
             <span style="width:8px;height:8px;border-radius:50%;background:${catColor};flex-shrink:0;display:inline-block"></span>
             <span style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.name}</span>
           </div>
-          <div style="height:5px;background:rgba(200,210,230,0.25);border-radius:4px;overflow:hidden">
+          <div style="height:5px;background:rgba(0,0,0,0.04);border-radius:4px;overflow:hidden">
             <div style="height:100%;width:${barPct}%;background:${catColor};border-radius:4px;opacity:0.5"></div>
           </div>
         </div>
         <div style="flex-shrink:0;text-align:right;min-width:90px">
-          <div style="font-size:13px;font-weight:700;color:var(--text)">${nok(Math.round(v.total))}</div>
+          <div style="font-size:13px;font-weight:500;color:var(--text)">${nok(Math.round(v.total))}</div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px">${v.count} transaction${v.count !== 1 ? 's' : ''}</div>
         </div>
       </div>`;
@@ -6160,6 +6494,7 @@ function clearHistory() {
   document.getElementById('incomeExpanded').style.display = 'block';
   updateAnalyzeBtn();
   renderHistorical();
+  activateSetupMode();
 }
 
 // ── Dashboard persistence ────────────────────────────────────────────────────
@@ -6245,8 +6580,8 @@ function showRestoreBanner(dateStr) {
     banner.id = 'restoreBanner';
     banner.style.cssText = `
       background: rgba(79,124,255,0.08);
-      border: 1px solid rgba(79,124,255,0.2);
-      border-radius: 14px;
+      border: 1px solid rgba(45,106,79,0.12);
+      border-radius: 8px;
       padding: 12px 18px;
       margin-bottom: 20px;
       font-size: 13px;
@@ -6375,7 +6710,7 @@ function renderDrilldown(cat, panel) {
       </div>`;
     }),
     ...manualFiltered.map(e => `
-      <div class="drilldown-txn" style="background:rgba(79,124,255,0.04)">
+      <div class="drilldown-txn" style="background:rgba(45,106,79,0.03)">
         <div class="drilldown-txn-name">✎ ${e.desc} <span style="font-size:10px;color:var(--muted);margin-left:4px">manual</span></div>
         <div class="drilldown-txn-date">${fmtMonth(e.month)}</div>
         <div class="drilldown-txn-amt">${nok(e.amount)}</div>
@@ -6393,7 +6728,7 @@ function renderDrilldown(cat, panel) {
       <div class="drilldown-title">
         <span style="width:8px;height:8px;border-radius:50%;background:${CAT_COLORS[cat]};display:inline-block"></span>
         ${cat} — ${activeDrillMonth === 'all' ? 'all months' : fmtMonth(activeDrillMonth)}
-        <span style="color:var(--accent);font-weight:700;margin-left:4px">${nok(total)}</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:400;margin-left:4px;letter-spacing:-0.02em">${nok(total)}</span>
         <span style="color:var(--muted);font-weight:400">(${filtered.length + manualFiltered.length} transactions)</span>
       </div>
       <button class="drilldown-close" onclick="event.stopPropagation(); toggleDrilldown('${cat}', document.getElementById('${panelId.replace('drill-','brow-')}'))">✕</button>
@@ -6541,7 +6876,7 @@ function openMonthDrill(month) {
 
   const totalRow = `<div class="month-drill-total">
     <span>Total · ${fmtMonth(month)}${reimbVal < 0 ? ' (net of reimbursements)' : ''}</span>
-    <span style="font-weight:700;color:var(--text)">${nok(netTotal)}</span>
+    <span style="font-weight:500;color:var(--text)">${nok(netTotal)}</span>
   </div>`;
 
   document.getElementById('monthDrillBody').innerHTML = navHtml + cardsHtml +
@@ -6606,7 +6941,7 @@ function toggleMonthDrillCat(cat) {
         </div>
       </div>`),
     ...manualFiltered.map(e => `
-      <div class="drilldown-txn" style="background:rgba(79,124,255,0.04)">
+      <div class="drilldown-txn" style="background:rgba(45,106,79,0.03)">
         <div class="drilldown-txn-name">✎ ${e.desc} <span style="font-size:10px;color:var(--muted);margin-left:4px">manual</span></div>
         <div class="drilldown-txn-date">${fmtMonth(e.month)}</div>
         <div class="drilldown-txn-amt">${nok(e.amount)}</div>
@@ -6840,7 +7175,7 @@ function renderSavingsRate() {
       targetHtml = `<span class="sr-target-badge" style="background:var(--success-light);color:var(--success)">✓ Above ${savingsRateTarget}% target</span>`;
     } else if (latest.rate >= savingsRateTarget - 5) {
       rateColor = '#ff9f0a';
-      targetHtml = `<span class="sr-target-badge" style="background:rgba(255,159,10,0.12);color:#ff9f0a">Close to ${savingsRateTarget}% target</span>`;
+      targetHtml = `<span class="sr-target-badge" style="background:rgba(176,141,87,0.12);color:#ff9f0a">Close to ${savingsRateTarget}% target</span>`;
     } else {
       rateColor = 'var(--danger)';
       targetHtml = `<span class="sr-target-badge" style="background:var(--danger-light);color:var(--danger)">Below ${savingsRateTarget}% target</span>`;
@@ -6869,7 +7204,7 @@ function renderSavingsRate() {
         <div class="sr-sparkline-label">Last ${Math.min(data.length, 12)} months</div>
       </div>
     </div>
-    <div class="goals-settings-row" style="border-top:1px solid rgba(200,210,230,0.25)">
+    <div class="goals-settings-row" style="border-top:1px solid rgba(0,0,0,0.04)">
       <label>Target Rate</label>
       <input type="number" min="0" max="100" step="1" value="${savingsRateTarget !== null ? savingsRateTarget : ''}"
         placeholder="e.g. 30" onchange="updateSRTarget(this.value)" style="width:70px">
@@ -6896,7 +7231,7 @@ function renderSavingsRate() {
     // Target line
     if (savingsRateTarget !== null) {
       const ty = h - ((savingsRateTarget - minR) / range * (h - 10)) - 5;
-      ctx.strokeStyle = 'rgba(79,124,255,0.25)';
+      ctx.strokeStyle = 'rgba(45,106,79,0.15)';
       ctx.setLineDash([4, 4]);
       ctx.beginPath(); ctx.moveTo(0, ty); ctx.lineTo(w, ty); ctx.stroke();
       ctx.setLineDash([]);
@@ -6983,7 +7318,7 @@ function renderGoalCards() {
       } else if (avgMonthly >= neededPerMonth * 0.9) {
         deadlineHtml = `<span class="goal-deadline-badge" style="background:var(--success-light);color:var(--success)">On track</span>`;
       } else {
-        deadlineHtml = `<span class="goal-deadline-badge" style="background:rgba(255,159,10,0.12);color:#ff9f0a">Behind pace</span>`;
+        deadlineHtml = `<span class="goal-deadline-badge" style="background:rgba(176,141,87,0.12);color:#ff9f0a">Behind pace</span>`;
       }
     }
 
@@ -7048,7 +7383,7 @@ function openGoalModal(editId) {
 
   // Icon picker
   document.getElementById('goalIconPicker').innerHTML = GOAL_ICONS.map(ic =>
-    `<div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;font-size:16px;background:rgba(200,210,230,0.2);transition:all 0.15s" class="icon-pick" onclick="pickGoalIcon(this,'${ic}')">${ic}</div>`
+    `<div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;font-size:16px;background:rgba(0,0,0,0.04);transition:all 0.15s" class="icon-pick" onclick="pickGoalIcon(this,'${ic}')">${ic}</div>`
   ).join('');
 
   // Color picker
@@ -7378,7 +7713,7 @@ function drawProjectionChart(canvasId) {
   const ch = h - padT - padB;
 
   // Grid lines
-  ctx.strokeStyle = 'rgba(200,210,230,0.3)';
+  ctx.strokeStyle = 'rgba(0,0,0,0.06)';
   ctx.lineWidth = 0.5;
   for (let i = 0; i <= 4; i++) {
     const y = padT + (ch / 4) * i;
@@ -7386,7 +7721,7 @@ function drawProjectionChart(canvasId) {
   }
 
   // Contribution area (gray)
-  ctx.fillStyle = 'rgba(138,146,176,0.1)';
+  ctx.fillStyle = 'rgba(168,162,158,0.1)';
   ctx.beginPath();
   ctx.moveTo(padL, padT + ch);
   contribPoints.forEach((v, i) => {
@@ -7398,7 +7733,7 @@ function drawProjectionChart(canvasId) {
   ctx.closePath(); ctx.fill();
 
   // Growth area (blue)
-  ctx.fillStyle = 'rgba(79,124,255,0.12)';
+  ctx.fillStyle = 'rgba(45,106,79,0.08)';
   ctx.beginPath();
   ctx.moveTo(padL, padT + ch);
   points.forEach((v, i) => {
@@ -7421,7 +7756,7 @@ function drawProjectionChart(canvasId) {
   ctx.stroke();
 
   // Contribution line (dashed)
-  ctx.strokeStyle = 'rgba(138,146,176,0.5)';
+  ctx.strokeStyle = 'rgba(168,162,158,0.5)';
   ctx.lineWidth = 1;
   ctx.setLineDash([4, 3]);
   ctx.beginPath();
