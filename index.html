@@ -715,8 +715,19 @@
   }
   .breakdown-row.active .dash-cat-arrow { transform: rotate(90deg); color: var(--accent); }
 
-  /* ── Bar chart ── */
+  /* ── Category chart ── */
   .chart-wrap { padding: 20px 22px; }
+  .cat-list-row { display: flex; align-items: center; padding: 10px 0; }
+  .cat-list-name { display: flex; align-items: center; gap: 8px; width: 120px; flex-shrink: 0; }
+  .cat-list-name span { font-family: 'Karla', sans-serif; font-size: 13px; color: var(--text); }
+  .cat-list-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cat-list-spark { flex-shrink: 0; width: 80px; display: flex; align-items: center; justify-content: center; margin-left: 16px; }
+  .cat-list-total { flex: 1; text-align: right; font-family: 'Karla', sans-serif; font-size: 13px; font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; padding-right: 16px; }
+  .cat-list-share { width: 46px; text-align: right; font-family: 'Karla', sans-serif; font-size: 12px; font-weight: 500; color: var(--text2); flex-shrink: 0; }
+  .cat-list-header { display: flex; align-items: center; padding: 0 0 10px; }
+  .cat-list-header span { font-family: 'Karla', sans-serif; font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── Bar chart (used by Total Monthly Spend, etc.) ── */
   .bars { display: flex; flex-direction: column; gap: 11px; }
   .bar-row { display: flex; align-items: center; gap: 14px; }
   .bar-label { width: 110px; font-family: 'Karla', sans-serif; font-size: 12px; font-weight: 400; color: var(--text2); flex-shrink: 0; }
@@ -732,7 +743,10 @@
     opacity: 0.7;
   }
   .bar-fill span { display: none; }
-  .bar-amount { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); white-space: nowrap; width: 80px; text-align: right; letter-spacing: -0.02em; }
+  .bars-scope-toggle { display: flex; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+  .bars-scope-btn { font-family: 'Karla', sans-serif; font-size: 11px; font-weight: 600; padding: 5px 14px; border: none; cursor: pointer; background: transparent; color: var(--muted); transition: all 0.2s; }
+  .bars-scope-btn.active { background: var(--accent); color: #fff; }
+  .bars-footer { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; display: flex; justify-content: space-between; font-family: 'Karla', sans-serif; font-size: 11px; color: var(--muted); }
 
   /* ── Uncategorized table ── */
   .unc-table-wrap {
@@ -1577,7 +1591,12 @@
     .drilldown-month-tabs { padding: 10px 14px; gap: 6px; }
     .drilldown-tab { font-size: 11px; padding: 5px 10px; }
 
-    /* Bar chart */
+    /* Category chart */
+    .cat-list-name { width: 100px; }
+    .cat-list-name span { font-size: 12px; }
+    .cat-list-spark { width: 60px; margin-left: 10px; }
+    .cat-list-total { font-size: 12px; padding-right: 10px; }
+    .cat-list-share { font-size: 11px; width: 40px; }
     .bar-label { width: 100px; font-size: 11px; }
 
     /* Historical tab */
@@ -1980,7 +1999,7 @@
   .landing-hero-title {
     font-family: 'Literata', serif;
     font-size: clamp(24px, 5vw, 32px); font-weight: 300; line-height: 1.2;
-    color: var(--text); margin-bottom: 20px; letter-spacing: -0.01em;
+    color: var(--text); margin-bottom: 20px; letter-spacing: -0.01em; white-space: nowrap;
   }
   .landing-hero-title span { color: var(--accent); }
   .landing-summary-row {
@@ -2197,8 +2216,6 @@ function _showApp() {
 function _skipAuth() {
   window._isOfflineMode = true;
   if (typeof setOfflineMode === 'function') setOfflineMode(true);
-  // Ensure initApp runs fresh (may have run during logged-in session)
-  _appInitialized = false;
   _showApp();
   document.getElementById('accountBar').style.display = 'none';
   document.getElementById('offlineBar').style.display = 'flex';
@@ -2291,15 +2308,6 @@ async function _handleLogout() {
     if (typeof syncToSupabase === 'function') await syncToSupabase();
     await client.auth.signOut();
   }
-  // Clear Supabase's own session keys to prevent auto-login on next page load
-  try {
-    var keysToRemove = [];
-    for (var i = 0; i < localStorage.length; i++) {
-      var k = localStorage.key(i);
-      if (k && (k.startsWith('sb-') || k.startsWith('supabase'))) keysToRemove.push(k);
-    }
-    for (var j = 0; j < keysToRemove.length; j++) localStorage.removeItem(keysToRemove[j]);
-  } catch(e) {}
   // Reset app state
   if (typeof resetAppState === 'function') resetAppState();
   _appInitialized = false;
@@ -2386,75 +2394,6 @@ document.getElementById('authEmail').addEventListener('keydown', function(e) { i
 var _lastEmail = localStorage.getItem('budget_last_email');
 if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
 </script>
-
-<!-- Goal modal -->
-<div class="modal-overlay" id="goalModal" onclick="if(event.target===this) closeGoalModal()">
-  <div class="modal" style="max-width:500px">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="goalModalTitle">New Goal</div>
-        <div class="modal-subtitle">Set a savings target and track your progress</div>
-      </div>
-      <button class="modal-close" onclick="closeGoalModal()">✕</button>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Goal Name</label>
-      <input class="form-input" id="goalName" placeholder="e.g. Emergency Fund, Vacation, New Laptop">
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Target Amount (kr)</label>
-        <input class="form-input" id="goalTarget" type="number" placeholder="e.g. 50000" min="1">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Monthly Target (kr)</label>
-        <input class="form-input" id="goalMonthly" type="number" placeholder="optional" min="0">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Deadline (optional)</label>
-      <input class="form-input" id="goalDeadline" type="month">
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Icon</label>
-        <div id="goalIconPicker" style="display:flex;gap:6px;flex-wrap:wrap"></div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Color</label>
-        <div id="goalColorPicker" style="display:flex;gap:6px;flex-wrap:wrap"></div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Auto-detect from categories</label>
-      <select class="form-select" id="goalLinkedCats" multiple style="min-height:70px">
-        <option value="Entertainment">Entertainment</option>
-        <option value="Groceries">Groceries</option>
-        <option value="Travel">Travel</option>
-        <option value="Shopping">Shopping</option>
-        <option value="Bills">Bills</option>
-      </select>
-      <div style="font-size:11px;color:var(--muted);margin-top:4px">Hold Ctrl/Cmd to select multiple. Transactions in these categories will auto-count as contributions.</div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Auto-detect from vendors (comma-separated)</label>
-      <input class="form-input" id="goalLinkedVendors" placeholder="e.g. Trade Republic, Nordnet">
-    </div>
-
-    <input type="hidden" id="goalEditId" value="">
-
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeGoalModal()">Cancel</button>
-      <button class="btn-primary" onclick="saveGoal()">Save Goal</button>
-    </div>
-  </div>
-</div>
 
 <!-- Investment Setup modal -->
 <div class="modal-overlay" id="investModal" onclick="if(event.target===this) closeInvestModal()">
@@ -2575,7 +2514,7 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
   <!-- ═══ LANDING SUMMARY (returning user hero — hidden until data exists) ═══ -->
   <div class="landing-summary" id="landingSummary">
     <div class="landing-hero-label">Budget Analyzer</div>
-    <div class="landing-hero-title" id="landingHeroTitle">Your <span>month</span><br>at a glance.</div>
+    <div class="landing-hero-title" id="landingHeroTitle">Your <span>month</span> at a glance.</div>
 
     <div class="landing-summary-row">
       <div class="landing-summary-card">
@@ -2775,9 +2714,22 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
       </div>
 
       <div class="hist-section">
-        <div class="section-title">Largest Categories</div>
+        <div class="section-title" style="display:flex;align-items:center;justify-content:space-between">
+          <span>Largest Categories</span>
+          <div class="bars-scope-toggle">
+            <button class="bars-scope-btn active" onclick="setBarsScope('all')">All time</button>
+            <button class="bars-scope-btn" onclick="setBarsScope('3m')">Last 3 months</button>
+          </div>
+        </div>
         <div class="glass-card chart-wrap">
-          <div class="bars" id="barsChart"></div>
+          <div class="cat-list-header">
+            <span style="width:120px;flex-shrink:0">Category</span>
+            <span style="flex-shrink:0;width:80px;margin-left:16px;text-align:center">Trend</span>
+            <span style="flex:1;text-align:right;padding-right:16px">Total</span>
+            <span style="width:46px;text-align:right;flex-shrink:0">Share</span>
+          </div>
+          <div id="barsChart"></div>
+          <div class="bars-footer" id="barsFooter"></div>
         </div>
       </div>
 
@@ -2808,13 +2760,6 @@ if (_lastEmail) document.getElementById('authEmail').value = _lastEmail;
       <div class="goals-section" style="margin-top:0">
         <div class="section-title">Savings Rate</div>
         <div class="glass-card" id="savingsRateBanner"></div>
-      </div>
-
-      <!-- Savings Goals -->
-      <div class="goals-section">
-        <div class="section-title">Savings Goals</div>
-        <div class="goal-cards" id="goalCards"></div>
-        <button class="add-goal-btn" style="margin-top:14px" onclick="openGoalModal()">＋ Add Goal</button>
       </div>
 
       <!-- Investment Tracker -->
@@ -3447,7 +3392,7 @@ function refreshLandingSummary() {
   const netSpend = Math.round(latestSpend + reimbVal); // reimbVal is negative
 
   // Hero title
-  document.getElementById('landingHeroTitle').innerHTML = `Your <span>${fmtMonth(latestMonth)}</span><br>at a glance.`;
+  document.getElementById('landingHeroTitle').innerHTML = `Your <span>${(() => { try { const [y,mo] = latestMonth.split('-'); return new Date(y,mo-1,1).toLocaleString('en-GB',{month:'long',year:'numeric'}); } catch { return latestMonth; } })()}</span> at a glance.`;
 
   // Spent card
   document.getElementById('lsSpent').textContent = nok(netSpend);
@@ -3618,12 +3563,8 @@ async function initApp() {
   const hasData = restored || Object.keys(historicalData).length > 0 || savingsGoals.length > 0 || investConfig;
   if (hasData) {
     activateLandingMode();
-  } else {
-    // Explicitly switch back to setup mode — critical when re-entering after
-    // logout, because the DOM is still in landing mode from the previous session.
-    _landingMode = 'returning'; // force activateSetupMode to actually run
-    activateSetupMode();
   }
+  // else: setup mode is default, no action needed
 
   // If no saved analysis, but we have historical data, show historical tab
   if (!restored && Object.keys(historicalData).length > 0) {
@@ -6010,20 +5951,65 @@ function refreshHistoricalTab() {
   document.getElementById('breakdown').innerHTML = `<div class="breakdown-header" style="${gridStyle}">${headerCols}</div>${rows}`;
   document.getElementById('histDrilldownContainer').innerHTML = histDrillPanels;
 
-  // All-time bar chart
-  const catTotals = dataCats.map(c => ({ c, v: allMonths.reduce((s, m) => s + (displayData[m]?.[c] || 0), 0) })).filter(x => x.v !== 0).sort((a, b) => {
+  // Category list with sparklines — scope-aware (all time vs last 3 months)
+  const barsScope = window._barsScope || 'all';
+  const scopeMonths = barsScope === '3m' ? allMonths.slice(-3) : allMonths;
+  const sparkMax = 12;
+  const sparkStart = Math.max(allMonths.length - sparkMax, barsScope === '3m' ? allMonths.length - 3 : 0);
+  const sparkMonths = allMonths.slice(sparkStart);
+
+  const catTotals = dataCats.map(c => ({ c, v: scopeMonths.reduce((s, m) => s + (displayData[m]?.[c] || 0), 0), spark: sparkMonths.map(m => displayData[m]?.[c] || 0) })).filter(x => x.v !== 0).sort((a, b) => {
     const aIsReimb = a.c === 'Reimbursements' ? 1 : 0;
     const bIsReimb = b.c === 'Reimbursements' ? 1 : 0;
     if (aIsReimb !== bIsReimb) return aIsReimb - bIsReimb;
     return Math.abs(b.v) - Math.abs(a.v);
   });
-  const maxVal = Math.max(...catTotals.map(x => Math.abs(x.v)), 1);
-  document.getElementById('barsChart').innerHTML = catTotals.map(({ c, v }) => {
-    const isNeg = v < 0;
-    const label = isNeg ? `−${nok(Math.abs(v))}` : nok(v);
-    const barPct = (Math.abs(v) / maxVal * 100);
-    return `<div class="bar-row"><div class="bar-label">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.max(barPct, 15).toFixed(1)}%;background:${CAT_COLORS[c]}${isNeg ? ';opacity:0.7' : ''}"><span>${label}</span></div></div></div>`;
+  const positiveCats = catTotals.filter(x => x.c !== 'Reimbursements');
+  const totalPositive = positiveCats.reduce((s, x) => s + x.v, 0);
+
+  function _spark(vals, color, w, h) {
+    const av = vals.map(v => Math.abs(v));
+    const mx = Math.max(...av), mn = Math.min(...av), rng = mx - mn || 1, pad = 2;
+    if (av.length < 2) return '';
+    const pts = av.map((v, i) => {
+      const x = pad + (i / (av.length - 1)) * (w - pad * 2);
+      const y = pad + (1 - (v - mn) / rng) * (h - pad * 2);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    const dots = pts.map((p, i) => { const [cx,cy] = p.split(','); const isLast = i === pts.length - 1; return `<circle cx="${cx}" cy="${cy}" r="${isLast ? 2.5 : 1.8}" fill="${color}" opacity="${isLast ? 0.9 : 0.5}"/>`; }).join('');
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block"><polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>${dots}</svg>`;
+  }
+
+  document.getElementById('barsChart').innerHTML = catTotals.map(({ c, v, spark }) => {
+    const isReimb = c === 'Reimbursements';
+    const sharePct = (!isReimb && totalPositive > 0) ? Math.round(v / totalPositive * 100) + '%' : '';
+    const sep = isReimb ? '<div style="border-top:1px solid rgba(0,0,0,0.06);margin-top:4px;padding-top:4px"></div>' : '';
+    const dotOpacity = isReimb ? '0.5' : '0.85';
+    const nameColor = isReimb ? 'var(--muted)' : 'var(--text)';
+    const totalColor = isReimb ? 'var(--reimb)' : 'var(--text)';
+    const sparkHtml = isReimb ? '' : _spark(spark, ({Entertainment:'#9b4d4d',Groceries:'#2d6a4f',Travel:'#4a6fa5',Shopping:'#8b6b96',Bills:'#b08d57',Uncategorized:'#a8a29e',Reimbursements:'#2d6a4f'})[c] || '#a8a29e', 72, 24);
+    return `${sep}<div class="cat-list-row">
+      <div class="cat-list-name"><div class="cat-list-dot" style="background:${CAT_COLORS[c]};opacity:${dotOpacity}"></div><span style="color:${nameColor}">${c}</span></div>
+      <div class="cat-list-spark">${sparkHtml}</div>
+      <div class="cat-list-total" style="color:${totalColor}">${nok(Math.abs(v))}</div>
+      <div class="cat-list-share">${sharePct}</div>
+    </div>`;
   }).join('');
+  // Footer
+  const scopeTotal = positiveCats.reduce((s, x) => s + x.v, 0);
+  const scopeAvg = scopeMonths.length > 0 ? scopeTotal / scopeMonths.length : 0;
+  document.getElementById('barsFooter').innerHTML = `<span>${scopeMonths.length} month${scopeMonths.length !== 1 ? 's' : ''} · total ${nok(scopeTotal)}</span><span>avg ${nok(scopeAvg)}/mo</span>`;
+  // Toggle button state
+  document.querySelectorAll('.bars-scope-btn').forEach(btn => {
+    const s = btn.textContent.trim() === 'All time' ? 'all' : '3m';
+    btn.classList.toggle('active', s === barsScope);
+  });
+}
+
+// ── Bars scope toggle ─────────────────────────────────────────────────────────
+function setBarsScope(scope) {
+  window._barsScope = scope;
+  refreshHistoricalTab();
 }
 
 // ── Tab switching ─────────────────────────────────────────────────────────────
@@ -6066,6 +6052,7 @@ function renderHistorical() {
     document.getElementById('histSummaryCards').innerHTML = '';
     document.getElementById('breakdown').innerHTML = '';
     document.getElementById('barsChart').innerHTML = '';
+    document.getElementById('barsFooter').innerHTML = '';
     document.getElementById('histSummaryCards').closest('.hist-section').style.display = 'none';
     document.getElementById('barsChart').closest('.hist-section').style.display = 'none';
     return;
@@ -7159,7 +7146,6 @@ function getMonthlySavingsData() {
 function renderGoalsTab() {
   loadGoalsState();
   renderSavingsRate();
-  renderGoalCards();
   renderInvestTracker();
 }
 
