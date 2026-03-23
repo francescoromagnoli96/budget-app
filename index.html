@@ -2221,8 +2221,8 @@ function _skipAuth() {
   document.getElementById('offlineBar').style.display = 'flex';
 }
 
-function _goToAuth() {
-  if (typeof resetAppState === 'function') resetAppState();
+async function _goToAuth() {
+  if (typeof resetAppState === 'function') await resetAppState();
   _appInitialized = false;
   document.getElementById('mainApp').style.display = 'none';
   document.getElementById('authScreen').style.display = '';
@@ -2308,8 +2308,8 @@ async function _handleLogout() {
     if (typeof syncToSupabase === 'function') await syncToSupabase();
     await client.auth.signOut();
   }
-  // Reset app state
-  if (typeof resetAppState === 'function') resetAppState();
+  // Reset app state — await so IDB clear finishes before user can re-enter
+  if (typeof resetAppState === 'function') await resetAppState();
   _appInitialized = false;
   _currentUser = null;
   window._currentUser = null;
@@ -2819,7 +2819,7 @@ function getSyncUser() {
 // Called by auth script on logout — clears in-memory app state
 // Also clears real localStorage and IndexedDB to prevent data leaking between
 // authenticated (cloud) and offline (local-only) modes.
-function resetAppState() {
+async function resetAppState() {
   historicalData = {};
   manualEntries = [];
   recurringEntries = [];
@@ -2835,6 +2835,14 @@ function resetAppState() {
   loadedFiles = {};
   historicalVendors = {};
   debitTriageTotals = {};
+  // Force landing mode back to setup so DOM elements return to their original
+  // containers (API key, income, drop zone) and hero summary hides.
+  // Must use direct flag reset + call because activateSetupMode has an early
+  // return guard when _landingMode is already 'setup'.
+  if (typeof _landingMode !== 'undefined') _landingMode = 'returning'; // defeat guard
+  if (typeof activateSetupMode === 'function') { try { activateSetupMode(); } catch(e) {} }
+  // Hide results section so stale dashboard/historical content is not visible
+  try { document.getElementById('resultsSection').classList.remove('visible'); } catch(e) {}
   // Clear ALL app data from real localStorage to prevent cross-mode leakage
   var appKeys = [
     'budget_historical', 'budget_historical_vendors', 'budget_manual', 'budget_recurring',
@@ -2847,8 +2855,16 @@ function resetAppState() {
   for (var i = 0; i < appKeys.length; i++) {
     try { localStorage.removeItem(appKeys[i]); } catch(e) {}
   }
-  // Clear IndexedDB to prevent stale data loading in the next mode
-  try { _idbOpen().then(function(db) { var tx = db.transaction('kv','readwrite'); tx.objectStore('kv').clear(); tx.oncomplete = function() { db.close(); }; }).catch(function(){}); } catch(e) {}
+  // Await IndexedDB clear so no stale data can be loaded by the next mode
+  try {
+    var db = await _idbOpen();
+    await new Promise(function(resolve) {
+      var tx = db.transaction('kv','readwrite');
+      tx.objectStore('kv').clear();
+      tx.oncomplete = function() { db.close(); resolve(); };
+      tx.onerror = function() { db.close(); resolve(); };
+    });
+  } catch(e) {}
 }
 
 // ── Supabase Data Sync ──────────────────────────────────────────────────────
